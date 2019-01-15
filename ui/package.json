@@ -3,11 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --open",
+    "start:dev": "yarn start:server && ng serve",
+    "start:server": "dotnet run --project ../server",
+    "clean": "npm run rimraf ../server/wwwroot/**",
+    "build": "npm run clean && ng build --prod --aot",
+    "build:dev": "npm run clean && ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "rimraf": "rimraf"
   },
   "private": true,
   "dependencies": {
@@ -45,6 +50,7 @@
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.4.0",
+    "rimraf": "^2.6.3",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.1.6"
