@@ -11,54 +11,59 @@
       <div class="col-lg-8 px-5">
 
         <mdb-card-body class="form">
+          <form [formGroup]="contactForm" (ngSubmit)="sendEmail()">
+            <!-- Header -->
+            <h3 class="mt-4">
+              <i class="fa fa-envelope pr-2"></i>Consultas:</h3>
 
-          <!-- Header -->
-          <h3 class="mt-4">
-            <i class="fa fa-envelope pr-2"></i>Consultas:</h3>
+            <!-- Grid row -->
+            <div class="row">
 
-          <!-- Grid row -->
-          <div class="row">
-
-            <!-- Grid column -->
-            <div class="col-md-6">
-              <div class="md-form mb-0">
-                <input type="text" id="form-contact-name" class="form-control" mdbInputDirective>
-                <label for="form-contact-name" class="">Nombre</label>
+              <!-- Grid column -->
+              <div class="col-md-6">
+                <div class="md-form mb-0">
+                  <input type="text" id="form-contact-name" class="form-control" formControlName="name" required
+                         mdbInputDirective data-error="Su nombre es requerido" [validateSuccess]="false">
+                  <label for="form-contact-name" class="">Nombre *</label>
+                </div>
               </div>
-            </div>
-            <!-- Grid column -->
+              <!-- Grid column -->
 
-            <!-- Grid column -->
-            <div class="col-md-6">
-              <div class="md-form mb-0">
-                <input type="text" id="form-contact-email" class="form-control" mdbInputDirective>
-                <label for="form-contact-email" class="">Email</label>
+              <!-- Grid column -->
+              <div class="col-md-6">
+                <div class="md-form mb-0">
+                  <input type="text" id="form-contact-email" class="form-control" formControlName="email" required
+                         mdbInputDirective data-error="Su email no es válido" [validateSuccess]="false">
+                  <label for="form-contact-email" class="">Email *</label>
+                </div>
               </div>
+              <!-- Grid column -->
+
             </div>
-            <!-- Grid column -->
+            <!-- Grid row -->
 
-          </div>
-          <!-- Grid row -->
+            <!-- Grid row -->
+            <div class="row">
 
-          <!-- Grid row -->
-          <div class="row">
-
-            <!-- Grid column -->
-            <div class="col-md-12">
-              <div class="md-form mb-0">
-                <textarea type="text" id="form-contact-message" class="form-control md-textarea" mdbInputDirective
+              <!-- Grid column -->
+              <div class="col-md-12">
+                <div class="md-form mb-0">
+                <textarea type="text" formControlName="message" id="form-contact-message" required
+                          class="form-control md-textarea" mdbInputDirective data-error="Ingrese un mensaje"
+                          [validateSuccess]="false"
                           rows="3"></textarea>
-                <label for="form-contact-message">Consulta</label>
-                <a mdbBtn floating="true" color="blue" size="lg">
-                  <i class="fa fa-send-o"></i>
-                </a>
+                  <label for="form-contact-message">Consulta *</label>
+                  <button mdbBtn mdbWavesEffect type="submit"  color="blue" size="lg" class="float-right"
+                          [disabled]="!this.contactForm.valid">
+                    <i class="fa fa-send-o"></i>
+                  </button>
+                </div>
               </div>
+              <!-- Grid column -->
+
             </div>
-            <!-- Grid column -->
-
-          </div>
-          <!-- Grid row -->
-
+            <!-- Grid row -->
+          </form>
         </mdb-card-body>
 
       </div>
@@ -113,6 +118,12 @@
 
   </mdb-card>
   <!-- Form with header -->
-
+  <div #alert class="alert alert-{{emailStatus}} alert-dismissible fade" role="alert">
+    <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="alert-heading">{{ emailStatus === 'danger'? 'Ha ocurrido un error': 'Consulta enviada'}}</h4>
+    <p>{{emailStatusMsg}}</p>
+  </div>
 </section>
 <!-- Section: Contact v.3 -->
