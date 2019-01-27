@@ -6,7 +6,7 @@
     "start": "ng serve --open",
     "start:dev": "yarn start:server && ng serve",
     "start:server": "dotnet run --project ../../CuentasClaras",
-    "clean": "npm run rimraf ../wwwroot/**",
+    "clean": "npm run rimraf dist/**",
     "build": "npm run clean && ng build --prod --aot",
     "build:dev": "npm run clean && ng build",
     "test": "ng test",
