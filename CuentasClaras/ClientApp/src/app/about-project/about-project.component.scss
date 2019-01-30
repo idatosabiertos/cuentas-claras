@@ -1,0 +1,11 @@
+.partner-list {
+
+  .partner:not(:last-child) {
+    border-right: 1px solid #e2dfdf;
+  }
+
+  .partner-img {
+    margin: 0 auto;
+    height: 70px;
+  }
+}
