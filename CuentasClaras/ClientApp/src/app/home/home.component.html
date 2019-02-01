@@ -87,6 +87,22 @@
         ¿Cuáles fueron los productos más adquiridos? Esto es el top cinco de organismos más compradores en 2017 y los
         artículos más comprados por el Estado uruguayo.
       </p>
+      <div class="row">
+        <div class="col-md-6" style="text-align:left">
+          <ngx-datatable
+            class="material"
+            [rows]="rows"
+            [columns]="columns">
+          </ngx-datatable>
+        </div>
+        <div class="col-md-6" style="text-align:left">
+          <ngx-datatable
+            class="material"
+            [rows]="rows"
+            [columns]="columns">
+          </ngx-datatable>
+        </div>
+      </div>
     </div>
     <!--Grid column-->
   </div>
@@ -165,9 +181,19 @@
         Todas las empresas que comercializan -o lo intentan- con el Estado, integran el Registro Único de Proveedores
         del Estado (RUPE): una base de datos administrada por ACCE en la que es obligatorio inscribirse para participar
         en procesos de selección de proveedores. Actualmente figuran 70.822 empresas en el RUPE de 84 países diferentes.
+      </p>
 
-        MAPA (?)
+      <div class="row">
+        <div class="col-md-12" style="text-align:left">
+          <ngx-datatable
+            class="material"
+            [rows]="rows"
+            [columns]="columns">
+          </ngx-datatable>
+        </div>
+      </div>
 
+      <p align="justify">
         Sin embargo, no todas estas empresas son efectivamente proveedoras del Estado, esto significa que muchas de
         ellas no han sido adjudicatorias. En 2017, XXX empresas resultaron ganadoras en una contratación pública. XXX
         fue la empresa que más procedimientos ganó, mientras que XXX fue la que más dinero recibió de compras públicas.
