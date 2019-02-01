@@ -272,6 +272,34 @@
     tree-kill "1.2.0"
     webpack-sources "1.2.0"
 
+"@ngxs/devtools-plugin@^3.3.4-dev.master-f30bbc5":
+  version "3.3.4-dev.master-f30bbc5"
+  resolved "https://registry.yarnpkg.com/@ngxs/devtools-plugin/-/devtools-plugin-3.3.4-dev.master-f30bbc5.tgz#eabc632a68a298751b3a81f2c22c630dc7725b08"
+  integrity sha512-JOCJzA6yGozn5FMmSwwgJRvd0/LowiMTdA9HWxOrW6lhFZu/PtizZccNQJZ2EFwhu192jZiYL/OW7+2HKgeStg==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ngxs/logger-plugin@^3.3.4-dev.master-f30bbc5":
+  version "3.3.4-dev.master-f30bbc5"
+  resolved "https://registry.yarnpkg.com/@ngxs/logger-plugin/-/logger-plugin-3.3.4-dev.master-f30bbc5.tgz#54642513791942b884002c974ab1e75002c19acd"
+  integrity sha512-3BhSSWuRQg70EPHpDSRCMpfSmaCW7T7GwwLOdhmpr7E0intAnNEaoTverbIkbLbbjK/CEUrNKORmM4ybe3a5jA==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ngxs/storage-plugin@^3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@ngxs/storage-plugin/-/storage-plugin-3.3.4.tgz#3afcffa76e39ad64455fdb2df220f2b8cf73e297"
+  integrity sha512-W2xSO3wv0KfadviP2JsA7BIzjqX3POnxn2enSWUa69s01pZ7gw92+lg4Gf1T6Whv9xK5whUn403f6zsDYGiuFA==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ngxs/store@^3.3.4-dev.master-f30bbc5":
+  version "3.3.4-dev.master-f30bbc5"
+  resolved "https://registry.yarnpkg.com/@ngxs/store/-/store-3.3.4-dev.master-f30bbc5.tgz#7c59a5a99412464d530e28fe0fb2bca0b0a19caa"
+  integrity sha512-HLuUeZRYNEpr1qaBKg4fbPQjAnwe4Jiu4Nts7W2Mk3H54QYJN+9uADHNLwkjvMAKzjlFyNLskG1xTj1CNFkaGA==
+  dependencies:
+    tslib "^1.9.0"
+
 "@schematics/angular@7.2.3":
   version "7.2.3"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-7.2.3.tgz#e08baf642fad4ff7b27a2724379c4583a5a381b5"
