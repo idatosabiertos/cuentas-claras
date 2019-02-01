@@ -1,0 +1,39 @@
+.home-app-name {
+  color: #ffbb33;
+  font-weight: 500;
+}
+
+.home-app-name-2 {
+  color: white;
+  font-weight: 500;
+}
+
+.bold-400 {
+  font-weight: 400;
+}
+
+.home-partners {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.think-emoji {
+  span {
+    font-size: 35px;
+    vertical-align: middle;
+    line-height: 2;
+  }
+}
+
+.think-text {
+  p {
+    text-align: left;
+    padding: 10px;
+  }
+}
+.thumbs-card-header{
+  i{
+    font-size: 35px;
+  }
+}
