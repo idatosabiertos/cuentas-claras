@@ -6,7 +6,7 @@
   <div class="row mt-5">
     <div class="col-md-12 wow fadeIn mb-3">
       <div class="intro-info-content text-center white-text">
-        <img src="assets/logo.png" class="rounded mx-auto d-block"  data-wow-delay="0.3s">
+        <img src="assets/logo.png" class="rounded mx-auto d-block" data-wow-delay="0.3s">
         <h3 class="bold-400 font-up mb-3 mt-1 font-bold wow fadeIn font-bold" data-wow-delay="0.4s">
           ¿Qué compro y cuánto gastó el Estado uruguayo en los últimos años?
         </h3>
@@ -264,10 +264,10 @@
           según cantidad de compras o montos.
         </p>
         <ngx-graph
-          class="chart-container"
+          class="chart-container  z-depth-1-half"
           [links]="hierarchialGraph.links"
           [nodes]="hierarchialGraph.nodes"
-          [legend]="true"
+          [legend]="false"
           [curve]="curve">
 
           <ng-template #defsTemplate>
@@ -284,7 +284,8 @@
                    [tooltipType]="'tooltip'"
                    [tooltipTitle]="node.position">
               <svg:rect [attr.width]="node.width" [attr.height]="node.height" [attr.fill]="node.options.color"/>
-              <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.height / 2">{{node.label}}</svg:text>
+              <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.height / 2">{{node.label}}
+              </svg:text>
             </svg:g>
           </ng-template>
 
@@ -309,6 +310,7 @@
           </ng-template>
 
         </ngx-graph>
+
       </div>
       <!--Grid column-->
     </div>
@@ -316,3 +318,4 @@
 
 
   </div>
+</div>

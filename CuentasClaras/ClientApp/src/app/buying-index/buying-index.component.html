@@ -1,3 +1,50 @@
-<p>
-  buying-index works!
-</p>
+<div class="view intro">
+  <section class="team-section  text-center pb-3 my-5 mx-3">
+    <!--Section heading-->
+    <h2 class="h1 font-weight-bold h1 py-5">Indice de Compras</h2>
+    <!--Section description-->
+    <p class="grey-text pb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error amet numquam
+      iure provident voluptate esse quasi,
+      veritatis totam voluptas nostrum quisquam eum porro a pariatur accusamus veniam.</p>
+    <!--Grid row-->
+    <div class="row"  *ngFor="let group of indexDataGroup">
+      <!--Grid column-->
+      <div class="col-lg-3 col-md-6 mb-3" *ngFor="let indexRow of group">
+        <!--Card-->
+        <mdb-card cascade="true" narrower="true" class="card-ecommerce">
+          <!--Card image-->
+          <div class="view view-cascade overlay waves-light py-3">
+            <i class="fa fa-university" style="font-size:30px;"></i>
+            <a>
+              <div class="mask rgba-white-slight"></div>
+            </a>
+          </div>
+          <!--Card image-->
+          <!--Card content-->
+          <mdb-card-body cascade="true" class="text-center">
+            <!--Category & Title-->
+            <mdb-card-title>
+              <h4>
+                <strong>
+                  <a href="">{{indexRow.title}}</a>
+                </strong>
+              </h4>
+            </mdb-card-title>
+
+            <!--Rating-->
+            <star-rating [readOnly]="true" [starType]="'svg'" [rating]="indexRow.rating"></star-rating>
+
+            <!--Description-->
+            <mdb-card-text>
+              {{indexRow.description}}
+            </mdb-card-text>
+          </mdb-card-body>
+          <!--Card content-->
+        </mdb-card>
+        <!--Card-->
+      </div>
+      <!--Grid column-->
+    </div>
+    <!--Grid row-->
+  </section>
+</div>

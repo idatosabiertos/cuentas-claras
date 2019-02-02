@@ -656,6 +656,13 @@ angular-bootstrap-md@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/angular-bootstrap-md/-/angular-bootstrap-md-7.3.0.tgz#cc0db9035553ffe0168049bfac9de92cfe5ee268"
 
+angular-star-rating@^4.0.0-beta.3:
+  version "4.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/angular-star-rating/-/angular-star-rating-4.0.0-beta.3.tgz#b814a2eae02f9670428e1512d513fed44db7b492"
+  integrity sha512-2GAaWvmRjKiQovN5lRvK9u24Ksv2mZupYvwij6ShAKuojxm0VB1d3/O9nBeoID0gmthYK+NXaskrJAW+RmStEg==
+  dependencies:
+    tslib "^1.7.1"
+
 ansi-colors@^3.0.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.1.tgz#9638047e4213f3428a11944a7d4b31cba0a3ff95"
@@ -1780,6 +1787,11 @@ css-selector-tokenizer@^0.7.0:
     cssesc "^0.1.0"
     fastparse "^1.1.1"
     regexpu-core "^1.0.0"
+
+css-star-rating@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/css-star-rating/-/css-star-rating-1.2.4.tgz#521c4da46f723d8562f46ce1c019607d08904799"
+  integrity sha512-AIlU8JmssE0qQFzPt9AptB4/804v5SPxxFewq4KcovRrkNmxmoAY1kKjwCgM+cSk09mNywk0nCW95+3k3pbDVQ==
 
 cssauron@^1.4.0:
   version "1.4.0"
@@ -6595,7 +6607,7 @@ ts-node@~7.0.0:
     source-map-support "^0.5.6"
     yn "^2.0.0"
 
-tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
 
