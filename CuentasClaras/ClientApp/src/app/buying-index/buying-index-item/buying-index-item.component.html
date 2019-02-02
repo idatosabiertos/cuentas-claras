@@ -1,0 +1,32 @@
+<!--Card-->
+<mdb-card cascade="true" narrower="true" class="card-ecommerce">
+  <!--Card image-->
+  <div class="view view-cascade overlay waves-light py-3">
+    <i class="fa fa-university" style="font-size:30px;"></i>
+    <a>
+      <div class="mask rgba-white-slight"></div>
+    </a>
+  </div>
+  <!--Card image-->
+  <!--Card content-->
+  <mdb-card-body cascade="true" class="text-center">
+    <!--Category & Title-->
+    <mdb-card-title>
+      <h4>
+        <strong>
+          <a href="">{{indexItem.title}}</a>
+        </strong>
+      </h4>
+    </mdb-card-title>
+
+    <!--Rating-->
+    <star-rating [readOnly]="true" [starType]="'svg'" [rating]="indexItem.rating"></star-rating>
+
+    <!--Description-->
+    <mdb-card-text>
+      {{indexItem.description}}
+    </mdb-card-text>
+  </mdb-card-body>
+  <!--Card content-->
+</mdb-card>
+<!--Card-->

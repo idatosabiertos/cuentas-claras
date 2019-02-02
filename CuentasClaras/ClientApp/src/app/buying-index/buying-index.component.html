@@ -7,41 +7,10 @@
       iure provident voluptate esse quasi,
       veritatis totam voluptas nostrum quisquam eum porro a pariatur accusamus veniam.</p>
     <!--Grid row-->
-    <div class="row"  *ngFor="let group of indexDataGroup">
+    <div class="row" *ngFor="let group of indexDataGroup">
       <!--Grid column-->
       <div class="col-lg-3 col-md-6 mb-3" *ngFor="let indexRow of group">
-        <!--Card-->
-        <mdb-card cascade="true" narrower="true" class="card-ecommerce">
-          <!--Card image-->
-          <div class="view view-cascade overlay waves-light py-3">
-            <i class="fa fa-university" style="font-size:30px;"></i>
-            <a>
-              <div class="mask rgba-white-slight"></div>
-            </a>
-          </div>
-          <!--Card image-->
-          <!--Card content-->
-          <mdb-card-body cascade="true" class="text-center">
-            <!--Category & Title-->
-            <mdb-card-title>
-              <h4>
-                <strong>
-                  <a href="">{{indexRow.title}}</a>
-                </strong>
-              </h4>
-            </mdb-card-title>
-
-            <!--Rating-->
-            <star-rating [readOnly]="true" [starType]="'svg'" [rating]="indexRow.rating"></star-rating>
-
-            <!--Description-->
-            <mdb-card-text>
-              {{indexRow.description}}
-            </mdb-card-text>
-          </mdb-card-body>
-          <!--Card content-->
-        </mdb-card>
-        <!--Card-->
+        <app-buying-index-item [indexItem]="indexRow"></app-buying-index-item>
       </div>
       <!--Grid column-->
     </div>
