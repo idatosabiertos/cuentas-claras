@@ -1,0 +1,15 @@
+
+#intro-section
+{
+  height: 100vh !important;
+}
+
+@media (max-width: 740px) {
+  #intro-section {
+    min-height: 100vh;
+  }
+}
+
+.view.mask {
+  overflow: auto !important;
+}

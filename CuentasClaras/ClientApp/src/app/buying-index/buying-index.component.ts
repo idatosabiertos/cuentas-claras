@@ -15,7 +15,7 @@ export class BuyingIndexComponent implements OnInit {
       description: 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit...'
     },
     {
-      title: 'Presidencia',
+      title: 'Ministerio de Industria, Energía y Minería',
       rating: 3.5,
       description: 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit...'
     },
@@ -37,7 +37,6 @@ export class BuyingIndexComponent implements OnInit {
   ];
   public indexDataGroup = [];
 
-
   constructor() {
   }
 
@@ -46,7 +45,7 @@ export class BuyingIndexComponent implements OnInit {
   }
 
   private splitArray() {
-    const size = 4;
+    const size = 2;
     while (this.data.length > 0) {
       this.indexDataGroup.push(this.data.splice(0, size));
     }
