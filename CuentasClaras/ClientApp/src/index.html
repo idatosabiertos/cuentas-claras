@@ -6,8 +6,42 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    html,body {
+      width: 100%;
+      height: 100%;
+      padding:0;
+      margin:0;
+    }
+
+    .cc_loader {
+      width: 100%;
+      height: 100%;
+      min-height: 250px;
+      position: relative;
+    }
+
+    .cc_loader img {
+      max-height: 100%;
+      max-width: 100%;
+      height: auto;
+      width: auto;
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      box-sizing: border-box;
+      margin: auto;
+    }
+  </style>
 </head>
 <body>
-  <app-root></app-root>
+<app-root class="cc_container">
+  <div class="cc_loader">
+    <img src="assets/loader.gif">
+  </div>
+</app-root>
 </body>
 </html>

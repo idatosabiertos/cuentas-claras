@@ -1,3 +1,20 @@
-<p>
-  buying-index works!
-</p>
+<div class="view intro">
+  <section class="team-section  text-center pb-3 my-5 mx-3">
+    <!--Section heading-->
+    <h2 class="h1 font-weight-bold h1 py-5">Índice de compras</h2>
+
+    <!--Section description-->
+    <p class="grey-text pb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error amet numquam
+      iure provident voluptate esse quasi,
+      veritatis totam voluptas nostrum quisquam eum porro a pariatur accusamus veniam.</p>
+    <!--Grid row-->
+    <div class="row" *ngFor="let group of indexDataGroup">
+      <!--Grid column-->
+      <div class="col-lg-6 col-md-6 mb-3" *ngFor="let indexRow of group">
+        <app-buying-index-item [indexItem]="indexRow"></app-buying-index-item>
+      </div>
+      <!--Grid column-->
+    </div>
+    <!--Grid row-->
+  </section>
+</div>

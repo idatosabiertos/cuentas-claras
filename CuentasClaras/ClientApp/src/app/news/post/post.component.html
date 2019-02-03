@@ -1,0 +1,38 @@
+<!-- Grid row -->
+<div class="row">
+
+  <!-- Grid column -->
+  <div class="col-lg-5 col-xl-4">
+
+    <!-- Featured image -->
+    <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4 waves-light" mdbWavesEffect>
+      <img class="img-fluid" src="{{post.img}}" alt="Sample image">
+      <a>
+        <div class="mask rgba-white-slight"></div>
+      </a>
+    </div>
+
+  </div>
+  <!-- Grid column -->
+
+  <!-- Grid column -->
+  <div class="col-lg-7 col-xl-8">
+
+    <!-- Post title -->
+    <h3 class="font-weight-bold mb-3"><strong>{{post.title}}</strong></h3>
+    <!-- Excerpt -->
+    <p class="dark-grey-text">
+      {{post.summary}}
+    </p>
+    <!-- Post data -->
+    <p>por <a class="font-weight-bold">{{post.author}}</a>, {{post.date}}</p>
+    <!-- Read more button -->
+    <a mdbBtn color="primary" mdbWavesEffect>Leer mas</a>
+
+  </div>
+  <!-- Grid column -->
+
+</div>
+<!-- Grid row -->
+
+<hr class="my-5">
