@@ -321,12 +321,11 @@
     semver "5.5.1"
     semver-intersect "1.4.0"
 
-"@swimlane/ngx-charts@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@swimlane/ngx-charts/-/ngx-charts-10.0.0.tgz#8b5555d8244f5dd2cc91fb423a57e8a4d31c7ed5"
-  integrity sha512-66GY+VJ1eLq5WZkRwuSzQymBoyyqPxFY1Vf2LCfAAb+QKq7lh1b+TJK1ThDWvbB0lJ5IPbbYHZ3+zILGSCcTZg==
+"@swimlane/ngx-charts@^8.0.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@swimlane/ngx-charts/-/ngx-charts-8.1.0.tgz#8d6431c215c8889e86538ec968761896fb0e10d4"
+  integrity sha512-jjcIwt5uQXoBaQwCgHPqpzSoNJj68PiKItMYg6RVyqLua67vZ90ZdxzuYPsYpRtDIXJiV5/gXuDtD3ZrjtdQCA==
   dependencies:
-    d3 "^4.10.2"
     d3-array "^1.2.1"
     d3-brush "^1.0.4"
     d3-color "^1.0.3"
@@ -339,11 +338,12 @@
     d3-shape "^1.2.0"
     d3-time-format "^2.1.0"
 
-"@swimlane/ngx-charts@^8.0.0":
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/@swimlane/ngx-charts/-/ngx-charts-8.1.0.tgz#8d6431c215c8889e86538ec968761896fb0e10d4"
-  integrity sha512-jjcIwt5uQXoBaQwCgHPqpzSoNJj68PiKItMYg6RVyqLua67vZ90ZdxzuYPsYpRtDIXJiV5/gXuDtD3ZrjtdQCA==
+"@swimlane/ngx-charts@^9.1.1":
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/@swimlane/ngx-charts/-/ngx-charts-9.1.1.tgz#f05e12177c859ab29b410ca3cb9a3c00dcca0309"
+  integrity sha512-D+HP7Mq3uxGwqFc8GOuw40pnRw/rqtpoWZOsOT9q6Cp76jqIq0rxGMRIoCFRjJmoCHFHuEYq6j1ZrBV3QOJ/6Q==
   dependencies:
+    d3 "^4.10.2"
     d3-array "^1.2.1"
     d3-brush "^1.0.4"
     d3-color "^1.0.3"
