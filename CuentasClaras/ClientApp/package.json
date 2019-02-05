@@ -29,7 +29,7 @@
     "@ngxs/logger-plugin": "^3.3.4-dev.master-f30bbc5",
     "@ngxs/storage-plugin": "^3.3.4",
     "@ngxs/store": "^3.3.4-dev.master-f30bbc5",
-    "@swimlane/ngx-charts": "^10.0.0",
+    "@swimlane/ngx-charts": "^9.1.1",
     "@swimlane/ngx-datatable": "^14.0.0",
     "@swimlane/ngx-graph": "^5.4.1",
     "angular-bootstrap-md": "^7.3.0",
