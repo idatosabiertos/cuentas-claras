@@ -1,5 +1,5 @@
 <div id="intro-section" class="view">
-<!-- Mask & flexbox options-->
+  <!-- Mask & flexbox options-->
   <div class="mask">
 
     <!-- Content -->
@@ -15,9 +15,35 @@
           <hr class="hr-light my-4 w-75">
           <h4 class="subtext-header mt-2 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit
             deleniti consequuntur nihil.</h4>
-          <a href="#!" mdbBtn rounded="true"  color="primary" mdbWavesEffect>
-            <i class="fa fa-download"></i> Descargar
-          </a>
+          <hr class="hr-light my-4 w-75">
+
+          <div class="table-responsive" style="height: 100%">
+            <table class="table">
+              <thead>
+              <tr>
+                <th scope="col" *ngFor="let col of columns">{{col.name}}</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let row of rows">
+                <td *ngFor="let col of columns">{{row[col.prop]}}</td>
+                <td>
+                  <div class="btn-group" mdbDropdown>
+                    <button mdbDropdownToggle type="button" mdbBtn color="primary" class="dropdown-toggle waves-light"
+                            mdbWavesEffect>
+                      <i class="fa fa-download"></i> Descargar
+                    </button>
+
+                    <div class="dropdown-menu dropdown-primary">
+                      <a class="dropdown-item" *ngFor="let year of ['2018','2017','2016','2015']" (click)="download(row.file,year)">{{year+'-'+row.file}}</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
 
         </div>
         <!--Grid column-->
