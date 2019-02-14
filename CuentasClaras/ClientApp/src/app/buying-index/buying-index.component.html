@@ -26,7 +26,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let row of rows; let i = index;">
-              <td>{{i}}</td>
+              <td>{{i+1}}</td>
               <td *ngFor="let col of columns">{{row[col.prop]}}</td>
               <td>
                 <star-rating [readOnly]="true" [starType]="'svg'" [rating]="row.rating"></star-rating>

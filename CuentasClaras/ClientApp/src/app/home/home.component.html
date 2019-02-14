@@ -274,6 +274,17 @@
           según cantidad de compras o montos.
         </p>
 
+        <ngx-charts-force-directed-graph
+          class="chart-container"
+          [legend]="true"
+          [legendTitle]="'Info'"
+          [legendPosition]="'right'"
+          [links]="graph.links"
+          [animations]="true"
+          [nodes]="graph.nodes"
+          [scheme]="colorScheme">
+        </ngx-charts-force-directed-graph>
+
       </div>
       <!--Grid column-->
     </div>
