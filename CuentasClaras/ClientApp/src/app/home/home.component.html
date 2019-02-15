@@ -274,16 +274,49 @@
           según cantidad de compras o montos.
         </p>
 
-        <ngx-charts-force-directed-graph
-          class="chart-container"
-          [legend]="true"
-          [legendTitle]="'Info'"
-          [legendPosition]="'right'"
-          [links]="graph.links"
-          [animations]="true"
-          [nodes]="graph.nodes"
-          [scheme]="colorScheme">
-        </ngx-charts-force-directed-graph>
+        <td-chart [style.height.px]="500">
+          <td-chart-tooltip [trigger]="'item'">
+            <ng-template let-params let-i="index" let-ticket="ticket" tdTooltipFormatter>
+              <ng-container *ngIf="params">
+                <div layout="row" layout-align="start center">
+                  <ng-container *ngIf="params.dataType === 'node'">
+                    <mat-icon [style.color]="params.color">device_hub</mat-icon>
+                    <span class="mat-caption pad-left-sm">
+              {{params.data.name}}
+            </span>
+                  </ng-container>
+                  <ng-container *ngIf="params.dataType === 'edge'">
+            <span class="mat-caption pad-left-sm">
+              {{params.data.source}}
+            </span>
+                    <mat-icon>arrow_forward</mat-icon>
+                    <span class="mat-caption">
+              {{params.data.target}}
+            </span>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </ng-template>
+          </td-chart-tooltip>
+          <td-chart-series td-graph
+                           [data]="graph"
+                           [edges]="[{ source: 'jquery', target: 'backbone' },
+                            { source: 'jquery', target: 'vue.js' },
+                            { source: 'jquery', target: 'lodash' },
+                            { source: 'jquery', target: 'dateformat' },
+                            { source: 'backbone', target: 'underscore' },
+                            { source: 'faye', target: 'cookiejar' },
+                            { source: 'socket.io', target: 'express' },
+                            { source: 'socket.io', target: 'faye' },
+                            { source: 'vue.js', target: 'underscore' },
+                            { source: 'vue.js', target: 'dateformat' },
+                            { source: 'express', target: 'socket.io' },
+                            { source: 'express', target: 'dateformat' }]"
+                           [roam]="true"
+                           [focusNodeAdjacency]="true"
+                           [label]="{ emphasis: { position: 'right', show: true }}">
+          </td-chart-series>
+        </td-chart>
 
       </div>
       <!--Grid column-->
