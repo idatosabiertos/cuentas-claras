@@ -1,21 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MDBBootstrapModule} from 'angular-bootstrap-md';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-
+import { CovalentGraphEchartsModule } from '@covalent/echarts/graph';
+import { CovalentBaseEchartsModule } from '@covalent/echarts/base';
+import { CovalentTooltipEchartsModule } from '@covalent/echarts/tooltip';
+import { MatIconModule } from '@angular/material';
 
 @NgModule({
   declarations: [HomeComponent],
+  providers: [],
   imports: [
     CommonModule,
     HomeRoutingModule,
     MDBBootstrapModule,
     NgxDatatableModule,
-    NgxChartsModule,
+    CovalentTooltipEchartsModule,
+    CovalentGraphEchartsModule,
+    CovalentBaseEchartsModule,
+    MatIconModule,
   ]
 })
-export class HomeModule { }
+export class HomeModule {
+}
