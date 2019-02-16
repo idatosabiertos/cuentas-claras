@@ -43,6 +43,19 @@ export class HomeComponent {
       symbolSize: 49.608772, itemStyle: {normal: {color: '#c71919'}}
     }];
 
+  edges = [{source: 'jquery', target: 'backbone'},
+    {source: 'jquery', target: 'vue.js'},
+    {source: 'jquery', target: 'lodash'},
+    {source: 'jquery', target: 'dateformat'},
+    {source: 'backbone', target: 'underscore'},
+    {source: 'faye', target: 'cookiejar'},
+    {source: 'socket.io', target: 'express'},
+    {source: 'socket.io', target: 'faye'},
+    {source: 'vue.js', target: 'underscore'},
+    {source: 'vue.js', target: 'dateformat'},
+    {source: 'express', target: 'socket.io'},
+    {source: 'express', target: 'dateformat'}];
+
   /// TABLES
   rows = [
     {name: 'Austin', gender: 'Male', company: 'Swimlane'},

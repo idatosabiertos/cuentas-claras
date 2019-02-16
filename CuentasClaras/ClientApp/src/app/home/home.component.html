@@ -300,18 +300,7 @@
           </td-chart-tooltip>
           <td-chart-series td-graph
                            [data]="graph"
-                           [edges]="[{ source: 'jquery', target: 'backbone' },
-                            { source: 'jquery', target: 'vue.js' },
-                            { source: 'jquery', target: 'lodash' },
-                            { source: 'jquery', target: 'dateformat' },
-                            { source: 'backbone', target: 'underscore' },
-                            { source: 'faye', target: 'cookiejar' },
-                            { source: 'socket.io', target: 'express' },
-                            { source: 'socket.io', target: 'faye' },
-                            { source: 'vue.js', target: 'underscore' },
-                            { source: 'vue.js', target: 'dateformat' },
-                            { source: 'express', target: 'socket.io' },
-                            { source: 'express', target: 'dateformat' }]"
+                           [edges]="edges"
                            [roam]="true"
                            [focusNodeAdjacency]="true"
                            [label]="{ emphasis: { position: 'right', show: true }}">
