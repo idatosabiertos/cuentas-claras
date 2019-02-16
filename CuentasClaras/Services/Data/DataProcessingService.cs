@@ -16,14 +16,19 @@ namespace CuentasClaras.Services.Data
     {
         private readonly IHostingEnvironment _hostingEnvironment;
 
+        public DataProcessingService(IHostingEnvironment hostingEnvironment)
+        {
+            this._hostingEnvironment = hostingEnvironment;
+        }
+
         public List<T> ItemsFrom<T>(string fileName, string sheetName) where T : new()
         {
-            //string rootFolder = _hostingEnvironment.WebRootPath;
+            string rootFolder = _hostingEnvironment.WebRootPath;
 
-            fileName = @"C:\Users\jonaa\Repositorio\cuentas-claras\CuentasClaras\wwwroot\Uploads\data2018.xlsx";
+            fileName = @"Uploads\data2018.xlsx";
 
-            //FileInfo file = new FileInfo(Path.Combine(rootFolder, fileName));
-            FileInfo file = new FileInfo(fileName);
+            FileInfo file = new FileInfo(Path.Combine(rootFolder, fileName));
+            //FileInfo file = new FileInfo(fileName);
 
             using (ExcelPackage package = new ExcelPackage(file))
             {
