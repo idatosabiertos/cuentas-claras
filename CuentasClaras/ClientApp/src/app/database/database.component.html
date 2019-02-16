@@ -16,7 +16,7 @@
         <hr class="hr-light my-4 w-75">
 
         <div class="table-responsive" style="height: 100%">
-          <table class="table">
+          <table class="table" style="margin-bottom: 130px">
             <thead>
             <tr>
               <th scope="col" *ngFor="let col of columns">{{col.name}}</th>
@@ -35,7 +35,7 @@
 
                   <div class="dropdown-menu dropdown-primary">
                     <a class="dropdown-item" *ngFor="let year of ['2018','2017','2016','2015']"
-                       (click)="download(row.file,year)">{{year+'-'+row.file}}</a>
+                       [href]="'/assets/database/' + year + '/' + year + '_' + row.file">{{year+'_'+row.file}}</a>
                   </div>
                 </div>
               </td>
