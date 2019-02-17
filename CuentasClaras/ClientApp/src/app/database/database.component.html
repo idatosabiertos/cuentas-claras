@@ -11,9 +11,6 @@
 
         <h2 class="h1-responsive font-weight-bold my-5  text-center">Base de datos</h2>
         <hr class="hr-light my-4 w-75">
-        <h4 class="subtext-header mt-2 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit
-          deleniti consequuntur nihil.</h4>
-        <hr class="hr-light my-4 w-75">
 
         <div class="table-responsive" style="height: 100%">
           <table class="table" style="margin-bottom: 130px">
@@ -25,7 +22,17 @@
             </thead>
             <tbody>
             <tr *ngFor="let row of rows">
-              <td *ngFor="let col of columns">{{row[col.prop]}}</td>
+              <td *ngFor="let col of columns" class="{{col.class}}">
+
+                <ng-container *ngIf="col.type !== 'link'">
+                  {{row[col.prop]}}
+                </ng-container>
+
+                <ng-container *ngIf="col.type === 'link'">
+                  <a type="button" class="btn btn-link" [href]="row[col.prop].src" target="_blank">{{row[col.prop].name}}</a>
+                </ng-container>
+
+              </td>
               <td>
                 <div class="btn-group" mdbDropdown>
                   <button mdbDropdownToggle type="button" mdbBtn color="primary" class="dropdown-toggle waves-light"
@@ -34,8 +41,8 @@
                   </button>
 
                   <div class="dropdown-menu dropdown-primary">
-                    <a class="dropdown-item" *ngFor="let year of ['2018','2017','2016','2015']"
-                       [href]="'/assets/database/' + year + '/' + year + '_' + row.file">{{year+'_'+row.file}}</a>
+                    <a class="dropdown-item" *ngFor="let file of row.files"
+                       [href]="'/assets/database/' + file.src ">{{file.name}}</a>
                   </div>
                 </div>
               </td>
