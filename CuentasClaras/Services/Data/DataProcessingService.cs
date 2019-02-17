@@ -23,9 +23,9 @@ namespace CuentasClaras.Services.Data
 
         public List<T> ItemsFrom<T>(string fileName, string sheetName) where T : new()
         {
-            string rootFolder = _hostingEnvironment.WebRootPath;
+            string rootFolder = _hostingEnvironment.ContentRootPath;
 
-            fileName = @"Uploads\data2018.xlsx";
+            fileName = @"Files\data2018.xlsx";
 
             FileInfo file = new FileInfo(Path.Combine(rootFolder, fileName));
             //FileInfo file = new FileInfo(fileName);
