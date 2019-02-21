@@ -13,10 +13,10 @@ export class DatabaseComponent {
       source: {src: 'https://www.comprasestatales.gub.uy', name: 'ACCE'},
       period: '2015-2018',
       files: [
-        {src: '/CCE/2015.zip', name: 'ACCE-2015'},
-        {src: '/CCE/2016.zip', name: 'ACCE-2016'},
-        {src: '/CCE/2017.zip', name: 'ACCE-2017'},
-        {src: '/CCE/2018.zip', name: 'ACCE-2018'}
+        {src: '/ACCE/ACCE-2015.zip', name: 'ACCE-2015.zip'},
+        {src: '/ACCE/ACCE-2016.zip', name: 'ACCE-2016.zip'},
+        {src: '/ACCE/ACCE-2017.zip', name: 'ACCE-2017.zip'},
+        {src: '/ACCE/ACCE-2018.zip', name: 'ACCE-2018.zip'}
       ]
     },
     {
@@ -25,12 +25,7 @@ export class DatabaseComponent {
       source: {src: 'https://www.comprasestatales.gub.uy', name: 'ACCE'},
       period: '2013-2018 (Setiembre)',
       files: [
-        {src: '/CCE/2015.zip', name: 'RUPE-2013'},
-        {src: '/CCE/2015.zip', name: 'RUPE-2014'},
-        {src: '/CCE/2015.zip', name: 'RUPE-2015'},
-        {src: '/CCE/2016.zip', name: 'RUPE-2016'},
-        {src: '/CCE/2017.zip', name: 'RUPE-2017'},
-        {src: '/CCE/2018.zip', name: 'RUPE-2018'}
+        {src: '/RUPE/RUPE-13-18.zip', name: 'RUPE-13-18.zip'},
       ]
     },
     {
@@ -39,9 +34,7 @@ export class DatabaseComponent {
       source: {src: 'https://www.bcu.gub.uy', name: 'BCU'},
       period: '2015-2017 (Junio)',
       files: [
-        {src: '/CCE/2015.zip', name: 'BCU-2015'},
-        {src: '/CCE/2016.zip', name: 'BCU-2016'},
-        {src: '/CCE/2017.zip', name: 'BCU-2017'},
+        {src: '/BCU/BCU-2017.csv', name: 'BCU-2017.csv'}
       ]
     },
     {
@@ -50,7 +43,7 @@ export class DatabaseComponent {
       source: {src: 'https://fin-pol.github.com', name: 'Proyecto sobre Financiamiento de Partidos'},
       period: '2014',
       files: [
-        {src: '/CCE/2015.zip', name: 'FIN-POL-2014'}
+        {src: '/FIN-POL/FIN-POL-2014', name: 'FIN-POL-2014.csv'}
       ]
     },
     {
@@ -59,7 +52,7 @@ export class DatabaseComponent {
       source: {src: 'https://ec.europa.eu/taxation_customs/tax-common-eu-list_en', name: 'Unión Europea'},
       period: '2017',
       files: [
-        {src: '/CCE/2015.zip', name: 'UE-2017'},
+        {src: '/UE/UE-2017.csv', name: 'UE-2017.csv'},
       ]
     },
     {
@@ -68,10 +61,10 @@ export class DatabaseComponent {
       source: {src: '#', name: 'Cuentas Claras'},
       period: '2015-2018',
       files: [
-        {src: '/CCE/2015.zip', name: 'CC-2015'},
-        {src: '/CCE/2015.zip', name: 'CC-2016'},
-        {src: '/CCE/2015.zip', name: 'CC-2017'},
-        {src: '/CCE/2015.zip', name: 'CC-2018'},
+        {src: '/CC/CC-2015.zip', name: 'CC-2015.zip'},
+        {src: '/CC/CC-2016.zip', name: 'CC-2016,zip'},
+        {src: '/CC/CC-2017.zip', name: 'CC-2017.zip'},
+        {src: '/CC/CC-2018.zip', name: 'CC-2018.zip'},
       ]
     },
 
