@@ -29,7 +29,12 @@
               <td>{{i+1}}</td>
               <td *ngFor="let col of columns">{{row[col.prop]}}</td>
               <td>
-                <star-rating [readOnly]="true" [starType]="'svg'" [rating]="row.rating"></star-rating>
+                <star-rating [readOnly]="true"
+                             staticColor="negative"
+                             [showHalfStars]="true"
+                             [starType]="'svg'"
+                             [rating]="row.rating">
+                </star-rating>
               </td>
             </tr>
             </tbody>
