@@ -14,7 +14,6 @@ namespace CuentasClaras.Model
         public string ExternalId { get; set; }
         public int UnitId { get; set; }
         public int UnitValueAmount { get; set; }
-        public string UnitValueCurrency { get; set; }
         public string UnitName { get; set; }
         public string Description { get; set; }
         public int Quantity { get; set; }
@@ -24,5 +23,6 @@ namespace CuentasClaras.Model
         public ReleaseItemClassification ReleaseItemClassification { get; set; }
         public int? ReleaseId { get; set; }
         public Release Release { get; set; }
+        public string CurrencyCode { get; set; }
     }
 }

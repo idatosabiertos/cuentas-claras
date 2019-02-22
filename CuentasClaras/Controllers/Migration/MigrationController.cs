@@ -11,6 +11,7 @@ using CuentasClaras.Services.Data;
 using CuentasClaras.Services.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CuentasClaras.Controllers.Migration
 {
@@ -41,7 +42,7 @@ namespace CuentasClaras.Controllers.Migration
         }
 
         [HttpPost()]
-        [Route("start")]
+        [Route("releases")]
         public void StartMigration()
         {
             Dictionary<string, Release> releasesDicc = new Dictionary<string, Release>();
@@ -101,11 +102,12 @@ namespace CuentasClaras.Controllers.Migration
                              UnitId = x.awardsItemsUnitId,
                              UnitName = x.awardsItemsUnitName,
                              UnitValueAmount = x.awardsItemsUnitValueAmount,
-                             UnitValueCurrency = x.awardsItemsUnitValueCurrency
+                             CurrencyCode = x.awardsItemsUnitValueCurrency
                          };
                      }).ToList(),
                     BuyerId = buyersDicc[y.buyerId].BuyerId,
-                    SupplierId = getSupplierId(suppliersInputDicc, suppliersDicc, y)
+                    SupplierId = getSupplierId(suppliersInputDicc, suppliersDicc, y),
+                    TotalAmount = getReleaseItems(releaseItemsInputDicc, y.id).Sum(x => x.awardsItemsQuantity * x.awardsItemsUnitValueAmount)
                 });
 
             this.db.AddRange(releases);
@@ -266,6 +268,30 @@ namespace CuentasClaras.Controllers.Migration
                 this.db.Suppliers.AddRange(suppliers);
                 this.db.SaveChanges();
             }
+        }
+
+        [HttpPost()]
+        [Route("releases/calculate")]
+        public void ReleasesCalculate([FromBody] MigrationConfig migrationConfig)
+        {
+            Dictionary<string, decimal> currencies = db.Currencies.ToDictionary(currency => currency.CurrencyCode, currency => currency.ConversionFactorUYU);
+            var query = db.Releases.Include(release => release.ReleaseItems);
+            foreach (var release in query)
+            {
+                release.TotalAmount = (int) CalculateTotal(release, currencies);
+            }
+
+            db.SaveChanges();
+        }
+
+        private decimal CalculateTotal(Release release, Dictionary<string, decimal> currencies)
+        {
+            return release.ReleaseItems.Sum(x => {
+                if (x.CurrencyCode != null && currencies.ContainsKey(x.CurrencyCode))
+                    return x.UnitValueAmount * x.Quantity * currencies[x.CurrencyCode];
+                else
+                    return 0;
+            });
         }
 
         public bool? TenderHasEnqueriesToBool(string tenderHasEnqueries)

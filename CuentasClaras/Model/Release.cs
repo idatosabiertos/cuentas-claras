@@ -35,6 +35,7 @@ namespace CuentasClaras.Model
         public DateTime Date { get; set; }
         public string InitiationType { get; set; }
         public string Awards { get; set; }
+        public int TotalAmount { get; set; }
 
         //FK
         public int? BuyerId { get; set; }
