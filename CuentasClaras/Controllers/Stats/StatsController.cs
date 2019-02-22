@@ -36,7 +36,7 @@ namespace CuentasClaras.Controllers.Stats
                 }
             }
 
-            return null;
+            return ret;
         }
     }
 }
