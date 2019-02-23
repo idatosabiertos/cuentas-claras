@@ -41,7 +41,7 @@ namespace CuentasClaras.Model
 
             //INDEXES
             //modelBuilder.Entity<Supplier>().HasIndex("ExternalId").IsUnique();
-           
+            modelBuilder.Entity<Currency>().Property(x => x.ConversionFactorUYU).HasColumnType("decimal(10,6)");
         }
     }
 }

@@ -12,7 +12,7 @@ namespace CuentasClaras.Migrations
                          SET NOCOUNT ON;
                          SELECT B.BuyerId, 
 	                            B.Name, 
-	                            SUM(R.TotalAmount) as TotalAmount, 
+	                            SUM(R.TotalAmountUYU) as TotalAmount, 
 	                            COUNT(*) as Quantity
                          FROM Releases as R
                          INNER JOIN Buyers as B on B.BuyerId = R.BuyerId

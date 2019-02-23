@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CuentasClaras.Api.Stats;
 using CuentasClaras.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 
 namespace CuentasClaras.Controllers.Stats
 {
@@ -15,14 +13,16 @@ namespace CuentasClaras.Controllers.Stats
     {
         private readonly CuentasClarasContext db;
 
-        public StatsController(CuentasClarasContext db )
+        public StatsController(CuentasClarasContext db)
         {
             this.db = db;
         }
 
         [HttpGet]
-        public List<String> getSupplier() {
-            List<String> ret = new List<string>();
+        [Route("top-suppliers")]
+        public List<TopSupplier> GetTopSupplier()
+        {
+            List<TopSupplier> ret = new List<TopSupplier>();
 
             using (db)
             using (var command = db.Database.GetDbConnection().CreateCommand())
@@ -32,7 +32,42 @@ namespace CuentasClaras.Controllers.Stats
                 using (var result = command.ExecuteReader())
                 {
                     while (result.Read())
-                        ret.Add(result[1].ToString());
+                    {
+                        var item = new TopSupplier();
+                        item.SupplierId = (int)result[0];
+                        item.Name = (string)result[1];
+                        item.TotalAmount = (int)result[2];
+                        item.Quantity = (int)result[3];
+                        ret.Add(item);
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+        [HttpGet]
+        [Route("top-buyers")]
+        public List<TopBuyer> GetTopBuyers()
+        {
+            List<TopBuyer> ret = new List<TopBuyer>();
+
+            using (db)
+            using (var command = db.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "EXEC	TopBuyers";
+                db.Database.OpenConnection();
+                using (var result = command.ExecuteReader())
+                {
+                    while (result.Read())
+                    {
+                        var item = new TopBuyer();
+                        item.BuyerId = (int)result[0];
+                        item.Name = (string)result[1];
+                        item.TotalAmount = (int)result[2];
+                        item.Quantity = (int)result[3];
+                        ret.Add(item);
+                    }
                 }
             }
 
