@@ -10,9 +10,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using server.Models;
+using CuentasClaras.Api.Mail;
 using CuentasClaras.Services;
-using CuentasClaras.Models;
 
 namespace CuentasClaras.Controllers
 {
@@ -30,7 +29,7 @@ namespace CuentasClaras.Controllers
         [Route("contact")]
         public ContentResult sendEmail([FromBody]EmailDTO contact)
         {
-            mailService.sendEmail(contact.name, contact.email, contact.msg);
+            mailService.sendEmail(contact.Name, contact.Email, contact.Msg);
 
             return new ContentResult
             {

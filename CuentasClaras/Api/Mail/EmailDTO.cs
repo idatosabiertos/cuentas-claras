@@ -7,8 +7,8 @@ namespace CuentasClaras.Api.Mail
 {
     public class EmailDTO
     {
-        public name string { get; set; }
-        public email string { get; set; }
-        public msg string { get; set; }
+        public string Name  { get; set; }
+        public string Email  { get; set; }
+        public string Msg  { get; set; }
     }
 }

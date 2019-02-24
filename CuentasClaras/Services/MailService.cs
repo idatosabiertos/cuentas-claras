@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using CuentasClaras.Api.Mail;
 
 namespace CuentasClaras.Services
 {
@@ -29,7 +30,7 @@ namespace CuentasClaras.Services
             client.EnableSsl = true;
 
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress(email);
+            mailMessage.From = new MailAddress(mailConfig.User);
 
             foreach (var item in mailConfig.UsersCopy)
             {

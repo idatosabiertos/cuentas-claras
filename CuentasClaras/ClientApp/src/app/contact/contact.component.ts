@@ -30,7 +30,12 @@ export class ContactComponent implements OnInit {
 
   public sendEmail() {
     if (this.contactForm.valid) {
-      this.contactService.sendEmail(this.contactForm.value).subscribe(() => {
+      const contact = {
+        name: this.contactForm.value.name,
+        email: this.contactForm.value.email,
+        msg: this.contactForm.value.msg
+      };
+      this.contactService.sendEmail(contact).subscribe(() => {
         this.emailStatus = 'success';
         this.emailStatusMsg = 'Su consulta fue enviada exitosamente.';
         setTimeout(() => {

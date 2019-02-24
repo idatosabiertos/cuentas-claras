@@ -48,8 +48,8 @@ namespace CuentasClaras
                 configuration.RootPath = "wwwroot";
             });
 
-            //        services.AddDbContext<VineyardContext>(options => options.UseSqlite("Data Source=BodegasUY.db"));
-            services.AddDbContext<CuentasClarasContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
+            services.AddDbContext<CuentasClarasContext>(options => options.UseSqlite("Data Source=CuentasClaras.db"));
+            // services.AddDbContext<CuentasClarasContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -103,6 +103,7 @@ namespace CuentasClaras
             services.AddScoped<BuyersService>();
             services.AddScoped<SuppliersService>();
             services.AddScoped<ClassificationService>();
+            services.AddScoped<MailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
