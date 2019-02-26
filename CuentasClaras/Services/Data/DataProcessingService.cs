@@ -23,12 +23,14 @@ namespace CuentasClaras.Services.Data
 
         public List<T> ItemsFrom<T>(string fileName, string sheetName) where T : new()
         {
-            string rootFolder = _hostingEnvironment.ContentRootPath;
-
             fileName = @"Files\data2018.xlsx";
 
-            FileInfo file = new FileInfo(Path.Combine(rootFolder, fileName));
-            //FileInfo file = new FileInfo(fileName);
+            FileInfo file = new FileInfo(Path.Combine(_hostingEnvironment.ContentRootPath, fileName));
+            if (!file.Exists) {
+                file = new FileInfo(Path.Combine(_hostingEnvironment.WebRootPath, fileName));
+                if (!file.Exists)
+                    throw new Exception($"FILE NOT FOUND");
+            }
 
             using (ExcelPackage package = new ExcelPackage(file))
             {

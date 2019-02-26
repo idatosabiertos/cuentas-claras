@@ -350,6 +350,11 @@
   resolved "https://registry.yarnpkg.com/@swimlane/ngx-datatable/-/ngx-datatable-14.0.0.tgz#6227625e2ce2e9143735d4deeb3ab34b88745c26"
   integrity sha512-zgRY58MzTpg9Jb575cg0O87mLtXYi6fx7NLRPRHdQ/FqH9mKjZ3i7+OjqtR8/w3KRmFP2Hnkmx52VzldZIKspg==
 
+"@types/grecaptcha@^2.0.33":
+  version "2.0.36"
+  resolved "https://registry.yarnpkg.com/@types/grecaptcha/-/grecaptcha-2.0.36.tgz#c5eaf271ac8a170f073f85aa2e28f2ca3b61df40"
+  integrity sha512-SfzcAJPls94/Lz1FznWe6Vm9NLkakhGmk3EO7g2QdkDDR2OU4FH63YILnDpGIU6l7gPnsf5WQ81Kr05JOYAlZw==
+
 "@types/jasmine@*":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.0.tgz#6b0e4b0192367d77e438ff660ccc4487c9602e7b"
@@ -4174,6 +4179,13 @@ negotiator@0.6.1:
 neo-async@^2.5.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.0.tgz#b9d15e4d71c6762908654b5183ed38b753340835"
+
+ng-recaptcha@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/ng-recaptcha/-/ng-recaptcha-4.2.1.tgz#6ae7eb7fd20f2a467a0f125ad072db9dd21060c1"
+  integrity sha512-rnGsTScp3MgTY7wDDs6rL5UE283WECUS+DPmnqD/lQwATH6y7EIgOM5AqZURBozNqCJKdAlhIdhFl8pCqf+s/Q==
+  optionalDependencies:
+    "@types/grecaptcha" "^2.0.33"
 
 nice-try@^1.0.4:
   version "1.0.5"

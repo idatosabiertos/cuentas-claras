@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using CuentasClaras.Api.Migration;
+﻿using CuentasClaras.Api.Migration;
 using CuentasClaras.InputDataModel;
 using CuentasClaras.Model;
 using CuentasClaras.Services;
 using CuentasClaras.Services.Data;
 using CuentasClaras.Services.Utils;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace CuentasClaras.Controllers.Migration
 {
@@ -41,7 +40,7 @@ namespace CuentasClaras.Controllers.Migration
         }
 
         [HttpPost()]
-        [Route("start")]
+        [Route("releases")]
         public void StartMigration()
         {
             Dictionary<string, Release> releasesDicc = new Dictionary<string, Release>();
@@ -55,10 +54,10 @@ namespace CuentasClaras.Controllers.Migration
 
 
             List<ReleaseInputDataModel> releasesInput = this.dataProcessingService.ItemsFrom<ReleaseInputDataModel>("", "releases");
-             Dictionary<string, List<AwaItemsInputDataModel>> releaseItemsInputDicc = this.dataProcessingService.ItemsFrom<AwaItemsInputDataModel>("", "awa_items")
-                 .GroupBy(x => x.id)
-                 .ToDictionary(x => x.Key, x => x.ToList());
- 
+            Dictionary<string, List<AwaItemsInputDataModel>> releaseItemsInputDicc = this.dataProcessingService.ItemsFrom<AwaItemsInputDataModel>("", "awa_items")
+                .GroupBy(x => x.id)
+                .ToDictionary(x => x.Key, x => x.ToList());
+
             Dictionary<string, string> suppliersInputDicc = this.dataProcessingService
                 .ItemsFrom<AwaSuppliersInputDataModel>("", "awa_suppliers")
                 .Where(s => adjudicacion.IsMatch(s.id))
@@ -91,21 +90,23 @@ namespace CuentasClaras.Controllers.Migration
                     TenderTenderPeriodEndDate = y.tenderTenderPeriodEndDate,
                     TenderTenderPeriodStartDate = y.tenderTenderPeriodStartDate,
                     TenderTitle = y.tenderTitle,
-                    ReleaseItems = getReleaseItems(releaseItemsInputDicc, y.id).Select(x => {
-                         return new ReleaseItem()
-                         {
-                             Description = x.awardsItemsDescription,
-                             ExternalId = x.awardsItemsId,
-                             Quantity = x.awardsItemsQuantity,
-                             ReleaseItemClassificationId = getReleaseItemClassificationId(releaseItemsClassification, x.awardsItemsClassificationId),
-                             UnitId = x.awardsItemsUnitId,
-                             UnitName = x.awardsItemsUnitName,
-                             UnitValueAmount = x.awardsItemsUnitValueAmount,
-                             UnitValueCurrency = x.awardsItemsUnitValueCurrency
-                         };
-                     }).ToList(),
+                    ReleaseItems = getReleaseItems(releaseItemsInputDicc, y.id).Select(x =>
+                    {
+                        return new ReleaseItem()
+                        {
+                            Description = x.awardsItemsDescription,
+                            ExternalId = x.awardsItemsId,
+                            Quantity = x.awardsItemsQuantity,
+                            ReleaseItemClassificationId = getReleaseItemClassificationId(releaseItemsClassification, x.awardsItemsClassificationId),
+                            UnitId = x.awardsItemsUnitId,
+                            UnitName = x.awardsItemsUnitName,
+                            UnitValueAmount = x.awardsItemsUnitValueAmount,
+                            CurrencyCode = x.awardsItemsUnitValueCurrency
+                        };
+                    }).ToList(),
                     BuyerId = buyersDicc[y.buyerId].BuyerId,
-                    SupplierId = getSupplierId(suppliersInputDicc, suppliersDicc, y)
+                    SupplierId = getSupplierId(suppliersInputDicc, suppliersDicc, y),
+                    TotalAmountUYU = getReleaseItems(releaseItemsInputDicc, y.id).Sum(x => x.awardsItemsQuantity * x.awardsItemsUnitValueAmount)
                 });
 
             this.db.AddRange(releases);
@@ -266,6 +267,50 @@ namespace CuentasClaras.Controllers.Migration
                 this.db.Suppliers.AddRange(suppliers);
                 this.db.SaveChanges();
             }
+        }
+
+        [HttpPost()]
+        [Route("releases/calculate")]
+        public void ReleasesCalculate([FromBody] MigrationConfig migrationConfig)
+        {
+            Dictionary<string, decimal> currencies = db.Currencies.ToDictionary(currency => currency.CurrencyCode, currency => currency.ConversionFactorUYU);
+            var query = db.Releases.Include(release => release.ReleaseItems);
+            foreach (var release in query)
+            {
+                release.TotalAmountUYU = (int)CalculateTotal(release, currencies);
+            }
+
+            db.SaveChanges();
+        }
+
+        [HttpPost()]
+        [Route("releases/currencies")]
+        public void AddCurrencies([FromBody] MigrationConfig migrationConfig)
+        {
+            var query = db.ReleaseItems.Select(x => x.CurrencyCode).Distinct().ToList();
+            foreach (var currencyCode in query)
+            {
+                if (!String.IsNullOrEmpty(currencyCode))
+                {
+                    var currency = db.Currencies.Find(currencyCode);
+                    if (currency == null)
+                        db.Currencies.Add(new Currency() {
+                            CurrencyCode = currencyCode
+                        });
+                }
+            }
+            db.SaveChanges();
+        }
+
+        private decimal CalculateTotal(Release release, Dictionary<string, decimal> currencies)
+        {
+            return release.ReleaseItems.Sum(x =>
+            {
+                if (x.CurrencyCode != null && currencies.ContainsKey(x.CurrencyCode))
+                    return x.UnitValueAmount * x.Quantity * currencies[x.CurrencyCode];
+                else
+                    return 0;
+            });
         }
 
         public bool? TenderHasEnqueriesToBool(string tenderHasEnqueries)
