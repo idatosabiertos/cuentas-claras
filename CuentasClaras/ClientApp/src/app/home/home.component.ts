@@ -1,11 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HomeStatsService } from './home-stats.service';
+import { Subscription } from 'rxjs/index';
+import { CurrencyPipe } from '@angular/common';
+import { Select, Store } from '@ngxs/store';
+import { SetTopBuyersAction, SetTopSuppliersAction } from './home-state/actions';
+import { HomeState } from './home-state/home.state';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+  providers: [CurrencyPipe],
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
+  @Select(HomeState.topBuyers) private topBuyers$;
+  @Select(HomeState.topBuyers) private topSuppliers$;
+  subs = new Subscription();
+  topBuyers;
+  topBuyersLoading = true;
+  topSuppliers;
+  topSuppliersLoading = true;
   graph = [{
     x: -739.36383, y: -404.26147, id: 'jquery', name: 'jquery',
     symbolSize: 40.7252817, itemStyle: {normal: {color: '#4f19c7'}}
@@ -57,14 +71,85 @@ export class HomeComponent {
     {source: 'express', target: 'dateformat'}];
 
   /// TABLES
-  rows = [
-    {name: 'Austin', gender: 'Male', company: 'Swimlane'},
-    {name: 'Dany', gender: 'Male', company: 'KFC'},
-    {name: 'Molly', gender: 'Female', company: 'Burger King'},
+  topProducts = [
+    {name: 'sillas', totalAmount: 40000, quantity: 350000},
+    {name: 'papeleria', totalAmount: 30240, quantity: 23300},
+    {name: 'lapiceras', totalAmount: 20234, quantity: 102200},
+    {name: 'queso', totalAmount: 19234, quantity: 100000},
+    {name: 'impresoras', totalAmount: 10234, quantity: 100000},
+    {name: 'escritorio', totalAmount: 10234, quantity: 100000},
+    {name: 'mesas', totalAmount: 10234, quantity: 100000},
+    {name: 'vasos', totalAmount: 10234, quantity: 100000},
+    {name: 'toallas', totalAmount: 10234, quantity: 100000},
+    {name: 'televisores', totalAmount: 10234, quantity: 100000},
+    {name: 'computadoras', totalAmount: 10234, quantity: 100000},
   ];
-  columns = [
-    {prop: 'name'},
-    {name: 'Gender'},
-    {name: 'Company'}
+  topProductsColumn = [
+    {prop: 'name', name: 'Producto'},
+    {prop: 'totalAmount', name: 'Monto', pipe: this.currencyPipe},
+    {prop: 'quantity', name: 'Cantidad'},
   ];
+
+  topSuppliersColumns = [
+    {prop: 'name', name: 'Empresa'},
+    {prop: 'totalAmount', name: 'Monto', pipe: this.currencyPipe},
+    {prop: 'quantity', name: 'Cantidad'},
+  ];
+
+  topBuyersColumns = [
+    {prop: 'name', name: 'Organismo', minWidth: 250},
+    {prop: 'totalAmount', name: 'Monto', pipe: this.currencyPipe},
+    {prop: 'quantity', name: 'Cantidad'},
+  ];
+
+  constructor(private store: Store,
+              private homeStats: HomeStatsService,
+              private currencyPipe: CurrencyPipe) {
+
+  }
+
+  public ngOnInit() {
+    this.getTopBuyers();
+    this.getTopSuppliers();
+  }
+
+  public ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  private getTopBuyers() {
+    const buyersSub = this.topBuyers$.subscribe((topBuyers) => {
+      if (!topBuyers) {
+        const topBuyersSub = this.homeStats.getTopBuyers().subscribe((data) => {
+          this.store.dispatch([new SetTopBuyersAction(data)]);
+        });
+        this.subs.add(topBuyersSub);
+      }
+      else {
+        this.topBuyers = topBuyers;
+        this.topBuyersLoading = false;
+      }
+    }, () => {
+      this.topBuyersLoading = false;
+    });
+    this.subs.add(buyersSub);
+  }
+
+  private getTopSuppliers() {
+    const suppliersSub = this.topSuppliers$.subscribe((topSuppliers) => {
+      if (!topSuppliers) {
+        const topSuppliersSub = this.homeStats.getTopSuppliers().subscribe((data) => {
+          this.store.dispatch([new SetTopSuppliersAction(data)]);
+        });
+        this.subs.add(topSuppliersSub);
+
+      } else {
+        this.topSuppliers = topSuppliers;
+        this.topSuppliersLoading = false;
+      }
+    }, () => {
+      this.topBuyersLoading = false;
+    });
+    this.subs.add(suppliersSub);
+  }
 }

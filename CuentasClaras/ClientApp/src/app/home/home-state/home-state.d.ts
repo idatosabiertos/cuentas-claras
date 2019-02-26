@@ -1,3 +1,4 @@
 export type HomeStateModel = {
-  stats?: any;
+  topBuyers?: any;
+  topSuppliers?: any;
 };

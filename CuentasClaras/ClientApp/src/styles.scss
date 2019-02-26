@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+/* Override Colors by using style rules */
+
+.rating.color-ok .star-container .star {
+  svg {
+    fill: #f00 !important;;
+  }
+  i {
+    color: #f00 !important;;
+  }
+}
+
+.rating.color-positive .star-container .star {
+  svg {
+    fill: #f00 !important;;
+  }
+  i {
+    color: #f00 !important;;
+  }
+}
+
+.rating.color-default .star-container .star {
+  svg {
+    fill: #f00 !important;;
+  }
+  i {
+    color: #f00 !important;;
+  }
+}
