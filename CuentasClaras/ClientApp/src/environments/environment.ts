@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api_base_url: 'http://localhost:7548'
+  api_base_url: 'http://cuentasclaras-uy.azurewebsites.net'
 };
 
 /*

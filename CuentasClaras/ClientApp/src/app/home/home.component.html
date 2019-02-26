@@ -96,18 +96,27 @@
         artículos más comprados por el Estado uruguayo.
       </p>
       <div class="row">
-        <div class="col-md-6" style="text-align:left">
+        <div class="col-md-6 my-3" style="text-align:left">
           <ngx-datatable
             class="material"
-            [rows]="rows"
-            [columns]="columns">
+            [rows]="topBuyers"
+            [limit]="10"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [loadingIndicator]="topBuyersLoading"
+            [columns]="topBuyersColumns">
           </ngx-datatable>
         </div>
-        <div class="col-md-6" style="text-align:left">
+        <div class="col-md-6 my-3" style="text-align:left">
           <ngx-datatable
             class="material"
-            [rows]="rows"
-            [columns]="columns">
+            [rows]="topProducts"
+            [limit]="10"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [columns]="topProductsColumn">
           </ngx-datatable>
         </div>
       </div>
@@ -191,12 +200,17 @@
         en procesos de selección de proveedores. Actualmente figuran 70.822 empresas en el RUPE de 84 países diferentes.
       </p>
 
-      <div class="row">
+      <div class="row my-3">
         <div class="col-md-12" style="text-align:left">
           <ngx-datatable
             class="material"
-            [rows]="rows"
-            [columns]="columns">
+            [rows]="topSuppliers"
+            [limit]="10"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [loadingIndicator]="topSuppliersLoading"
+            [columns]="topSuppliersColumns">
           </ngx-datatable>
         </div>
       </div>
