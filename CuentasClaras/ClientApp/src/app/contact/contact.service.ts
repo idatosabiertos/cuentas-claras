@@ -11,6 +11,6 @@ export class ContactService {
   }
 
   public sendEmail(data) {
-    return this.http.post(`${environment.api_base_url}/email`, data);
+    return this.http.post(`${environment.api_base_url}/api/mail/contact`, data);
   }
 }

@@ -48,7 +48,7 @@ namespace CuentasClaras
                 configuration.RootPath = "wwwroot";
             });
 
-            //        services.AddDbContext<VineyardContext>(options => options.UseSqlite("Data Source=BodegasUY.db"));
+            //        services.AddDbContext<CuentasClarasContext>(options => options.UseSqlite("Data Source=CuentasClaras.db"));
             services.AddDbContext<CuentasClarasContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
