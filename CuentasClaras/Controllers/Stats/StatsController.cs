@@ -73,5 +73,32 @@ namespace CuentasClaras.Controllers.Stats
 
             return ret;
         }
+
+        [HttpGet]
+        [Route("top-items")]
+        public List<TopItemClassification> GetTopItemClassification()
+        {
+            List<TopItemClassification> ret = new List<TopItemClassification>();
+
+            using (db)
+            using (var command = db.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "EXEC	TopItemClassification";
+                db.Database.OpenConnection();
+                using (var result = command.ExecuteReader())
+                {
+                    while (result.Read())
+                    {
+                        var item = new TopItemClassification();
+                        item.ReleaseItemClassificationId = (int)result[0];
+                        item.Description = (string)result[1];
+                        item.TotalAmount = (int)result[2];
+                        ret.Add(item);
+                    }
+                }
+            }
+
+            return ret;
+        }
     }
 }
