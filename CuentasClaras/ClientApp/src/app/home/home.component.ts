@@ -3,7 +3,7 @@ import { HomeStatsService } from './home-stats.service';
 import { Subscription } from 'rxjs/index';
 import { CurrencyPipe } from '@angular/common';
 import { Select, Store } from '@ngxs/store';
-import { SetTopBuyersAction, SetTopSuppliersAction } from './home-state/actions';
+import { SetTopBuyersAction, SetTopItemsAction, SetTopSuppliersAction } from './home-state/actions';
 import { HomeState } from './home-state/home.state';
 
 @Component({
@@ -15,11 +15,14 @@ import { HomeState } from './home-state/home.state';
 export class HomeComponent implements OnInit, OnDestroy {
   @Select(HomeState.topBuyers) private topBuyers$;
   @Select(HomeState.topBuyers) private topSuppliers$;
+  @Select(HomeState.topItems) private topItems$;
   subs = new Subscription();
   topBuyers;
   topBuyersLoading = true;
   topSuppliers;
   topSuppliersLoading = true;
+  topItems;
+  topItemsLoading = true;
   graph = [{
     x: -739.36383, y: -404.26147, id: 'jquery', name: 'jquery',
     symbolSize: 40.7252817, itemStyle: {normal: {color: '#4f19c7'}}
@@ -71,23 +74,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     {source: 'express', target: 'dateformat'}];
 
   /// TABLES
-  topProducts = [
-    {name: 'sillas', totalAmount: 40000, quantity: 350000},
-    {name: 'papeleria', totalAmount: 30240, quantity: 23300},
-    {name: 'lapiceras', totalAmount: 20234, quantity: 102200},
-    {name: 'queso', totalAmount: 19234, quantity: 100000},
-    {name: 'impresoras', totalAmount: 10234, quantity: 100000},
-    {name: 'escritorio', totalAmount: 10234, quantity: 100000},
-    {name: 'mesas', totalAmount: 10234, quantity: 100000},
-    {name: 'vasos', totalAmount: 10234, quantity: 100000},
-    {name: 'toallas', totalAmount: 10234, quantity: 100000},
-    {name: 'televisores', totalAmount: 10234, quantity: 100000},
-    {name: 'computadoras', totalAmount: 10234, quantity: 100000},
-  ];
-  topProductsColumn = [
-    {prop: 'name', name: 'Producto'},
+  topItemsColumns = [
+    {prop: 'description', name: 'Producto'},
     {prop: 'totalAmount', name: 'Monto', pipe: this.currencyPipe},
-    {prop: 'quantity', name: 'Cantidad'},
   ];
 
   topSuppliersColumns = [
@@ -97,7 +86,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
 
   topBuyersColumns = [
-    {prop: 'name', name: 'Organismo', minWidth: 250},
+    {prop: 'name', name: 'Organismo'},
     {prop: 'totalAmount', name: 'Monto', pipe: this.currencyPipe},
     {prop: 'quantity', name: 'Cantidad'},
   ];
@@ -111,6 +100,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.getTopBuyers();
     this.getTopSuppliers();
+    this.getTopItems();
   }
 
   public ngOnDestroy() {
@@ -151,5 +141,23 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.topBuyersLoading = false;
     });
     this.subs.add(suppliersSub);
+  }
+
+  private getTopItems() {
+    const itemsSub = this.topItems$.subscribe((topItems) => {
+      if (!topItems) {
+        const topItemsSub = this.homeStats.getTopItems().subscribe((data) => {
+          this.store.dispatch([new SetTopItemsAction(data)]);
+        });
+        this.subs.add(topItemsSub);
+
+      } else {
+        this.topItems = topItems;
+        this.topItemsLoading = false;
+      }
+    }, () => {
+      this.topItemsLoading = false;
+    });
+    this.subs.add(itemsSub);
   }
 }
