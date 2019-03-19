@@ -2,7 +2,6 @@
 using CuentasClaras.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 
 namespace CuentasClaras.Controllers.Stats
@@ -99,6 +98,70 @@ namespace CuentasClaras.Controllers.Stats
             }
 
             return ret;
+        }
+
+        [HttpGet]
+        [Route("network")]
+        public object GetNetwork()
+        {
+            List<NetworkEdge> networkEdge = new List<NetworkEdge>();
+            List<NetworkBuyer> networkBuyer = new List<NetworkBuyer>();
+            List<NetworkSupplier> networkSupplier = new List<NetworkSupplier>();
+
+            using (db)
+            {
+                using (var command = db.Database.GetDbConnection().CreateCommand())
+                {
+                    command.CommandText = "EXEC	NetworkEdges";
+                    db.Database.OpenConnection();
+                    using (var result = command.ExecuteReader())
+                    {
+                        while (result.Read())
+                        {
+                            var item = new NetworkEdge();
+                            item.SupplierId = (int)result[0];
+                            item.BuyerId = (int)result[1];
+                            networkEdge.Add(item);
+                        }
+                    }
+                }
+                using (var command = db.Database.GetDbConnection().CreateCommand())
+                {
+                    command.CommandText = "EXEC	NetworkBuyers";
+                    db.Database.OpenConnection();
+                    using (var result = command.ExecuteReader())
+                    {
+                        while (result.Read())
+                        {
+                            var item = new NetworkBuyer();
+                            item.BuyerId = (int)result[0];
+                            item.Name = (string)result[1];
+                            item.TotalAmountUYU = (int)result[2];
+                            networkBuyer.Add(item);
+                        }
+                    }
+                }
+
+                using (var command = db.Database.GetDbConnection().CreateCommand())
+                {
+                    command.CommandText = "EXEC	NetworkSuppliers";
+                    db.Database.OpenConnection();
+                    using (var result = command.ExecuteReader())
+                    {
+                        while (result.Read())
+                        {
+                            var item = new NetworkSupplier();
+                            item.SupplierId = (int)result[0];
+                            item.Name = (string)result[1];
+                            item.TotalAmountUYU = (int)result[2];
+                            networkSupplier.Add(item);
+                        }
+                    }
+                }
+            }
+
+
+            return new { suppliers = networkSupplier, buyers = networkBuyer, edges = networkEdge };
         }
     }
 }
