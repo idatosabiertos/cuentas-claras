@@ -1,8 +1,10 @@
 ﻿using CuentasClaras.Api.Stats;
 using CuentasClaras.Model;
+using CuentasClaras.Services.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CuentasClaras.Controllers.Stats
 {
@@ -11,10 +13,12 @@ namespace CuentasClaras.Controllers.Stats
     public class StatsController : ControllerBase
     {
         private readonly CuentasClarasContext db;
+        private readonly DataProcessingService dataProccessingService;
 
-        public StatsController(CuentasClarasContext db)
+        public StatsController(CuentasClarasContext db, DataProcessingService dataProcessingService)
         {
             this.db = db;
+            this.dataProccessingService = dataProcessingService;
         }
 
         [HttpGet]
@@ -119,8 +123,8 @@ namespace CuentasClaras.Controllers.Stats
                         while (result.Read())
                         {
                             var item = new NetworkEdge();
-                            item.SupplierId = (int)result[0];
-                            item.BuyerId = (int)result[1];
+                            item.BuyerId = (int)result[0];
+                            item.SupplierId = (int)result[1];
                             networkEdge.Add(item);
                         }
                     }
@@ -160,6 +164,8 @@ namespace CuentasClaras.Controllers.Stats
                 }
             }
 
+            var nodes = networkSupplier.Cast<INetworkNode>().Concat(networkBuyer.Cast<INetworkNode>());
+            this.dataProccessingService.ExportFile("prueba1.xlsx", nodes, networkEdge);
 
             return new { suppliers = networkSupplier, buyers = networkBuyer, edges = networkEdge };
         }
