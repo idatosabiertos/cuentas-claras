@@ -1,40 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NewsService } from './news.service';
+import { Subscription } from 'rxjs/index';
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
   styleUrls: ['./news.component.scss']
 })
-export class NewsComponent implements OnInit {
+export class NewsComponent implements OnInit, OnDestroy {
+  public subs = new Subscription();
+  public news = [];
 
-  public news = [
-    {
-      img:'https://mdbootstrap.com/img/Photos/Others/images/49.jpg',
-      title: 'Titulo de la Nota',
-      summary: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, psam voluptatem quia consectetur.',
-      author: 'Jessica Clark',
-      date: '12/04/2018'
-    },
-    {
-      img:'https://mdbootstrap.com/img/Photos/Others/images/31.jpg',
-      title: 'Titulo de la Nota',
-      summary: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, psam voluptatem quia consectetur.',
-      author: 'Jessica Clark',
-      date: '12/04/2018'
-    },
-    {
-      img:'https://mdbootstrap.com/img/Photos/Others/images/52.jpg',
-      title: 'Titulo de la Nota',
-      summary: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, psam voluptatem quia consectetur.',
-      author: 'Jessica Clark',
-      date: '12/04/2018'
-    }
-  ];
 
-  constructor() {
+  constructor(private newsService: NewsService) {
   }
 
-  ngOnInit() {
+  public ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  public ngOnInit() {
+    this.subs.add(this.newsService.getNews()
+      .subscribe((data: any) => {
+        this.news = data && data.items ? data.items : [];
+      }));
   }
 
 }
