@@ -1,0 +1,13 @@
+{
+  "name": "networkapp",
+  "version": "1.0.0",
+  "description": "Gephi App to show the network",
+  "scripts": {
+    "build": "gulp copy"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^4.0.0"
+  }
+}
