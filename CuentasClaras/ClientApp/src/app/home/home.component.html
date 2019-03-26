@@ -241,39 +241,7 @@
           según cantidad de compras o montos.
         </p>
 
-        <td-chart [style.height.px]="500">
-          <td-chart-tooltip [trigger]="'item'">
-            <ng-template let-params let-i="index" let-ticket="ticket" tdTooltipFormatter>
-              <ng-container *ngIf="params">
-                <div layout="row" layout-align="start center">
-                  <ng-container *ngIf="params.dataType === 'node'">
-                    <mat-icon [style.color]="params.color">device_hub</mat-icon>
-                    <span class="mat-caption pad-left-sm">
-              {{params.data.name}}
-            </span>
-                  </ng-container>
-                  <ng-container *ngIf="params.dataType === 'edge'">
-            <span class="mat-caption pad-left-sm">
-              {{params.data.source}}
-            </span>
-                    <mat-icon>arrow_forward</mat-icon>
-                    <span class="mat-caption">
-              {{params.data.target}}
-            </span>
-                  </ng-container>
-                </div>
-              </ng-container>
-            </ng-template>
-          </td-chart-tooltip>
-          <td-chart-series td-graph
-                           [data]="graph"
-                           [edges]="edges"
-                           [roam]="true"
-                           [focusNodeAdjacency]="true"
-                           [label]="{ emphasis: { position: 'right', show: true }}">
-          </td-chart-series>
-        </td-chart>
-
+        <iframe src="http://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html" frameborder="0" height="800" width="1200"></iframe>
       </div>
       <!--Grid column-->
     </div>

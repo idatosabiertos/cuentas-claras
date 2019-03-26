@@ -5,10 +5,6 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { CovalentGraphEchartsModule } from '@covalent/echarts/graph';
-import { CovalentBaseEchartsModule } from '@covalent/echarts/base';
-import { CovalentTooltipEchartsModule } from '@covalent/echarts/tooltip';
-import { MatIconModule } from '@angular/material';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -18,10 +14,6 @@ import { MatIconModule } from '@angular/material';
     HomeRoutingModule,
     MDBBootstrapModule,
     NgxDatatableModule,
-    CovalentTooltipEchartsModule,
-    CovalentGraphEchartsModule,
-    CovalentBaseEchartsModule,
-    MatIconModule,
   ]
 })
 export class HomeModule {
