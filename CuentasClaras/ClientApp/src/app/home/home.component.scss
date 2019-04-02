@@ -12,6 +12,10 @@
   font-weight: 400;
 }
 
+.bold-800{
+  font-weight: 800;
+}
+
 .home-partners {
   display: flex;
   align-items: center;
@@ -26,6 +30,16 @@
   }
 }
 
+.home-logo{
+  padding: 10px;
+  max-height: 250px;
+}
+
+.home-intro-text{
+  padding: 20px 10px;
+  color: #666666;
+}
+
 .think-text {
   p {
     text-align: left;
@@ -36,4 +50,8 @@
   i{
     font-size: 35px;
   }
+}
+.cc-footer{
+  background-color: #187ac8; 
+  background-attachment: fixed;
 }

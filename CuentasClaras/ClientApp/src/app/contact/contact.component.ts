@@ -33,7 +33,7 @@ export class ContactComponent implements OnInit {
       const contact = {
         name: this.contactForm.value.name,
         email: this.contactForm.value.email,
-        msg: this.contactForm.value.msg
+        msg: this.contactForm.value.message
       };
       this.contactService.sendEmail(contact).subscribe(() => {
         this.emailStatus = 'success';
