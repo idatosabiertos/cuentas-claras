@@ -43,7 +43,7 @@ export class DatabaseComponent {
       source: {src: 'https://fin-pol.github.com', name: 'Proyecto sobre Financiamiento de Partidos'},
       period: '2014',
       files: [
-        {src: '/FIN-POL/FIN-POL-2014', name: 'FIN-POL-2014.csv'}
+        {src: '/FIN-POL/FIN-POL-2014.csv', name: 'FIN-POL-2014.csv'}
       ]
     },
     {
@@ -55,18 +55,18 @@ export class DatabaseComponent {
         {src: '/UE/UE-2017.csv', name: 'UE-2017.csv'},
       ]
     },
-    {
-      name: 'Índice de Transparencia en las Contrataciones  Públicas',
-      description: 'Esta base de datos contiene los resultados del Índice de Transparencia en las Contrataciones Públicas elaborado para este proyecto. El nivel de desagregación es por Unidad Ejecutora.',
-      source: {src: '#', name: 'Cuentas Claras'},
-      period: '2015-2018',
-      files: [
-        {src: '/CC/CC-2015.zip', name: 'CC-2015.zip'},
-        {src: '/CC/CC-2016.zip', name: 'CC-2016,zip'},
-        {src: '/CC/CC-2017.zip', name: 'CC-2017.zip'},
-        {src: '/CC/CC-2018.zip', name: 'CC-2018.zip'},
-      ]
-    },
+    // {
+    //   name: 'Índice de Transparencia en las Contrataciones  Públicas',
+    //   description: 'Esta base de datos contiene los resultados del Índice de Transparencia en las Contrataciones Públicas elaborado para este proyecto. El nivel de desagregación es por Unidad Ejecutora.',
+    //   source: {src: '#', name: 'Cuentas Claras'},
+    //   period: '2015-2018',
+    //   files: [
+    //     {src: '/CC/CC-2015.zip', name: 'CC-2015.zip'},
+    //     {src: '/CC/CC-2016.zip', name: 'CC-2016,zip'},
+    //     {src: '/CC/CC-2017.zip', name: 'CC-2017.zip'},
+    //     {src: '/CC/CC-2018.zip', name: 'CC-2018.zip'},
+    //   ]
+    // },
 
   ];
   columns = [
