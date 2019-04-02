@@ -8,7 +8,7 @@ const routes: Routes = [
   {path: 'about-project', loadChildren: './about-project/about-project.module#AboutProjectModule'},
   {path: 'buying-index', loadChildren: './buying-index/buying-index.module#BuyingIndexModule'},
   {path: 'news', loadChildren: './news/news.module#NewsModule'},
-  {path: 'visualizations', loadChildren: './visualizations/visualizations.module#VisualizationsModule'},
+  // {path: 'visualizations', loadChildren: './visualizations/visualizations.module#VisualizationsModule'},
   {path: 'database', loadChildren: './database/database.module#DatabaseModule'},
   {path: 'contact', loadChildren: './contact/contact.module#ContactModule'},
   {path: '**', redirectTo: '/home', pathMatch: 'full'}
