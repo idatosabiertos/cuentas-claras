@@ -103,6 +103,7 @@ namespace CuentasClaras
             services.AddScoped<BuyersService>();
             services.AddScoped<SuppliersService>();
             services.AddScoped<ClassificationService>();
+            services.AddScoped<MailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

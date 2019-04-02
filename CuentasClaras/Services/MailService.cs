@@ -19,7 +19,7 @@ namespace CuentasClaras.Services
             this._configuration = configuration;
         }
 
-        public async Task sendEmail(string email, string name, string msg)
+        public bool sendEmail(string email, string name, string msg)
         {
             var section = this._configuration.GetSection("MailConfig");
             var mailConfig = section.Get<MailConfig>();
@@ -42,6 +42,7 @@ namespace CuentasClaras.Services
             mailMessage.Body = msg;
 
             client.Send(mailMessage);
+            return true;
         }
 
     }
