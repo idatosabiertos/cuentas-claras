@@ -117,8 +117,13 @@ namespace CuentasClaras
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseStaticFiles();
+           // app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions() { 
+                ServeUnknownFileTypes = true // serve extensionless files
+            });
+
 
             app.UseMvc(routes =>
             {

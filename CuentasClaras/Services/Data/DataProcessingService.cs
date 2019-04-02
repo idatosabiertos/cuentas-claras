@@ -43,6 +43,8 @@ namespace CuentasClaras.Services.Data
 
         public void ExportFile(string fileName, IEnumerable<INetworkNode> nodes, IEnumerable<NetworkEdge> edges)
         {
+            var weightMax = nodes.Max(x => x.Weight);
+            var weightMin = nodes.Min(x => x.Weight);
 
             using (ExcelPackage excelPackage = new ExcelPackage())
             {
@@ -51,7 +53,8 @@ namespace CuentasClaras.Services.Data
 
                 worksheetNodes.Cells["A1"].Value = "Id";
                 worksheetNodes.Cells["B1"].Value = "Label";
-                                       
+                worksheetNodes.Cells["C1"].Value = "Weight";
+
                 worksheetEdges.Cells["A1"].Value = "Source";
                 worksheetEdges.Cells["B1"].Value = "Target";
                 worksheetEdges.Cells["C1"].Value = "Type";
@@ -66,6 +69,7 @@ namespace CuentasClaras.Services.Data
                     i++;
                     worksheetNodes.Cells[$"A{i}"].Value = node.Id;
                     worksheetNodes.Cells[$"B{i}"].Value = node.Name;
+                    worksheetNodes.Cells[$"C{i}"].Value = CalculateWeight(node.Weight, weightMin, weightMax, 10m, 1000m);
                 }
 
                 int j = 1;
@@ -78,12 +82,16 @@ namespace CuentasClaras.Services.Data
                     //worksheetEdges.Cells[$"D{i}"].Value = edge.
                     //worksheetEdges.Cells[$"E{i}"].Value = edge.
                     //worksheetEdges.Cells[$"F{i}"].Value = edge.
-                    //worksheetEdges.Cells[$"G{i}"].Value = edge.
+                    //worksheetEdges.Cells[$"G{i}"].Value = CalculateWeight(edge.Weight, weightMin, weightMax, 1m, 10m);
                 }
 
                 FileInfo fileInfo = new FileInfo(Path.Combine(_hostingEnvironment.ContentRootPath, fileName));
                 excelPackage.SaveAs(fileInfo);
             }
+        }
+
+        public decimal CalculateWeight(decimal weight, decimal weightMin, decimal weightMax, decimal a, decimal b) {
+            return ((b - a) * (weight - weightMin)) / (weightMax - weightMin) + a;
         }
     }
 
