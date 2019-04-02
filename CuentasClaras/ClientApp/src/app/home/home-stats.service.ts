@@ -17,4 +17,9 @@ export class HomeStatsService {
   public getTopSuppliers() {
     return this.http.get(`${environment.api_base_url}/api/stats/top-suppliers`);
   }
+
+
+  public getTopItems() {
+    return this.http.get(`${environment.api_base_url}/api/stats/top-items`);
+  }
 }

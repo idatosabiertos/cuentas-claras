@@ -2,11 +2,11 @@
 <div class="row">
 
   <!-- Grid column -->
-  <div class="col-lg-5 col-xl-4">
+  <div class="col-lg-5 col-xl-4" *ngIf="hasImage">
 
     <!-- Featured image -->
     <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4 waves-light" mdbWavesEffect>
-      <img class="img-fluid" src="{{post.img}}" alt="Sample image">
+      <img class="img-fluid" src="{{post.thumbnail}}" alt="Sample image">
       <a>
         <div class="mask rgba-white-slight"></div>
       </a>
@@ -16,18 +16,20 @@
   <!-- Grid column -->
 
   <!-- Grid column -->
-  <div class="col-lg-7 col-xl-8">
+  <div class="col-lg-7 col-xl-8" [ngClass]="{
+  'col-lg-7 col-xl-8': hasImage,
+  'col-lg-12': !hasImage
+  }">
 
     <!-- Post title -->
     <h3 class="font-weight-bold mb-3"><strong>{{post.title}}</strong></h3>
     <!-- Excerpt -->
-    <p class="dark-grey-text">
-      {{post.summary}}
-    </p>
+    <div class="dark-grey-text" [innerHTML]="summary">
+    </div>
     <!-- Post data -->
-    <p>por <a class="font-weight-bold">{{post.author}}</a>, {{post.date}}</p>
+    <p>por <a class="font-weight-bold">{{post.author}}</a>, {{post.pubDate | date: 'dd/MM/yyyy'}}</p>
     <!-- Read more button -->
-    <a mdbBtn color="primary" mdbWavesEffect>Leer mas</a>
+    <a mdbBtn color="primary" [href]="post.link" mdbWavesEffect>Leer más</a>
 
   </div>
   <!-- Grid column -->

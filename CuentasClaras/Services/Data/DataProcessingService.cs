@@ -1,14 +1,11 @@
-﻿using CuentasClaras.InputDataModel;
+﻿using CuentasClaras.Api.Stats;
 using Microsoft.AspNetCore.Hosting;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace CuentasClaras.Services.Data
 {
@@ -26,7 +23,8 @@ namespace CuentasClaras.Services.Data
             fileName = @"Files\data2018.xlsx";
 
             FileInfo file = new FileInfo(Path.Combine(_hostingEnvironment.ContentRootPath, fileName));
-            if (!file.Exists) {
+            if (!file.Exists)
+            {
                 file = new FileInfo(Path.Combine(_hostingEnvironment.WebRootPath, fileName));
                 if (!file.Exists)
                     throw new Exception($"FILE NOT FOUND");
@@ -43,7 +41,58 @@ namespace CuentasClaras.Services.Data
             }
         }
 
+        public void ExportFile(string fileName, IEnumerable<INetworkNode> nodes, IEnumerable<NetworkEdge> edges)
+        {
+            var weightMax = nodes.Max(x => x.Weight);
+            var weightMin = nodes.Min(x => x.Weight);
 
+            using (ExcelPackage excelPackage = new ExcelPackage())
+            {
+                ExcelWorksheet worksheetNodes = excelPackage.Workbook.Worksheets.Add("Nodes");
+                ExcelWorksheet worksheetEdges = excelPackage.Workbook.Worksheets.Add("Edges");
+
+                worksheetNodes.Cells["A1"].Value = "Id";
+                worksheetNodes.Cells["B1"].Value = "Label";
+                worksheetNodes.Cells["C1"].Value = "Weight";
+
+                worksheetEdges.Cells["A1"].Value = "Source";
+                worksheetEdges.Cells["B1"].Value = "Target";
+                worksheetEdges.Cells["C1"].Value = "Type";
+                worksheetEdges.Cells["D1"].Value = "Id";
+                worksheetEdges.Cells["E1"].Value = "Label";
+                worksheetEdges.Cells["F1"].Value = "Interval";
+                worksheetEdges.Cells["G1"].Value = "Weight";
+
+                int i = 1;
+                foreach (var node in nodes)
+                {
+                    i++;
+                    worksheetNodes.Cells[$"A{i}"].Value = node.Id;
+                    worksheetNodes.Cells[$"B{i}"].Value = node.Name;
+                    worksheetNodes.Cells[$"C{i}"].Value = CalculateWeight(node.Weight, weightMin, weightMax, 10m, 1000m);
+                }
+
+                int j = 1;
+                foreach (var edge in edges)
+                {
+                    j++;
+                    worksheetEdges.Cells[$"A{j}"].Value = edge.FromId;
+                    worksheetEdges.Cells[$"B{j}"].Value = edge.ToId;
+                    //worksheetEdges.Cells[$"C{i}"].Value = edge.
+                    //worksheetEdges.Cells[$"D{i}"].Value = edge.
+                    //worksheetEdges.Cells[$"E{i}"].Value = edge.
+                    //worksheetEdges.Cells[$"F{i}"].Value = edge.
+                    //worksheetEdges.Cells[$"G{i}"].Value = CalculateWeight(edge.Weight, weightMin, weightMax, 1m, 10m);
+                }
+
+                FileInfo fileInfo = new FileInfo(Path.Combine(_hostingEnvironment.ContentRootPath, fileName));
+                excelPackage.SaveAs(fileInfo);
+            }
+        }
+
+        public decimal CalculateWeight(decimal weight, decimal weightMin, decimal weightMax, decimal a, decimal b) {
+            return ((b - a) * (weight - weightMin)) / (weightMax - weightMin) + a;
+        }
     }
 
     public static class EpPlusExtensionMethods
@@ -87,7 +136,8 @@ namespace CuentasClaras.Services.Data
 
 
             var headerColumns = Enumerable.Range(1, worksheet.Dimension.Columns)
-                                .Select(i => new {
+                                .Select(i => new
+                                {
                                     ColumnName = FormatColumn(worksheet.Cells[1, i].Value.ToString()),
                                     Index = i
                                 })
@@ -100,7 +150,7 @@ namespace CuentasClaras.Services.Data
                 columnsIndexes.Add(c.ColumnName, c.Index);
             }
 
-                
+
             //Create the collection container
             var collection = rows.Skip(1)
                 .Select(row =>
@@ -161,7 +211,8 @@ namespace CuentasClaras.Services.Data
                             //Its a string
                             col.Property.SetValue(tnew, val.GetValue<string>());
                         }
-                        else {
+                        else
+                        {
                             Console.WriteLine($"Column {col.PropertyName} not found on excel and was ignored");
                         }
                     });
@@ -174,7 +225,8 @@ namespace CuentasClaras.Services.Data
             return collection;
         }
 
-        public static string FormatColumn(string column) {
+        public static string FormatColumn(string column)
+        {
             return Regex.Replace(column, "(/|[0-9])", "").ToLower();
         }
     }
