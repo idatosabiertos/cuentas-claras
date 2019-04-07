@@ -15,9 +15,9 @@ using CuentasClaras.Services;
 
 namespace CuentasClaras.Controllers
 {
-    [Route("api/Mail")]
-    [Produces("application/json")]
-    public class MailController : Controller
+    [Route("api/mail")]
+    [ApiController]
+    public class MailController : ControllerBase
     {
         private readonly MailService mailService;
 
@@ -25,7 +25,8 @@ namespace CuentasClaras.Controllers
         {
             this.mailService = mailService;
         }
-
+       
+        [HttpPost]
         [Route("contact")]
         public ContentResult sendEmail([FromBody]EmailDTO contact)
         {
