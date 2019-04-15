@@ -9,6 +9,6 @@ namespace CuentasClaras.Api.Stats
     {
         public int ReleaseItemClassificationId { get; set; }
         public string Description { get; set; }
-        public decimal TotalAmount { get; set; }
+        public double TotalAmount { get; set; }
     }
 }

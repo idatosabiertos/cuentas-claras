@@ -9,7 +9,7 @@ namespace CuentasClaras.Api.Stats
     {
         public int BuyerId { get; set; }
         public string Name { get; set; }
-        public int TotalAmount { get; set; }
+        public double TotalAmount { get; set; }
         public int Quantity { get; set; }
     }
 }
