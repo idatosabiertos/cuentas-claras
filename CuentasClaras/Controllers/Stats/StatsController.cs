@@ -43,7 +43,9 @@ namespace CuentasClaras.Controllers.Stats
                         item.Name = (string)result[1];
                         item.TotalAmount = (int)result[2];
                         item.Quantity = (int)result[3];
-                        ret.Add(item);
+
+                        if (item.TotalAmount > 0)
+                            ret.Add(item);
                     }
                 }
             }
@@ -71,7 +73,9 @@ namespace CuentasClaras.Controllers.Stats
                         item.Name = (string)result[1];
                         item.TotalAmount = (int)result[2];
                         item.Quantity = (int)result[3];
-                        ret.Add(item);
+
+                        if (item.TotalAmount > 0)
+                            ret.Add(item);
                     }
                 }
             }
@@ -98,7 +102,9 @@ namespace CuentasClaras.Controllers.Stats
                         item.ReleaseItemClassificationId = (int)result[0];
                         item.Description = (string)result[1];
                         item.TotalAmount = (int)result[2];
-                        ret.Add(item);
+
+                        if (item.TotalAmount > 0)
+                            ret.Add(item);
                     }
                 }
             }
