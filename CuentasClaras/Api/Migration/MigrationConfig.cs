@@ -8,5 +8,6 @@ namespace CuentasClaras.Api.Migration
     public class MigrationConfig
     {
         public bool CheckIfExists { get; set; }
+        public string DataSource { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace CuentasClaras.Model
 
         public string ExternalId { get; set; }
         public int UnitId { get; set; }
-        public int UnitValueAmount { get; set; }
+        public double UnitValueAmount { get; set; }
         public string UnitName { get; set; }
         public string Description { get; set; }
         public int Quantity { get; set; }

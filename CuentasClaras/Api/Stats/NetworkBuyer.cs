@@ -7,11 +7,13 @@ namespace CuentasClaras.Api.Stats
 {
     public class NetworkBuyer : INetworkNode
     {
-        public int BuyerId { get; set; }
+        public string BuyerId { get; set; }
         public string Name { get; set; }
-        public decimal TotalAmountUYU { get; set; }
+        public double TotalAmountUYU { get; set; }
 
         public string Id => $"BUYER-{BuyerId}";
-        public decimal Weight => TotalAmountUYU;
+        public double Weight => TotalAmountUYU;
+
+        public NetworkNodeTypes Type => NetworkNodeTypes.Buyer;
     }
 }

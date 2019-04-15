@@ -9,6 +9,14 @@ namespace CuentasClaras.Api.Stats
     {
         string Id { get; }
         string Name { get; }
-        decimal Weight { get; }
+        double Weight { get; }
+        NetworkNodeTypes Type { get; }
+        
+    }
+
+    public enum NetworkNodeTypes
+    {
+        Buyer = 1,
+        Supplier = 2
     }
 }

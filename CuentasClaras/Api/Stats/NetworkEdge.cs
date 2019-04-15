@@ -7,7 +7,7 @@ namespace CuentasClaras.Api.Stats
 {
     public class NetworkEdge : INetworkEdge
     {
-        public int BuyerId { get; set; }
+        public string BuyerId { get; set; }
         public int SupplierId { get; set; }
 
         public string FromId => $"BUYER-{BuyerId}";

@@ -14,7 +14,7 @@ namespace CuentasClaras.InputDataModel
         public string tag { get; set; }
         public string buyerId { get; set; }
         public string buyerName { get; set; }
-        public int? tenderId { get; set; }
+        public string tenderId { get; set; }
         public string tenderProcurementMethodDetails { get; set; }
         public string tenderProcurementMethod { get; set; }
         public string tenderDescription { get; set; }

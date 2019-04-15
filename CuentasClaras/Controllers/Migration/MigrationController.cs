@@ -41,30 +41,30 @@ namespace CuentasClaras.Controllers.Migration
 
         [HttpPost()]
         [Route("releases")]
-        public void StartMigration()
+        public void StartMigration([FromBody] MigrationConfig migrationConfig)
         {
             Dictionary<string, Release> releasesDicc = new Dictionary<string, Release>();
             Dictionary<string, List<ReleaseItem>> releasesItemsDicc = new Dictionary<string, List<ReleaseItem>>();
 
             Dictionary<string, Supplier> suppliersDicc = this.suppliersService.GetAll().ToDictionary(x => x.ExternalId, x => x);
-            Dictionary<string, Buyer> buyersDicc = this.buyersService.GetAll().ToDictionary(x => x.BuyerExternalId, x => x);
+            Dictionary<string, Buyer> buyersDicc = this.buyersService.GetAll().Where(x => x.BuyerExternalId != null).ToDictionary(x => x.BuyerExternalId, x => x);
             Dictionary<string, ReleaseItemClassification> releaseItemsClassification = this.classificationService.GetAll().ToDictionary(x => x.ReleaseItemClassificationExternalId, x => x);
 
             Regex adjudicacion = new Regex(@"^adjudicacion-([0-9]+)$", RegexOptions.Compiled);
 
 
-            List<ReleaseInputDataModel> releasesInput = this.dataProcessingService.ItemsFrom<ReleaseInputDataModel>("", "releases");
-            Dictionary<string, List<AwaItemsInputDataModel>> releaseItemsInputDicc = this.dataProcessingService.ItemsFrom<AwaItemsInputDataModel>("", "awa_items")
+            List<ReleaseInputDataModel> releasesInput = this.dataProcessingService.ItemsFrom<ReleaseInputDataModel>(migrationConfig.DataSource, "releases");
+            Dictionary<string, List<AwaItemsInputDataModel>> releaseItemsInputDicc = this.dataProcessingService.ItemsFrom<AwaItemsInputDataModel>(migrationConfig.DataSource, "awa_items")
                 .GroupBy(x => x.id)
                 .ToDictionary(x => x.Key, x => x.ToList());
 
             Dictionary<string, string> suppliersInputDicc = this.dataProcessingService
-                .ItemsFrom<AwaSuppliersInputDataModel>("", "awa_suppliers")
+                .ItemsFrom<AwaSuppliersInputDataModel>(migrationConfig.DataSource, "awa_suppliers")
                 .Where(s => adjudicacion.IsMatch(s.id))
                 .DistinctBy(x => x.id)
                 .ToDictionary(x => x.id, x => x.awardsSuppliersId);
 
-            var releases = releasesInput
+            var releases = releasesInput.Where(x => x.buyerId != null)
                 .Where(s => adjudicacion.IsMatch(s.id))
                 .Select(y => new Release
                 {
@@ -159,7 +159,7 @@ namespace CuentasClaras.Controllers.Migration
             Regex adjudicacion = new Regex(@"^adjudicacion-([0-9]+)$", RegexOptions.Compiled);
 
 
-            List<ReleaseInputDataModel> releasesInput = this.dataProcessingService.ItemsFrom<ReleaseInputDataModel>("", "releases");
+            List<ReleaseInputDataModel> releasesInput = this.dataProcessingService.ItemsFrom<ReleaseInputDataModel>(migrationConfig.DataSource, "releases");
 
             var buyers = releasesInput
                 .Where(s => adjudicacion.IsMatch(s.id))
@@ -197,9 +197,7 @@ namespace CuentasClaras.Controllers.Migration
         {
             Regex adjudicacion = new Regex(@"^adjudicacion-([0-9]+)$", RegexOptions.Compiled);
 
-
-            List<AwaItemsInputDataModel> releaseItemsClassification = this.dataProcessingService.ItemsFrom<AwaItemsInputDataModel>("", "awa_items");
-
+            List<AwaItemsInputDataModel> releaseItemsClassification = this.dataProcessingService.ItemsFrom<AwaItemsInputDataModel>(migrationConfig.DataSource, "awa_items");
 
             var classifications = releaseItemsClassification
                 .Where(s => adjudicacion.IsMatch(s.id))
@@ -238,7 +236,7 @@ namespace CuentasClaras.Controllers.Migration
             Regex adjudicacion = new Regex(@"^adjudicacion-([0-9]+)$", RegexOptions.Compiled);
 
 
-            var suppliersSheet = this.dataProcessingService.ItemsFrom<AwaSuppliersInputDataModel>("", "awa_suppliers");
+            var suppliersSheet = this.dataProcessingService.ItemsFrom<AwaSuppliersInputDataModel>(migrationConfig.DataSource, "awa_suppliers");
 
             var suppliers = suppliersSheet
                 .Where(s => adjudicacion.IsMatch(s.id))
@@ -273,7 +271,7 @@ namespace CuentasClaras.Controllers.Migration
         [Route("releases/calculate")]
         public void ReleasesCalculate([FromBody] MigrationConfig migrationConfig)
         {
-            Dictionary<string, decimal> currencies = db.Currencies.ToDictionary(currency => currency.CurrencyCode, currency => currency.ConversionFactorUYU);
+            Dictionary<string, double> currencies = db.Currencies.ToDictionary(currency => currency.CurrencyCode, currency => currency.ConversionFactorUYU);
             var query = db.Releases.Include(release => release.ReleaseItems);
             foreach (var release in query)
             {
@@ -302,7 +300,7 @@ namespace CuentasClaras.Controllers.Migration
             db.SaveChanges();
         }
 
-        private decimal CalculateTotal(Release release, Dictionary<string, decimal> currencies)
+        private double CalculateTotal(Release release, Dictionary<string, double> currencies)
         {
             return release.ReleaseItems.Sum(x =>
             {

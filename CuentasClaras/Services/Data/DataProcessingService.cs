@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -18,9 +19,9 @@ namespace CuentasClaras.Services.Data
             this._hostingEnvironment = hostingEnvironment;
         }
 
-        public List<T> ItemsFrom<T>(string fileName, string sheetName) where T : new()
+        public List<T> ItemsFrom<T>(string dataSource, string sheetName) where T : new()
         {
-            fileName = @"Files\data2018.xlsx";
+            string fileName = $"Files\\{dataSource}.xlsx";
 
             FileInfo file = new FileInfo(Path.Combine(_hostingEnvironment.ContentRootPath, fileName));
             if (!file.Exists)
@@ -54,6 +55,7 @@ namespace CuentasClaras.Services.Data
                 worksheetNodes.Cells["A1"].Value = "Id";
                 worksheetNodes.Cells["B1"].Value = "Label";
                 worksheetNodes.Cells["C1"].Value = "Weight";
+                worksheetNodes.Cells["D1"].Value = "Type";
 
                 worksheetEdges.Cells["A1"].Value = "Source";
                 worksheetEdges.Cells["B1"].Value = "Target";
@@ -69,7 +71,8 @@ namespace CuentasClaras.Services.Data
                     i++;
                     worksheetNodes.Cells[$"A{i}"].Value = node.Id;
                     worksheetNodes.Cells[$"B{i}"].Value = node.Name;
-                    worksheetNodes.Cells[$"C{i}"].Value = CalculateWeight(node.Weight, weightMin, weightMax, 10m, 1000m);
+                    worksheetNodes.Cells[$"C{i}"].Value = CalculateWeight(node.Weight, weightMin, weightMax, 10D, 1000D);
+                    worksheetNodes.Cells[$"D{i}"].Value = node.Type.ToString();
                 }
 
                 int j = 1;
@@ -90,7 +93,8 @@ namespace CuentasClaras.Services.Data
             }
         }
 
-        public decimal CalculateWeight(decimal weight, decimal weightMin, decimal weightMax, decimal a, decimal b) {
+        public double CalculateWeight(double weight, double weightMin, double weightMax, double a, double b)
+        {
             return ((b - a) * (weight - weightMin)) / (weightMax - weightMin) + a;
         }
     }
@@ -197,7 +201,28 @@ namespace CuentasClaras.Services.Data
                                 }
                                 if (col.Property.PropertyType == typeof(DateTime?))
                                 {
-                                    col.Property.SetValue(tnew, val.GetValue<DateTime?>());
+                                    try
+                                    {
+                                        col.Property.SetValue(tnew, val.GetValue<DateTime?>());
+                                    }
+                                    catch (Exception)
+                                    {
+                                        CultureInfo provider = CultureInfo.InvariantCulture;
+                                        //"26/08/2015 15:00"
+                                        try
+                                        {
+                                            DateTime date = DateTime.ParseExact(val.GetValue<string>(), "dd/MM/yyyy HH:mm", provider);
+                                            col.Property.SetValue(tnew, date);
+
+                                        }
+                                        catch (Exception)
+                                        {
+                                            DateTime date = DateTime.ParseExact(val.GetValue<string>(), "dd/MM/yyyy", provider);
+                                            col.Property.SetValue(tnew, date);
+                                        }
+
+                                    }
+
                                     return;
                                 }
                             }

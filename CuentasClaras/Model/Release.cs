@@ -16,7 +16,7 @@ namespace CuentasClaras.Model
         public string Language { get; set; }
         public string Tag { get; set; }
 
-        public int? TenderId { get; set; }
+        public string TenderId { get; set; }
         public string TenderProcurementMethodDetails { get; set; }
         public string TenderProcurementMethod { get; set; }
         public string TenderDescription { get; set; }
@@ -35,7 +35,8 @@ namespace CuentasClaras.Model
         public DateTime Date { get; set; }
         public string InitiationType { get; set; }
         public string Awards { get; set; }
-        public int TotalAmountUYU { get; set; }
+        public double TotalAmountUYU { get; set; }
+        public string DataSource { get; set; }
 
         //FK
         public int? BuyerId { get; set; }
