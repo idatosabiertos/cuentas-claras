@@ -24,27 +24,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   topItems;
   topItemsLoading = true;
 
-  /// TABLES
-  topItemsColumns = [
-    {prop: 'description', name: 'Producto'},
-    {prop: 'totalAmount', name: 'Monto', pipe: this.currencyPipe},
-  ];
-
-  topSuppliersColumns = [
-    {prop: 'name', name: 'Empresa'},
-    {prop: 'totalAmount', name: 'Monto', pipe: this.currencyPipe},
-    {prop: 'quantity', name: 'Cantidad'},
-  ];
-
-  topBuyersColumns = [
-    {prop: 'name', name: 'Organismo'},
-    {prop: 'totalAmount', name: 'Monto', pipe: this.currencyPipe},
-    {prop: 'quantity', name: 'Cantidad'},
-  ];
-
   constructor(private store: Store,
-              private homeStats: HomeStatsService,
-              private currencyPipe: CurrencyPipe) {
+              private homeStats: HomeStatsService) {
 
   }
 

@@ -62,11 +62,26 @@
             class="material"
             [rows]="topBuyers"
             [limit]="10"
-            [columnMode]="'force'"
-            [headerHeight]="50"
+            [columnMode]="'flex'"
+            [rowHeight]="'auto'"
+            [headerHeight]="'auto'"
             [footerHeight]="50"
-            [loadingIndicator]="topBuyersLoading"
-            [columns]="topBuyersColumns">
+            [loadingIndicator]="topBuyersLoading">
+            <ngx-datatable-column prop="name" name="Organismo" [flexGrow]="2">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="totalAmount" name="Monto" [flexGrow]="1">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{value | currency}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="quantity" name="Cantidad de compras" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
           </ngx-datatable>
         </div>
         <div class="col-md-6 my-3" style="text-align:left">
@@ -81,11 +96,21 @@
             class="material"
             [rows]="topItems"
             [limit]="10"
-            [columnMode]="'force'"
-            [headerHeight]="50"
+            [columnMode]="'flex'"
+            [rowHeight]="'auto'"
+            [headerHeight]="'auto'"
             [footerHeight]="50"
-            [loadingIndicator]="topItemsLoading"
-            [columns]="topItemsColumns">
+            [loadingIndicator]="topItemsLoading">
+            <ngx-datatable-column prop="description" name="Producto" [flexGrow]="2">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="totalAmount" name="Monto" [flexGrow]="1">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{value | currency}}
+              </ng-template>
+            </ngx-datatable-column>
           </ngx-datatable>
         </div>
       </div>
@@ -177,16 +202,31 @@
             <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2016</button>
             <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2017</button>
           </div>
-          
+
           <ngx-datatable
             class="material"
             [rows]="topSuppliers"
             [limit]="10"
-            [columnMode]="'force'"
-            [headerHeight]="50"
+            [columnMode]="'flex'"
+            [rowHeight]="'auto'"
+            [headerHeight]="'auto'"
             [footerHeight]="50"
-            [loadingIndicator]="topSuppliersLoading"
-            [columns]="topSuppliersColumns">
+            [loadingIndicator]="topSuppliersLoading">
+            <ngx-datatable-column prop="name" name="Empresa" [flexGrow]="2">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="totalAmount" name="Monto" [flexGrow]="1">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{value | currency}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="quantity" name="Cantidad de compras" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
           </ngx-datatable>
         </div>
       </div>
