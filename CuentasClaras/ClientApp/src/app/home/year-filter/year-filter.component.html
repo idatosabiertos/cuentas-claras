@@ -1,0 +1,10 @@
+<div class="btn-group" role="group">
+  <button mdbBtn type="button"
+          color="primary"
+          class="waves-light"
+          mdbWavesEffect
+          *ngFor="let y of years"
+          [ngClass]="{'active': selected === y}"
+          (click)="selectYear(y)">{{y}}
+  </button>
+</div>

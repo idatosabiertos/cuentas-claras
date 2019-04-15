@@ -3,7 +3,14 @@ import { HomeStatsService } from './home-stats.service';
 import { Subscription } from 'rxjs/index';
 import { CurrencyPipe } from '@angular/common';
 import { Select, Store } from '@ngxs/store';
-import { SetTopBuyersAction, SetTopItemsAction, SetTopSuppliersAction } from './home-state/actions';
+import {
+  SetTopBuyersAction,
+  SetTopBuyersSelectedYearAction,
+  SetTopItemsAction,
+  SetTopItemsSelectedYearAction,
+  SetTopSuppliersAction,
+  SetTopSuppliersSelectedYearAction
+} from './home-state/actions';
 import { HomeState } from './home-state/home.state';
 
 @Component({
@@ -13,6 +20,9 @@ import { HomeState } from './home-state/home.state';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  @Select(HomeState.topBuyersSelectedYear) public topBuyersSelectedYear$;
+  @Select(HomeState.topBuyersSelectedYear) public topSuppliersSelectedYear$;
+  @Select(HomeState.topItemsSelectedYear) public topItemsSelectedYear$;
   @Select(HomeState.topBuyers) private topBuyers$;
   @Select(HomeState.topBuyers) private topSuppliers$;
   @Select(HomeState.topItems) private topItems$;
@@ -23,6 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   topSuppliersLoading = true;
   topItems;
   topItemsLoading = true;
+  years = ['2015', '2016', '2017'];
 
   constructor(private store: Store,
               private homeStats: HomeStatsService) {
@@ -39,13 +50,25 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
+  public topBuyersSelectedYear(year) {
+    this.topBuyersLoading = true;
+    this.store.dispatch([new SetTopBuyersSelectedYearAction(year)]).subscribe(() => this.requestBuyers());
+  }
+
+  public topItemsSelectedYear(year) {
+    this.topItemsLoading = true;
+    this.store.dispatch([new SetTopItemsSelectedYearAction(year)]).subscribe(() => this.requestItems());
+  }
+
+  public topSuppliersSelectedYear(year) {
+    this.topSuppliersLoading = true;
+    this.store.dispatch([new SetTopSuppliersSelectedYearAction(year)]).subscribe(() => this.requestSuppliers());
+  }
+
   private getTopBuyers() {
     const buyersSub = this.topBuyers$.subscribe((topBuyers) => {
       if (!topBuyers) {
-        const topBuyersSub = this.homeStats.getTopBuyers().subscribe((data) => {
-          this.store.dispatch([new SetTopBuyersAction(data)]);
-        });
-        this.subs.add(topBuyersSub);
+        this.requestBuyers();
       }
       else {
         this.topBuyers = topBuyers;
@@ -57,14 +80,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subs.add(buyersSub);
   }
 
+  private requestBuyers() {
+    const selectedYear = this.store.selectSnapshot(HomeState.topBuyersSelectedYear);
+    const topBuyersSub = this.homeStats.getTopBuyers().subscribe((data) => {
+      this.subs.add(this.store.dispatch([new SetTopBuyersAction(data)]).subscribe(() => {
+        this.topBuyersLoading = false;
+      }));
+    });
+    this.subs.add(topBuyersSub);
+  }
+
   private getTopSuppliers() {
     const suppliersSub = this.topSuppliers$.subscribe((topSuppliers) => {
       if (!topSuppliers) {
-        const topSuppliersSub = this.homeStats.getTopSuppliers().subscribe((data) => {
-          this.store.dispatch([new SetTopSuppliersAction(data)]);
-        });
-        this.subs.add(topSuppliersSub);
-
+        this.requestSuppliers();
       } else {
         this.topSuppliers = topSuppliers;
         this.topSuppliersLoading = false;
@@ -75,14 +104,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subs.add(suppliersSub);
   }
 
+  private requestSuppliers() {
+    const selectedYear = this.store.selectSnapshot(HomeState.topSuppliersSelectedYear);
+    const topSuppliersSub = this.homeStats.getTopSuppliers().subscribe((data) => {
+      this.subs.add(this.store.dispatch([new SetTopSuppliersAction(data)]).subscribe(() => {
+        this.topSuppliersLoading = false;
+      }));
+    });
+    this.subs.add(topSuppliersSub);
+  }
+
   private getTopItems() {
     const itemsSub = this.topItems$.subscribe((topItems) => {
       if (!topItems) {
-        const topItemsSub = this.homeStats.getTopItems().subscribe((data) => {
-          this.store.dispatch([new SetTopItemsAction(data)]);
-        });
-        this.subs.add(topItemsSub);
-
+        this.requestItems();
       } else {
         this.topItems = topItems;
         this.topItemsLoading = false;
@@ -91,5 +126,15 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.topItemsLoading = false;
     });
     this.subs.add(itemsSub);
+  }
+
+  private requestItems() {
+    const selectedYear = this.store.selectSnapshot(HomeState.topItemsSelectedYear);
+    const topItemsSub = this.homeStats.getTopItems().subscribe((data) => {
+      this.subs.add(this.store.dispatch([new SetTopItemsAction(data)]).subscribe(() => {
+        this.topItemsLoading = false;
+      }));
+    });
+    this.subs.add(topItemsSub);
   }
 }

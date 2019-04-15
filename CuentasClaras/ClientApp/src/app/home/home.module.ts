@@ -5,9 +5,10 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { YearFilterComponent } from './year-filter/year-filter.component';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, YearFilterComponent],
   providers: [],
   imports: [
     CommonModule,

@@ -52,11 +52,9 @@
       <div class="row">
         <div class="col-md-6 my-3" style="text-align:left">
 
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2015</button>
-            <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2016</button>
-            <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2017</button>
-          </div>
+          <app-year-filter [years]="years" [defaultYear]="topBuyersSelectedYear$ | async"
+                           (selectedYear)="topBuyersSelectedYear($event)">
+          </app-year-filter>
 
           <ngx-datatable
             class="material"
@@ -86,11 +84,9 @@
         </div>
         <div class="col-md-6 my-3" style="text-align:left">
 
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2015</button>
-            <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2016</button>
-            <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2017</button>
-          </div>
+          <app-year-filter [years]="years" [defaultYear]="topItemsSelectedYear$ | async"
+                           (selectedYear)="topItemsSelectedYear($event)">
+          </app-year-filter>
 
           <ngx-datatable
             class="material"
@@ -197,11 +193,9 @@
       <div class="row my-3">
         <div class="col-md-12" style="text-align:left">
 
-          <div class="btn-group" role="group" aria-label="Basic example">
-            <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2015</button>
-            <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2016</button>
-            <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect>2017</button>
-          </div>
+          <app-year-filter [years]="years" [defaultYear]="topSuppliersSelectedYear$ | async"
+                           (selectedYear)="topSuppliersSelectedYear($event)">
+          </app-year-filter>
 
           <ngx-datatable
             class="material"
@@ -306,9 +300,11 @@
         <div class="col-md-11">
         </div>
         <div class="col-md-1">
-          <a href="https://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html" style="color:black; font-size:24px;"><i class="fa fa-expand"></i></a>
+          <a href="https://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html"
+             style="color:black; font-size:24px;"><i class="fa fa-expand"></i></a>
         </div>
-        <iframe src="https://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html" frameborder="0" height="1000" width="1100"></iframe>
+        <iframe src="https://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html" frameborder="0" height="1000"
+                width="1100"></iframe>
       </div>
       <!--Grid column-->
     </div>
@@ -319,44 +315,44 @@
 </div>
 <div class="view intro cc-footer">
   <div class="container">
-      <div class="row mt-5">
-        <div class="col-md-12 wow fadeIn mb-3">
-          <div class="intro-info-content text-center">
-            <h3 class="mb-3 mt-1 white-text bold-400 wow fadeIn" data-wow-delay="0.4s">
-              Cuentas Claras es un proyecto de CÍVICO en colaboración con la diaria. Los datos abiertos utilizados
-              surgen de la Agencia de Contrataciones y Compra del Estado (ACCE).
-            </h3>
-            <div class="container">
+    <div class="row mt-5">
+      <div class="col-md-12 wow fadeIn mb-3">
+        <div class="intro-info-content text-center">
+          <h3 class="mb-3 mt-1 white-text bold-400 wow fadeIn" data-wow-delay="0.4s">
+            Cuentas Claras es un proyecto de CÍVICO en colaboración con la diaria. Los datos abiertos utilizados
+            surgen de la Agencia de Contrataciones y Compra del Estado (ACCE).
+          </h3>
+          <div class="container">
 
-              <div class="row mt-5 home-partners">
-                <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
-                <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
-                  <img src="assets/orgs/civico.png" class="rounded mx-auto">
-                </div>
-                <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
-                  <img src="assets/orgs/ladiaria.png" class="rounded mx-auto">
-                </div>
-                <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
+            <div class="row mt-5 home-partners">
+              <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
+              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
+                <img src="assets/orgs/civico.png" class="rounded mx-auto">
               </div>
-
-              <h3 class="mb-3 mt-1 white-text bold-400 wow fadeIn" data-wow-delay="0.4s">
-                Con el apoyo de Open Contracting
-                Partnership y la Iniciativa Latinoamericana de Datos Abiertos (ILDA)
-              </h3>
-              <div class="row mt-5 home-partners">
-                <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
-                <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
-                  <img src="assets/orgs/ilda.png" class="rounded mx-auto">
-                </div>
-                <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
-                  <img src="assets/orgs/ocp.png" class="rounded mx-auto">
-                </div>
-                <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
+              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
+                <img src="assets/orgs/ladiaria.png" class="rounded mx-auto">
               </div>
-
+              <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
             </div>
+
+            <h3 class="mb-3 mt-1 white-text bold-400 wow fadeIn" data-wow-delay="0.4s">
+              Con el apoyo de Open Contracting
+              Partnership y la Iniciativa Latinoamericana de Datos Abiertos (ILDA)
+            </h3>
+            <div class="row mt-5 home-partners">
+              <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
+              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
+                <img src="assets/orgs/ilda.png" class="rounded mx-auto">
+              </div>
+              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
+                <img src="assets/orgs/ocp.png" class="rounded mx-auto">
+              </div>
+              <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
+            </div>
+
           </div>
         </div>
       </div>
+    </div>
   </div>
 </div>

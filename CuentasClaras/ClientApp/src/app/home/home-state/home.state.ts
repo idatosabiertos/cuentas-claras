@@ -1,9 +1,21 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { HomeStateModel } from './home-state';
-import { SetTopBuyersAction, SetTopItemsAction, SetTopSuppliersAction } from './actions';
+import {
+  SetTopBuyersAction,
+  SetTopBuyersSelectedYearAction,
+  SetTopItemsAction,
+  SetTopItemsSelectedYearAction,
+  SetTopSuppliersAction,
+  SetTopSuppliersSelectedYearAction
+} from './actions';
 
 @State<HomeStateModel>({
-  name: 'home'
+  name: 'home',
+  defaults: {
+    topBuyersSelectedYear: '2017',
+    topItemsSelectedYear: '2017',
+    topSuppliersSelectedYear: '2017'
+  }
 })
 export class HomeState {
   @Selector()
@@ -12,8 +24,18 @@ export class HomeState {
   }
 
   @Selector()
+  public static topBuyersSelectedYear(state: HomeStateModel) {
+    return state.topBuyersSelectedYear;
+  }
+
+  @Selector()
   public static topSuppliers(state: HomeStateModel) {
     return state.topSuppliers;
+  }
+
+  @Selector()
+  public static topSuppliersSelectedYear(state: HomeStateModel) {
+    return state.topSuppliersSelectedYear;
   }
 
   @Selector()
@@ -21,9 +43,19 @@ export class HomeState {
     return state.topItems;
   }
 
+  @Selector()
+  public static topItemsSelectedYear(state: HomeStateModel) {
+    return state.topItemsSelectedYear;
+  }
+
   @Action(SetTopBuyersAction)
-  public SetTopBuyers({patchState}: StateContext<HomeStateModel>, {payload}: SetTopBuyersAction) {
+  public setTopBuyers({patchState}: StateContext<HomeStateModel>, {payload}: SetTopBuyersAction) {
     patchState({topBuyers: payload});
+  }
+
+  @Action(SetTopBuyersSelectedYearAction)
+  public setTopBuyersSelectedYear({patchState}: StateContext<HomeStateModel>, {payload}: SetTopBuyersSelectedYearAction) {
+    patchState({topBuyersSelectedYear: payload});
   }
 
   @Action(SetTopSuppliersAction)
@@ -31,8 +63,18 @@ export class HomeState {
     patchState({topSuppliers: payload});
   }
 
+  @Action(SetTopSuppliersSelectedYearAction)
+  public setTopSuppliersSelectedYear({patchState}: StateContext<HomeStateModel>, {payload}: SetTopSuppliersSelectedYearAction) {
+    patchState({topSuppliersSelectedYear: payload});
+  }
+
   @Action(SetTopItemsAction)
   public setTopItemsAction({patchState}: StateContext<HomeStateModel>, {payload}: SetTopItemsAction) {
     patchState({topItems: payload});
+  }
+
+  @Action(SetTopItemsSelectedYearAction)
+  public setTopItemsSelectedYear({patchState}: StateContext<HomeStateModel>, {payload}: SetTopItemsSelectedYearAction) {
+    patchState({topItemsSelectedYear: payload});
   }
 }
