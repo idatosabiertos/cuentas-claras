@@ -11,8 +11,8 @@ namespace CuentasClaras.Migrations
                      BEGIN
                          SET NOCOUNT ON;
                          SELECT S.BuyerId, S.Name, SUM(R.TotalAmountUYU) as TotalAmountUYU FROM
-                         [cuentasclaras].[dbo].[Releases] as R
-                         JOIN [cuentasclaras].[dbo].[Buyers] as S ON R.BuyerId = S.BuyerId
+                         Releases as R
+                         JOIN Buyers as S ON R.BuyerId = S.BuyerId
                          GROUP BY S.BuyerId, S.Name
                          ORDER BY TotalAmountUYU
                      END";

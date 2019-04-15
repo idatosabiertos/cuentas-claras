@@ -10,9 +10,9 @@ namespace CuentasClaras.Migrations
                      AS
                      BEGIN
                          SET NOCOUNT ON;
-                         SELECT DISTINCT B.BuyerId, S.SupplierId FROM [cuentasclaras].[dbo].[Releases] as R
-                         JOIN[cuentasclaras].[dbo].[Buyers] as B ON R.BuyerId = B.BuyerId
-                         JOIN[cuentasclaras].[dbo].[Suppliers] as S ON R.SupplierId = S.SupplierId
+                         SELECT DISTINCT B.BuyerId, S.SupplierId FROM Releases as R
+                         JOIN Buyers as B ON R.BuyerId = B.BuyerId
+                         JOIN Suppliers as S ON R.SupplierId = S.SupplierId
                          ORDER BY BuyerId, SupplierId
                      END";
 

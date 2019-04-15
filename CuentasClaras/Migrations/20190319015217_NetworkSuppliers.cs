@@ -11,8 +11,8 @@ namespace CuentasClaras.Migrations
                      BEGIN
                          SET NOCOUNT ON;
                          SELECT S.SupplierId, S.Name, SUM(R.TotalAmountUYU) as TotalAmountUYU FROM
-                         [cuentasclaras].[dbo].[Releases] as R
-                         JOIN [cuentasclaras].[dbo].[Suppliers] as S ON R.SupplierId = S.SupplierId
+                         Releases as R
+                         JOIN Suppliers as S ON R.SupplierId = S.SupplierId
                          GROUP BY S.SupplierId, S.Name
                          ORDER BY TotalAmountUYU
                      END";

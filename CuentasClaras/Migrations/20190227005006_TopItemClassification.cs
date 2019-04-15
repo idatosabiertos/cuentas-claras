@@ -17,7 +17,7 @@ namespace CuentasClaras.Migrations
                         (SELECT
 	                        R.ReleaseItemClassificationId as ReleaseItemClassificationId,
 	                        SUM(R.UnitValueAmount * Quantity) as TotalAmount
-                        FROM [cuentasclaras].[dbo].[ReleaseItems] as R
+                        FROM ReleaseItems as R
                         GROUP BY R.ReleaseItemClassificationId, R.UnitName) as T
                         INNER JOIN ReleaseItemClassifications as C on 
 		                            C.ReleaseItemClassificationId = T.ReleaseItemClassificationId
