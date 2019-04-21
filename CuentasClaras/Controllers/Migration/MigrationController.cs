@@ -1,4 +1,5 @@
-﻿using CuentasClaras.Api.Migration;
+﻿using CuentasClaras.Api.Codes;
+using CuentasClaras.Api.Migration;
 using CuentasClaras.InputDataModel;
 using CuentasClaras.Model;
 using CuentasClaras.Services;
@@ -104,7 +105,7 @@ namespace CuentasClaras.Controllers.Migration
                             CurrencyCode = x.awardsItemsUnitValueCurrency
                         };
                     }).ToList(),
-                    BuyerId = buyersDicc[y.buyerId].BuyerId,
+                    BuyerId = buyersDicc[TranslatorSectionToGroupingCode.GetBuyer(y.buyerId, null).BuyerExternalId].BuyerId,
                     SupplierId = getSupplierId(suppliersInputDicc, suppliersDicc, y),
                     TotalAmountUYU = getReleaseItems(releaseItemsInputDicc, y.id).Sum(x => x.awardsItemsQuantity * x.awardsItemsUnitValueAmount)
                 });
@@ -162,13 +163,9 @@ namespace CuentasClaras.Controllers.Migration
             List<ReleaseInputDataModel> releasesInput = this.dataProcessingService.ItemsFrom<ReleaseInputDataModel>(migrationConfig.DataSource, "releases");
 
             var buyers = releasesInput
-                .Where(s => adjudicacion.IsMatch(s.id))
-                .DistinctBy(d => d.buyerId)
-                .Select(y => new Buyer
-                {
-                    BuyerExternalId = y.buyerId,
-                    Name = y.buyerName
-                });
+                .Where(s => adjudicacion.IsMatch(s.id) && s.buyerId != null)
+                .Select(x => TranslatorSectionToGroupingCode.GetBuyer(x))
+                .DistinctBy(d => d.BuyerExternalId).ToList();
 
 
             if (migrationConfig.CheckIfExists)

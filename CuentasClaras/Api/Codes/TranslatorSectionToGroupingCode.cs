@@ -1,7 +1,7 @@
-﻿using System;
+﻿using CuentasClaras.InputDataModel;
+using CuentasClaras.Model;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CuentasClaras.Api.Codes
 {
@@ -97,6 +97,7 @@ namespace CuentasClaras.Api.Codes
             { 18, 4},
             { 19, 4},
 
+            { 24, 2},
             { 25, 6},
             { 26, 6},
             { 27, 5},
@@ -157,5 +158,41 @@ namespace CuentasClaras.Api.Codes
             set { shortList = value; }
         }
 
+        public static Buyer GetBuyer(string buyerExternalId, string name)
+        {
+            string[] ids = buyerExternalId.Split("-");
+
+            if (ids.Length < 2)
+                return new Buyer()
+                {
+                    BuyerExternalId = buyerExternalId,
+                    Name = name
+                };
+
+            //INCISO
+            int section = Int32.Parse(ids[0]);
+            //UNIDAD
+            int unit = Int32.Parse(ids[1]);
+
+            if (longList.ContainsKey(section))
+            {
+                return new Buyer()
+                {
+                    BuyerExternalId = longList[section].ToString(),
+                    Name = GroupingCodesLongList.Items[longList[section]]
+                };
+            }
+            else
+            {
+                return new Buyer()
+                {
+                    BuyerExternalId = buyerExternalId,
+                    Name = name
+                };
+            }
+        }
+        public static Buyer GetBuyer(ReleaseInputDataModel input) {
+            return GetBuyer(input.buyerId, input.buyerName);
+        }
     }
 }
