@@ -20,7 +20,7 @@ GexfJS.setParams({
         /*
             Default zoom level. At zoom = 0, the graph should fill a 800x700px zone
          */
-    curvedEdges : true,
+    curvedEdges : false,
         /*
             False for curved edges, true for straight edges
             this setting can't be changed from the User Interface
@@ -44,12 +44,12 @@ GexfJS.setParams({
             Enable the replacement of Urls by Hyperlinks
             this setting can't be changed from the User Interface
         */
-    showEdgeWeight : true,
+    showEdgeWeight : false,
         /*
             Show the weight of edges in the list
             this setting can't be changed from the User Interface
         */
-    showEdgeLabel : true,
+    showEdgeLabel : false,
     sortNodeAttributes: true,
         /*
             Alphabetically sort node attributes
@@ -59,7 +59,7 @@ GexfJS.setParams({
             Show the id of the node in the list
             this setting can't be changed from the User Interface
         */
-    showEdgeArrow : true,
+    showEdgeArrow : false,
         /*
             Show the edge arrows when the edge is directed
             this setting can't be changed from the User Interface

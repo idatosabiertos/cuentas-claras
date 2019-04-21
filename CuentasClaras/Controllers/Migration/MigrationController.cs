@@ -272,7 +272,8 @@ namespace CuentasClaras.Controllers.Migration
             var query = db.Releases.Include(release => release.ReleaseItems);
             foreach (var release in query)
             {
-                release.TotalAmountUYU = (int)CalculateTotal(release, currencies);
+                int total = (int)CalculateTotal(release, currencies);
+                release.TotalAmountUYU = total < 0 ? 0 : total;
             }
 
             db.SaveChanges();

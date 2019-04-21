@@ -71,7 +71,7 @@ namespace CuentasClaras.Services.Data
                     i++;
                     worksheetNodes.Cells[$"A{i}"].Value = node.Id;
                     worksheetNodes.Cells[$"B{i}"].Value = node.Name;
-                    worksheetNodes.Cells[$"C{i}"].Value = CalculateWeight(node.Weight, weightMin, weightMax, 10D, 1000D);
+                    worksheetNodes.Cells[$"C{i}"].Value = (int) CalculateWeight(node.Weight, weightMin, weightMax, 10D, 1000D);
                     worksheetNodes.Cells[$"D{i}"].Value = node.Type.ToString();
                 }
 
