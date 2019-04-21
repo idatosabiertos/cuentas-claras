@@ -1,4 +1,5 @@
 ﻿using CuentasClaras.Api.Codes;
+using CuentasClaras.Api.Migration;
 using CuentasClaras.Api.Stats;
 using CuentasClaras.Model;
 using CuentasClaras.Services.Data;
@@ -112,9 +113,9 @@ namespace CuentasClaras.Controllers.Stats
             return ret;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("network")]
-        public object GetNetwork()
+        public object GetNetwork([FromBody] MigrationConfig migrationConfig)
         {
             List<NetworkEdge> networkEdge = new List<NetworkEdge>();
             List<NetworkBuyer> networkBuyer = new List<NetworkBuyer>();
@@ -146,9 +147,9 @@ namespace CuentasClaras.Controllers.Stats
                         while (result.Read())
                         {
                             var item = new NetworkBuyer();
-                            item.BuyerId = (string)result[0];
+                            item.BuyerId = ((int)result[0]).ToString();
                             item.Name = (string)result[1];
-                            item.TotalAmountUYU = (int)result[2];
+                            item.TotalAmountUYU = (double)result[2];
                             networkBuyer.Add(item);
                         }
                     }
@@ -165,7 +166,7 @@ namespace CuentasClaras.Controllers.Stats
                             var item = new NetworkSupplier();
                             item.SupplierId = (int)result[0];
                             item.Name = (string)result[1];
-                            item.TotalAmountUYU = (int)result[2];
+                            item.TotalAmountUYU = (double)result[2];
                             networkSupplier.Add(item);
                         }
                     }
@@ -173,7 +174,7 @@ namespace CuentasClaras.Controllers.Stats
             }
 
             var nodes = networkSupplier.Cast<INetworkNode>().Concat(networkBuyer.Cast<INetworkNode>());
-            this.dataProccessingService.ExportFile("prueba1.xlsx", nodes, networkEdge);
+            this.dataProccessingService.ExportFile($"network-{migrationConfig.DataSource}.xlsx", nodes, networkEdge);
 
             return new { suppliers = networkSupplier, buyers = networkBuyer, edges = networkEdge };
         }
