@@ -20,7 +20,7 @@ GexfJS.setParams({
         /*
             Default zoom level. At zoom = 0, the graph should fill a 800x700px zone
          */
-    curvedEdges : false,
+    curvedEdges : true,
         /*
             False for curved edges, true for straight edges
             this setting can't be changed from the User Interface
