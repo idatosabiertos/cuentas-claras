@@ -102,7 +102,7 @@ namespace CuentasClaras.Controllers.Migration
                             UnitId = x.awardsItemsUnitId,
                             UnitName = x.awardsItemsUnitName,
                             UnitValueAmount = x.awardsItemsUnitValueAmount,
-                            CurrencyCode = x.awardsItemsUnitValueCurrency
+                            CurrencyCode = x.awardsItemsUnitValueCurrency,
                         };
                     }).ToList(),
                     BuyerId = buyersDicc[TranslatorSectionToGroupingCode.GetBuyer(y.buyerId, null).BuyerExternalId].BuyerId,
