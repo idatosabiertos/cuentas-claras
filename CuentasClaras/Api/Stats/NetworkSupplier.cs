@@ -14,6 +14,6 @@ namespace CuentasClaras.Api.Stats
         public string Id => $"SUPPLIER-{SupplierId}";
         public double Weight => TotalAmountUYU;
 
-        public NetworkNodeTypes Type => NetworkNodeTypes.Supplier;
+        public String Type => NetworkNodeTypes.Supplier.ToString();
     }
 }

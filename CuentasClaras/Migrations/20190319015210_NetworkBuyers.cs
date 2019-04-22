@@ -10,10 +10,10 @@ namespace CuentasClaras.Migrations
                      AS
                      BEGIN
                          SET NOCOUNT ON;
-                         SELECT S.BuyerId, S.Name, SUM(R.TotalAmountUYU) as TotalAmountUYU FROM
+                         SELECT S.BuyerId, S.Name, S.Type, SUM(R.TotalAmountUYU) as TotalAmountUYU FROM
                          Releases as R
                          JOIN Buyers as S ON R.BuyerId = S.BuyerId
-                         GROUP BY S.BuyerId, S.Name
+                         GROUP BY S.BuyerId, S.Name, S.Type
                          ORDER BY TotalAmountUYU
                      END";
 

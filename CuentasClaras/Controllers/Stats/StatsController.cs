@@ -147,8 +147,8 @@ namespace CuentasClaras.Controllers.Stats
                             var item = new NetworkBuyer();
                             item.BuyerId = ((int)result[0]).ToString();
                             item.Name = (string)result[1];
-                            item.TotalAmountUYU = (double)result[2];
-
+                            item.Type = (string)result[2];
+                            item.TotalAmountUYU = (double)result[3];
                             if (item.TotalAmountUYU >= 0)
                                 networkBuyer.Add(item);
                         }

@@ -10,7 +10,7 @@ namespace CuentasClaras.Api.Stats
         string Id { get; }
         string Name { get; }
         double Weight { get; }
-        NetworkNodeTypes Type { get; }
+        string Type { get; }
         
     }
 

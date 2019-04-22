@@ -105,13 +105,24 @@ namespace CuentasClaras.Controllers.Migration
                             CurrencyCode = x.awardsItemsUnitValueCurrency,
                         };
                     }).ToList(),
-                    BuyerId = buyersDicc[TranslatorSectionToGroupingCode.GetBuyer(y.buyerId, null).BuyerExternalId].BuyerId,
+                    BuyerId = getBuyerId(buyersDicc, y.buyerId),
                     SupplierId = getSupplierId(suppliersInputDicc, suppliersDicc, y),
                     TotalAmountUYU = getReleaseItems(releaseItemsInputDicc, y.id).Sum(x => x.awardsItemsQuantity * x.awardsItemsUnitValueAmount)
                 });
 
             this.db.AddRange(releases);
             this.db.SaveChanges();
+        }
+
+        private int getBuyerId(Dictionary<string, Buyer> buyersDicc, string buyerIdExternal) {
+            string[] ids = buyerIdExternal.Split("-");
+            int section = Int32.Parse(ids[0]); //INCISO
+            int unit = Int32.Parse(ids[1]); //UNIDAD EJECUTORA
+
+            if (buyersDicc.ContainsKey(section.ToString()))
+                return buyersDicc[section.ToString()].BuyerId;
+            else
+                return buyersDicc[buyerIdExternal].BuyerId;
         }
 
         private List<AwaItemsInputDataModel> getReleaseItems(Dictionary<string, List<AwaItemsInputDataModel>> releaseItemsInputDicc, string id)
@@ -159,33 +170,47 @@ namespace CuentasClaras.Controllers.Migration
         {
             Regex adjudicacion = new Regex(@"^adjudicacion-([0-9]+)$", RegexOptions.Compiled);
 
-
             List<ReleaseInputDataModel> releasesInput = this.dataProcessingService.ItemsFrom<ReleaseInputDataModel>(migrationConfig.DataSource, "releases");
 
             var buyers = releasesInput
                 .Where(s => adjudicacion.IsMatch(s.id) && s.buyerId != null)
-                .Select(x => TranslatorSectionToGroupingCode.GetBuyer(x))
-                .DistinctBy(d => d.BuyerExternalId).ToList();
+                .DistinctBy(d => d.buyerId).ToList();
 
+            List<Buyer> buyersToAdd = new List<Buyer>();
 
-            if (migrationConfig.CheckIfExists)
+            foreach (var b in buyers)
             {
-                List<Buyer> buyersToAdd = new List<Buyer>();
+                string[] ids = b.buyerId.Split("-");
+                int section = Int32.Parse(ids[0]); //INCISO
+                int unit = Int32.Parse(ids[1]); //UNIDAD EJECUTORA
 
-                foreach (var item in buyers)
+                if (!this.db.Buyers.Any(x => x.BuyerExternalId == section.ToString() || x.BuyerExternalId == b.buyerId))
                 {
-                    if (!this.db.Buyers.Any(x => x.Name == item.Name))
-                        buyersToAdd.Add(item);
+                    Buyer buyer = new Buyer();
+                    buyer.BuyerExternalId = b.buyerId;
+                    buyer.Name = b.buyerName;
+                    buyersToAdd.Add(buyer);
                 }
+            }
 
-                this.db.Buyers.AddRange(buyersToAdd);
-                this.db.SaveChanges();
-            }
-            else
+            this.db.Buyers.AddRange(buyersToAdd);
+            this.db.SaveChanges();
+        }
+
+        [HttpPost]
+        [Route("sections")]
+        public void Sections() {
+
+            var buyers = db.Buyers.Select(x => x);
+
+            foreach (var buyer in buyers)
             {
-                this.db.Buyers.AddRange(buyers);
-                this.db.SaveChanges();
+                var aux = buyer.BuyerExternalId.Split("-");
+                int buyerExternalId = Int32.Parse(aux[0]);
+                buyer.Type = GroupingCodesLongList.Items[TranslatorSectionToGroupingCode.LongList[buyerExternalId]];
             }
+
+            db.SaveChanges();
         }
 
         [HttpPost()]
@@ -290,7 +315,8 @@ namespace CuentasClaras.Controllers.Migration
                 {
                     var currency = db.Currencies.Find(currencyCode);
                     if (currency == null)
-                        db.Currencies.Add(new Currency() {
+                        db.Currencies.Add(new Currency()
+                        {
                             CurrencyCode = currencyCode
                         });
                 }

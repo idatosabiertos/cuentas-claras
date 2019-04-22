@@ -12,7 +12,7 @@ namespace CuentasClaras.Model
         public int BuyerId { get; set; }
         public string Name { get; set; }
         public string BuyerExternalId { get; set; }
-
+        public string Type { get; set; }
         public List<Release> Releases { get; set; }
     }
 }
