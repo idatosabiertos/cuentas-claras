@@ -252,7 +252,7 @@ namespace CuentasClaras.Services.Data
 
         public static string FormatColumn(string column)
         {
-            return Regex.Replace(column, "(/|[0-9])", "").ToLower();
+            return Regex.Replace(column, "(/|[0-9.])", "").ToLower();
         }
     }
 }
