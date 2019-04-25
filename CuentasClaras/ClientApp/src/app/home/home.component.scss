@@ -3,6 +3,22 @@
   font-weight: 500;
 }
 
+.pbi-box {
+  border: 2px solid black;
+  font-weight: bold;
+  text-align: left;
+  padding: 3px;
+}
+
+.home-background {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#007ecc+0,00639c+0,003f64+23,00578a+93,0069a6+100 */
+  background: #007ecc; /* Old browsers */
+  background: -moz-linear-gradient(left, #007ecc 0%, #00639c 0%, #003f64 23%, #00578a 93%, #0069a6 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #007ecc 0%, #00639c 0%, #003f64 23%, #00578a 93%, #0069a6 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #007ecc 0%, #00639c 0%, #003f64 23%, #00578a 93%, #0069a6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#007ecc', endColorstr='#0069a6', GradientType=1); /* IE6-9 */
+}
+
 .home-app-name-2 {
   color: white;
   font-weight: 500;
@@ -36,8 +52,11 @@
 }
 
 .home-intro-text {
-  padding: 20px 10px;
-  color: #666666;
+  padding: 60px 20px 10px 10px;
+}
+
+h3 {
+  font-size: 23px !important;
 }
 
 .think-text {
@@ -51,9 +70,4 @@
   i {
     font-size: 35px;
   }
-}
-
-.cc-footer {
-  background-color: #187ac8;
-  background-attachment: fixed;
 }

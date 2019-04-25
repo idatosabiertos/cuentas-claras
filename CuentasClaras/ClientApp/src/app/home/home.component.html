@@ -1,17 +1,15 @@
-<div class="view intro"
-     style="background-color: #bfdbf0; background-attachment: fixed; background-size: cover; min-height: 400px;  filter: alpha(opacity=50)">
+<div class="view intro white-text home-background"
+     style="min-height: 400px;  filter: alpha(opacity=50)">
   <div class="full-bg-img mask rgba-pink-slight">
   </div>
 
   <div class="row mt-5">
     <div class="col-md-12 wow fadeIn mb-3">
       <div class="intro-info-content text-center">
-        <img src="assets/horizontal.svg" class="rounded mx-auto d-block img-fluid home-logo" data-wow-delay="0.3s">
+        <h1 class="bold-800"> CUENTAS CLARAS</h1>
         <div class="home-intro-text container">
           <h3 class="bold-400 font-up mb-3 mt-1 font-bold wow fadeIn font-bold" data-wow-delay="0.4s">
             ¿Qué compro y cuánto gastó el Estado uruguayo en los últimos años?
-          </h3>
-          <h3 class="bold-400 font-up mb-3 mt-1 font-bold wow fadeIn font-bold" data-wow-delay="0.4s">
             ¿Qué tan transparentes son los organismos públicos en la publicación de esta información?
           </h3>
           <h3 class="bold-800 font-up mb-3 mt-1 font-bold wow fadeIn font-bold" data-wow-delay="0.4s">
@@ -22,6 +20,39 @@
       </div>
     </div>
   </div>
+  <div class="container">
+
+    <div class="row">
+      <div class="col-md-12 wow fadeIn mb-3">
+        <div class="intro-info-content text-center">
+          <h3 class="mb-3 mt-1 bold-400 wow fadeIn" data-wow-delay="0.4s">
+            Cuentas Claras es un proyecto de CÍVICO en colaboración con la diaria, con el apoyo de Open Contracting
+            Partnership y la Iniciativa Latinoamericana de Datos Abiertos (ILDA). Los datos abiertos utilizados surgen
+            de la Agencia de Contrataciones y Compra del Estado (ACCE).
+          </h3>
+          <div class="container">
+
+            <div class="row mt-5 home-partners">
+              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
+                <img src="assets/orgs/civico.png" class="rounded mx-auto">
+              </div>
+              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
+                <img src="assets/orgs/ladiaria.png" class="rounded mx-auto">
+              </div>
+              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
+                <img src="assets/orgs/ilda.png" class="rounded mx-auto">
+              </div>
+              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
+                <img src="assets/orgs/ocp.png" class="rounded mx-auto">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 
@@ -42,10 +73,21 @@
         las empresas, alcanzando resultados más eficientes.
       </p>
       <h3 class="h1 font-bold mb-3">¿Qué y quién?</h3>
-      <p align="justify">
-        En 2017, las compras y contrataciones del Estado uruguayo alcanzaron los $XXX.000.000 pesos.
-        Esto representa un XX% del PBI de ese año.
 
+      <div class="row">
+        <div class="col-md-8" style="padding-right: 2px">
+          <p align="justify">
+            En 2018, las compras y contrataciones del Estado uruguayo alcanzaron los $19.354,78 millones de pesos.
+          </p>
+        </div>
+
+        <div class="col-md-4" style="padding-left: 2px">
+          <p class="pbi-box">
+            Esto representa un 5% del Presupuesto Nacional de ese año.
+          </p>
+        </div>
+      </div>
+      <p align="justify">
         ¿Cuáles fueron los productos más adquiridos? Esto es el top cinco de organismos más compradores en 2017 y los
         artículos más comprados por el Estado uruguayo.
       </p>
@@ -59,7 +101,7 @@
           <ngx-datatable
             class="material"
             [rows]="topBuyers"
-            [limit]="10"
+            [limit]="5"
             [columnMode]="'flex'"
             [rowHeight]="'auto'"
             [headerHeight]="'auto'"
@@ -91,7 +133,7 @@
           <ngx-datatable
             class="material"
             [rows]="topItems"
-            [limit]="10"
+            [limit]="5"
             [columnMode]="'flex'"
             [rowHeight]="'auto'"
             [headerHeight]="'auto'"
@@ -200,7 +242,7 @@
           <ngx-datatable
             class="material"
             [rows]="topSuppliers"
-            [limit]="10"
+            [limit]="5"
             [columnMode]="'flex'"
             [rowHeight]="'auto'"
             [headerHeight]="'auto'"
@@ -311,48 +353,5 @@
     <!--Grid row-->
 
 
-  </div>
-</div>
-<div class="view intro cc-footer">
-  <div class="container">
-    <div class="row mt-5">
-      <div class="col-md-12 wow fadeIn mb-3">
-        <div class="intro-info-content text-center">
-          <h3 class="mb-3 mt-1 white-text bold-400 wow fadeIn" data-wow-delay="0.4s">
-            Cuentas Claras es un proyecto de CÍVICO en colaboración con la diaria. Los datos abiertos utilizados
-            surgen de la Agencia de Contrataciones y Compra del Estado (ACCE).
-          </h3>
-          <div class="container">
-
-            <div class="row mt-5 home-partners">
-              <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
-              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
-                <img src="assets/orgs/civico.png" class="rounded mx-auto">
-              </div>
-              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
-                <img src="assets/orgs/ladiaria.png" class="rounded mx-auto">
-              </div>
-              <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
-            </div>
-
-            <h3 class="mb-3 mt-1 white-text bold-400 wow fadeIn" data-wow-delay="0.4s">
-              Con el apoyo de Open Contracting
-              Partnership y la Iniciativa Latinoamericana de Datos Abiertos (ILDA)
-            </h3>
-            <div class="row mt-5 home-partners">
-              <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
-              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
-                <img src="assets/orgs/ilda.png" class="rounded mx-auto">
-              </div>
-              <div class="col-lg-3  col-md-6 wow fadeIn mb-3">
-                <img src="assets/orgs/ocp.png" class="rounded mx-auto">
-              </div>
-              <div class="col-lg-3 .d-none .d-lg-block .d-xl-none"></div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
