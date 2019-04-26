@@ -6,6 +6,7 @@ import {
   SetTopItemsAction,
   SetTopItemsSelectedYearAction,
   SetTopSuppliersAction,
+  SetNetworkSelectedYearAction,
   SetTopSuppliersSelectedYearAction
 } from './actions';
 
@@ -14,7 +15,8 @@ import {
   defaults: {
     topBuyersSelectedYear: '2017',
     topItemsSelectedYear: '2017',
-    topSuppliersSelectedYear: '2017'
+    topSuppliersSelectedYear: '2017',
+    networkSelectedYear: '2017'
   }
 })
 export class HomeState {
@@ -31,6 +33,11 @@ export class HomeState {
   @Selector()
   public static topSuppliers(state: HomeStateModel) {
     return state.topSuppliers;
+  }
+
+  @Selector()
+  public static networkSelectedYear(state: HomeStateModel) {
+    return state.networkSelectedYear;
   }
 
   @Selector()
@@ -76,5 +83,10 @@ export class HomeState {
   @Action(SetTopItemsSelectedYearAction)
   public setTopItemsSelectedYear({patchState}: StateContext<HomeStateModel>, {payload}: SetTopItemsSelectedYearAction) {
     patchState({topItemsSelectedYear: payload});
+  }
+
+  @Action(SetNetworkSelectedYearAction)
+  public setNetworSelectedYear({patchState}: StateContext<HomeStateModel>, {payload}: SetNetworkSelectedYearAction) {
+    patchState({networkSelectedYear: payload});
   }
 }

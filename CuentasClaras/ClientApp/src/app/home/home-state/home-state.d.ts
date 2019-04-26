@@ -5,4 +5,5 @@ export type HomeStateModel = {
   topSuppliersSelectedYear?: string;
   topItems?: any;
   topItemsSelectedYear?: string;
+  networkSelectedYear?: string;
 };

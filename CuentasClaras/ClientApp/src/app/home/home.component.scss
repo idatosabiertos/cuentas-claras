@@ -28,6 +28,10 @@
   font-weight: 400;
 }
 
+.bold-600 {
+  font-weight: 600;
+}
+
 .bold-800 {
   font-weight: 800;
 }
@@ -36,11 +40,17 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  img {
+    width: 220px;
+    height: auto;
+    object-fit: scale-down;
+  }
 }
 
 .think-emoji {
+  padding-right: 0px;
   span {
-    font-size: 35px;
+    font-size: 45px;
     vertical-align: middle;
     line-height: 2;
   }
@@ -60,9 +70,10 @@ h3 {
 }
 
 .think-text {
+  padding-left: 0px;
   p {
     text-align: left;
-    padding: 10px;
+    padding: 15px 10px;
   }
 }
 

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/index';
 import { CurrencyPipe } from '@angular/common';
 import { Select, Store } from '@ngxs/store';
 import {
+  SetNetworkSelectedYearAction,
   SetTopBuyersAction,
   SetTopBuyersSelectedYearAction,
   SetTopItemsAction,
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   @Select(HomeState.topBuyersSelectedYear) public topBuyersSelectedYear$;
   @Select(HomeState.topBuyersSelectedYear) public topSuppliersSelectedYear$;
   @Select(HomeState.topItemsSelectedYear) public topItemsSelectedYear$;
+  @Select(HomeState.networkSelectedYear) public networkSelectedYear$;
   @Select(HomeState.topBuyers) private topBuyers$;
   @Select(HomeState.topBuyers) private topSuppliers$;
   @Select(HomeState.topItems) private topItems$;
@@ -63,6 +65,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   public topSuppliersSelectedYear(year) {
     this.topSuppliersLoading = true;
     this.store.dispatch([new SetTopSuppliersSelectedYearAction(year)]).subscribe(() => this.requestSuppliers());
+  }
+
+  public networkSelectedYear(year) {
+    ///replace true with logic to select network
+    this.store.dispatch([new SetNetworkSelectedYearAction(year)]).subscribe(() => true);
   }
 
   private getTopBuyers() {

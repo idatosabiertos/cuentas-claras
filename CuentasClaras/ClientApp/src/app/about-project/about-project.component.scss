@@ -5,3 +5,13 @@
     height: 60px;
   }
 }
+
+.list-unstyled {
+  a {
+    color: #3c8cde;
+    &:hover {
+      color: darken(#3c8cde, 20%);
+    }
+  }
+
+}

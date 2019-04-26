@@ -31,9 +31,9 @@
   background-color: #184675 !important;
 }
 
-.datatable-header-cell-wrapper {
+.datatable-header-cell-wrapper, table th {
   color: #ff5200 !important;
-  font-size: 16px;
+  font-size: 16px !important;
 }
 
 body {
