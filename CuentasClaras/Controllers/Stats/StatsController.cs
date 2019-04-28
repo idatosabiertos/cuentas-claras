@@ -5,6 +5,8 @@ using CuentasClaras.Services.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace CuentasClaras.Controllers.Stats
@@ -24,14 +26,17 @@ namespace CuentasClaras.Controllers.Stats
 
         [HttpGet]
         [Route("top-suppliers")]
-        public List<TopSupplier> GetTopSupplier()
+        public List<TopSupplier> GetTopSupplier([FromQuery(Name = "year")] string dataSource)
         {
             List<TopSupplier> ret = new List<TopSupplier>();
 
             using (db)
             using (var command = db.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "EXEC	TopSuppliers";
+                command.CommandText = "TopSuppliers";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@datasource", dataSource));
+
                 db.Database.OpenConnection();
                 using (var result = command.ExecuteReader())
                 {
@@ -54,14 +59,17 @@ namespace CuentasClaras.Controllers.Stats
 
         [HttpGet]
         [Route("top-buyers")]
-        public List<TopBuyer> GetTopBuyers()
+        public List<TopBuyer> GetTopBuyers([FromQuery(Name = "year")] string dataSource)
         {
             List<TopBuyer> ret = new List<TopBuyer>();
 
             using (db)
             using (var command = db.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "EXEC	TopBuyers";
+                command.CommandText = "TopBuyers";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@datasource", dataSource));
+
                 db.Database.OpenConnection();
                 using (var result = command.ExecuteReader())
                 {
@@ -84,14 +92,17 @@ namespace CuentasClaras.Controllers.Stats
 
         [HttpGet]
         [Route("top-items")]
-        public List<TopItemClassification> GetTopItemClassification()
+        public List<TopItemClassification> GetTopItemClassification([FromQuery(Name = "year")] string dataSource)
         {
             List<TopItemClassification> ret = new List<TopItemClassification>();
 
             using (db)
             using (var command = db.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "EXEC	TopItemClassification";
+                command.CommandText = "TopItemClassification";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@datasource", dataSource));
+
                 db.Database.OpenConnection();
                 using (var result = command.ExecuteReader())
                 {
@@ -115,6 +126,8 @@ namespace CuentasClaras.Controllers.Stats
         [Route("network")]
         public object GetNetwork([FromBody] MigrationConfig migrationConfig)
         {
+            string dataSource = migrationConfig.DataSource;
+
             List<NetworkEdge> networkEdge = new List<NetworkEdge>();
             List<NetworkBuyer> networkBuyer = new List<NetworkBuyer>();
             List<NetworkSupplier> networkSupplier = new List<NetworkSupplier>();
@@ -123,7 +136,10 @@ namespace CuentasClaras.Controllers.Stats
             {
                 using (var command = db.Database.GetDbConnection().CreateCommand())
                 {
-                    command.CommandText = "EXEC	NetworkEdges";
+                    command.CommandText = "NetworkEdges";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@datasource", dataSource));
+
                     db.Database.OpenConnection();
                     using (var result = command.ExecuteReader())
                     {
@@ -138,7 +154,10 @@ namespace CuentasClaras.Controllers.Stats
                 }
                 using (var command = db.Database.GetDbConnection().CreateCommand())
                 {
-                    command.CommandText = "EXEC	NetworkBuyers";
+                    command.CommandText = "NetworkBuyers";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@datasource", dataSource));
+
                     db.Database.OpenConnection();
                     using (var result = command.ExecuteReader())
                     {
@@ -157,7 +176,10 @@ namespace CuentasClaras.Controllers.Stats
 
                 using (var command = db.Database.GetDbConnection().CreateCommand())
                 {
-                    command.CommandText = "EXEC	NetworkSuppliers";
+                    command.CommandText = "NetworkSuppliers";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@datasource", dataSource));
+
                     db.Database.OpenConnection();
                     using (var result = command.ExecuteReader())
                     {

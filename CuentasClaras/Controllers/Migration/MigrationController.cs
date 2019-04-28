@@ -107,14 +107,16 @@ namespace CuentasClaras.Controllers.Migration
                     }).ToList(),
                     BuyerId = getBuyerId(buyersDicc, y.buyerId),
                     SupplierId = getSupplierId(suppliersInputDicc, suppliersDicc, y),
-                    TotalAmountUYU = getReleaseItems(releaseItemsInputDicc, y.id).Sum(x => x.awardsItemsQuantity * x.awardsItemsUnitValueAmount)
+                    TotalAmountUYU = getReleaseItems(releaseItemsInputDicc, y.id).Sum(x => x.awardsItemsQuantity * x.awardsItemsUnitValueAmount),
+                    DataSource = migrationConfig.DataSource
                 });
 
             this.db.AddRange(releases);
             this.db.SaveChanges();
         }
 
-        private int getBuyerId(Dictionary<string, Buyer> buyersDicc, string buyerIdExternal) {
+        private int getBuyerId(Dictionary<string, Buyer> buyersDicc, string buyerIdExternal)
+        {
             string[] ids = buyerIdExternal.Split("-");
             int section = Int32.Parse(ids[0]); //INCISO
             int unit = Int32.Parse(ids[1]); //UNIDAD EJECUTORA
@@ -199,7 +201,8 @@ namespace CuentasClaras.Controllers.Migration
 
         [HttpPost]
         [Route("sections")]
-        public void Sections() {
+        public void Sections()
+        {
 
             var buyers = db.Buyers.Select(x => x);
 
@@ -231,24 +234,16 @@ namespace CuentasClaras.Controllers.Migration
                 });
 
 
-            if (migrationConfig.CheckIfExists)
-            {
-                List<ReleaseItemClassification> classificationsToAdd = new List<ReleaseItemClassification>();
+            List<ReleaseItemClassification> classificationsToAdd = new List<ReleaseItemClassification>();
 
-                foreach (var item in classifications)
-                {
-                    if (!this.db.ReleaseItemClassifications.Any(x => x.Description == item.Description))
-                        classificationsToAdd.Add(item);
-                }
-
-                this.db.ReleaseItemClassifications.AddRange(classificationsToAdd);
-                this.db.SaveChanges();
-            }
-            else
+            foreach (var item in classifications)
             {
-                this.db.ReleaseItemClassifications.AddRange(classifications);
-                this.db.SaveChanges();
+                if (!this.db.ReleaseItemClassifications.Any(x => x.ReleaseItemClassificationExternalId == item.ReleaseItemClassificationExternalId))
+                    classificationsToAdd.Add(item);
             }
+
+            this.db.ReleaseItemClassifications.AddRange(classificationsToAdd);
+            this.db.SaveChanges();
         }
 
         [HttpPost()]
@@ -269,35 +264,26 @@ namespace CuentasClaras.Controllers.Migration
                     ExternalId = y.Key
                 }).ToList();
 
-            if (migrationConfig.CheckIfExists)
-            {
-                List<Supplier> suppliersToAdd = new List<Supplier>();
+            List<Supplier> suppliersToAdd = new List<Supplier>();
 
-                foreach (var item in suppliers)
-                {
-                    if (!this.db.Suppliers.Any(x => x.Name == item.Name))
-                        suppliersToAdd.Add(item);
-                }
-
-                this.db.Suppliers.AddRange(suppliersToAdd);
-                this.db.SaveChanges();
-            }
-            else
+            foreach (var item in suppliers)
             {
-                this.db.Suppliers.AddRange(suppliers);
-                this.db.SaveChanges();
+                if (!this.db.Suppliers.Any(x => x.ExternalId == item.ExternalId))
+                    suppliersToAdd.Add(item);
             }
+
+            this.db.Suppliers.AddRange(suppliersToAdd);
+            this.db.SaveChanges();
         }
 
         [HttpPost()]
         [Route("releases/calculate")]
-        public void ReleasesCalculate([FromBody] MigrationConfig migrationConfig)
+        public void ReleasesCalculate([FromBody] CurrenciesConfig currenciesConfig)
         {
-            Dictionary<string, double> currencies = db.Currencies.ToDictionary(currency => currency.CurrencyCode, currency => currency.ConversionFactorUYU);
             var query = db.Releases.Include(release => release.ReleaseItems);
             foreach (var release in query)
             {
-                int total = (int)CalculateTotal(release, currencies);
+                int total = (int)CalculateTotal(release, currenciesConfig);
                 release.TotalAmountUYU = total < 0 ? 0 : total;
             }
 
@@ -324,14 +310,22 @@ namespace CuentasClaras.Controllers.Migration
             db.SaveChanges();
         }
 
-        private double CalculateTotal(Release release, Dictionary<string, double> currencies)
+        private double CalculateTotal(Release release, CurrenciesConfig currencies)
         {
             return release.ReleaseItems.Sum(x =>
             {
-                if (x.CurrencyCode != null && currencies.ContainsKey(x.CurrencyCode))
-                    return x.UnitValueAmount * x.Quantity * currencies[x.CurrencyCode];
-                else
+                int year = Int32.Parse(release.DataSource);
+
+                double fromReleaseCurrencyToUYUCurrencyFactor = 0;
+                try
+                {
+                    fromReleaseCurrencyToUYUCurrencyFactor = currencies.currencies[year][x.CurrencyCode];
+                    return x.UnitValueAmount * x.Quantity * fromReleaseCurrencyToUYUCurrencyFactor;
+                }
+                catch (Exception)
+                {
                     return 0;
+                }
             });
         }
 

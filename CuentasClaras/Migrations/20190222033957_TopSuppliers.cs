@@ -6,7 +6,7 @@ namespace CuentasClaras.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sp = @"CREATE PROCEDURE [dbo].[TopSuppliers]
+            var sp = @"CREATE PROCEDURE [dbo].[TopSuppliers](@datasource as varchar(4))
                      AS
                      BEGIN
                          SET NOCOUNT ON;
@@ -16,6 +16,7 @@ namespace CuentasClaras.Migrations
 	                            COUNT(*) as Quantity
                          FROM Releases as R
                          INNER JOIN Suppliers as S on S.SupplierId = R.SupplierId
+						 WHERE R.DataSource = @datasource
                          GROUP BY S.SupplierId, S.Name
                          ORDER BY TotalAmount DESC;
                      END";

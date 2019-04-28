@@ -6,7 +6,7 @@ namespace CuentasClaras.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var sp = @"CREATE PROCEDURE [dbo].[TopItemClassification]
+            var sp = @"CREATE PROCEDURE [dbo].[TopItemClassification](@datasource as varchar(4))
                      AS
                      BEGIN
                         SET NOCOUNT ON;
@@ -18,6 +18,8 @@ namespace CuentasClaras.Migrations
 	                        R.ReleaseItemClassificationId as ReleaseItemClassificationId,
 	                        SUM(R.UnitValueAmount * Quantity) as TotalAmount
                         FROM ReleaseItems as R
+						INNER JOIN Releases as RR on RR.ReleaseId = R.ReleaseId
+						WHERE RR.DataSource = @datasource
                         GROUP BY R.ReleaseItemClassificationId, R.UnitName) as T
                         INNER JOIN ReleaseItemClassifications as C on 
 		                            C.ReleaseItemClassificationId = T.ReleaseItemClassificationId
