@@ -291,6 +291,25 @@ namespace CuentasClaras.Controllers.Migration
         }
 
         [HttpPost()]
+        [Route("releases/calculate-items")]
+        public void ReleasesItemsCalculate([FromBody] CurrenciesConfig currenciesConfig)
+        {
+            var query = db.ReleaseItems.Include(x => x.Release);
+            foreach (var i in query)
+            {
+                double unitValueAmountUYU = 0;
+                int totalValueAmountUYU = 0;
+                CalculateTotal(i.Release.DataSource, i, currenciesConfig, out unitValueAmountUYU, out totalValueAmountUYU);
+
+                i.UnitValueAmountUYU = unitValueAmountUYU;
+                i.TotalAmountUYU = totalValueAmountUYU;
+            }
+
+            db.SaveChanges();
+        }
+
+        
+        [HttpPost()]
         [Route("releases/currencies")]
         public void AddCurrencies([FromBody] MigrationConfig migrationConfig)
         {
@@ -328,6 +347,26 @@ namespace CuentasClaras.Controllers.Migration
                 }
             });
         }
+
+        private void CalculateTotal(string dataSource, ReleaseItem i, CurrenciesConfig currenciesConfig, out double unitValueAmountUYU, out int totalValueAmountUYU)
+        {
+            unitValueAmountUYU = 0;
+            totalValueAmountUYU = 0;
+
+            int year = Int32.Parse(dataSource);
+
+            double fromReleaseCurrencyToUYUCurrencyFactor = 0;
+            try
+            {
+                fromReleaseCurrencyToUYUCurrencyFactor = currenciesConfig.currencies[year][i.CurrencyCode];
+                unitValueAmountUYU = i.UnitValueAmount * fromReleaseCurrencyToUYUCurrencyFactor;
+                totalValueAmountUYU = (int) (unitValueAmountUYU * i.Quantity);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
 
         public bool? TenderHasEnqueriesToBool(string tenderHasEnqueries)
         {

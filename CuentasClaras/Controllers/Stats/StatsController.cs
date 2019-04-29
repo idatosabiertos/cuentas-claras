@@ -122,6 +122,80 @@ namespace CuentasClaras.Controllers.Stats
             return ret;
         }
 
+        [HttpGet]
+        [Route("items-classification/{id}")]
+        public ItemClassification GetItemClassificationStats([FromRoute(Name = "id")] int id)
+        {
+            using (db)
+            {
+                ReleaseItemClassification item = db.ReleaseItemClassifications.Where(i => i.ReleaseItemClassificationId == id)
+                                                .Include(x => x.ReleaseItems)
+                                                    .ThenInclude(r => r.Release)
+                                                    .ThenInclude(b => b.Buyer)
+                                                .Include(s => s.ReleaseItems)
+                                                    .ThenInclude(r => r.Release)
+                                                    .ThenInclude(s => s.Supplier)
+                                                .FirstOrDefault();
+
+                ItemClassification ret = new ItemClassification();
+                ret.Description = item.Description;
+                ret.ReleaseItemClassificationExternalId = item.ReleaseItemClassificationExternalId;
+                ret.ReleaseItemClassificationId = item.ReleaseItemClassificationId;
+                ret.ReleaseItems = new Dictionary<string, Dictionary<string, List<ItemClassificationDetail>>>();
+
+
+                var yearGroups = item.ReleaseItems.GroupBy(y => y.Release.DataSource);
+                foreach (var gYear in yearGroups)
+                {
+                    ret.ReleaseItems.Add(gYear.Key, new Dictionary<string, List<ItemClassificationDetail>>());
+
+
+
+                    var unitGroups = gYear.GroupBy(x => x.UnitName);
+                    foreach (var gUnit in unitGroups)
+                    {
+                        var items = gUnit.Select(x => new ItemClassificationDetail()
+                        {
+                            CurrencyCode = x.CurrencyCode,
+                            Description = x.Description,
+                            ExternalId = x.ExternalId,
+                            Quantity = x.Quantity,
+                            ReleaseId = x.ReleaseId,
+                            ReleaseItemId = x.ReleaseItemId,
+                            TotalAmountUYU = x.TotalAmountUYU,
+                            UnitValueAmountUYU = x.UnitValueAmountUYU.GetValueOrDefault(),
+                            UnitId = x.UnitId,
+                            UnitName = x.UnitName,
+                            UnitValueAmount = x.UnitValueAmount,
+                            SupplierName = x.Release.Supplier.Name,
+                            SupplierId = x.Release.Supplier.SupplierId,
+                            BuyerName = x.Release.Buyer.Name,
+                            BuyerId = x.Release.Buyer.BuyerId
+                        }).ToList();
+
+                        ret.ReleaseItems[gYear.Key].Add(gUnit.Key, items);
+                    }
+
+                }
+
+
+
+
+
+                return ret;
+            }
+        }
+
+        [HttpGet]
+        [Route("items-classification")]
+        public List<ReleaseItemClassification> GetItemClassification()
+        {
+            using (db)
+            {
+                return db.ReleaseItemClassifications.OrderBy(x => x.Description).ToList();
+            }
+        }
+
         [HttpPost]
         [Route("network")]
         public object GetNetwork([FromBody] MigrationConfig migrationConfig)
@@ -193,6 +267,7 @@ namespace CuentasClaras.Controllers.Stats
                             if (item.TotalAmountUYU >= 0)
                                 networkSupplier.Add(item);
                         }
+
                     }
                 }
             }
@@ -202,5 +277,7 @@ namespace CuentasClaras.Controllers.Stats
 
             return new { suppliers = networkSupplier, buyers = networkBuyer, edges = networkEdge };
         }
+
+
     }
 }
