@@ -35,11 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   topItemsLoading = true;
   years = ['2015', '2016', '2017', '2018'];
 
-  itemsList = [
-    {value: '1', label: 'Option 1'},
-    {value: '2', label: 'Option 2'},
-    {value: '3', label: 'Option 3'},
-  ];
+  itemsList;
   /// items graph data
   multi: any[] = [
     {
@@ -96,6 +92,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+    this.getListOfItems();
     this.getTopBuyers();
     this.getTopSuppliers();
     this.getTopItems();
@@ -103,6 +100,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+  public onItemChange(item) {
+    this.subs.add(
+      this.homeStats.getItemPrices(item).subscribe((prices) => {
+        console.log(prices);
+      })
+    );
   }
 
   public topBuyersSelectedYear(year) {
@@ -124,7 +129,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch([new SetNetworkSelectedYearAction(year)]).subscribe(() => true);
   }
 
-  public get networkURL(){
+  public get networkURL() {
     const year = this.store.selectSnapshot(HomeState.networkSelectedYear);
     return `http://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html#${year}-network.gexf`
   }
@@ -200,5 +205,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       }));
     });
     this.subs.add(topItemsSub);
+  }
+
+  private getListOfItems() {
+    this.subs.add(this.homeStats.getListofItems().subscribe((list) => this.itemsList = list));
   }
 }
