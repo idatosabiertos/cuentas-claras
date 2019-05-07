@@ -174,7 +174,27 @@
         costó U$S487,91 (más IVA) y fue adquirida por la Dirección General de Servicios Ganaderos del MGAP.
       </p>
 
-      <p class="bold-800" style="color: red"> GRAFICA DE PRECIOS X ARTICULO ACA</p>
+      <div class="row">
+        <div class="col-md-12 my-5">
+          <select class="browser-default custom-select">
+            <option *ngFor="let item of itemsList" value="{{item.value}}i">{{item.label}}</option>
+          </select>
+          <ngx-charts-line-chart
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="multi"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [autoScale]="autoScale">
+          </ngx-charts-line-chart>
+        </div>
+      </div>
       <mdb-card class="text-white mb-3" bgColor="bg-info">
         <mdb-card-body>
           <mdb-card-text class="text-white row">
@@ -356,16 +376,16 @@
           cantidad de compras o montos.
         </p>
         <div class="col-md-11" style="padding: 0">
-          <app-year-filter [years]="years" [defaultYear]="networkSelectedYear$ | async"
+          <app-year-filter [years]="['2015', '2016', '2017', '2018']" [defaultYear]="networkSelectedYear$ | async"
                            (selectedYear)="networkSelectedYear($event)"></app-year-filter>
         </div>
         <div class="col-md-1">
-          <a href="https://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html"
+          <a [href]="networkURL"
              style="color:black; font-size:24px;"><i class="fa fa-expand"></i></a>
         </div>
         <div class="col-md-12" style="padding: 0">
 
-          <iframe src="https://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html" frameborder="0" height="1000"
+          <iframe [src]="networkURL | safe" frameborder="0" height="1000"
                   width="1100"></iframe>
         </div>
       </div>

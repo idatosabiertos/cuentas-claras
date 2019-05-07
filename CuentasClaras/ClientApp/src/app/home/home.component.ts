@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HomeStatsService } from './home-stats.service';
 import { Subscription } from 'rxjs/index';
-import { CurrencyPipe } from '@angular/common';
 import { Select, Store } from '@ngxs/store';
 import {
   SetNetworkSelectedYearAction,
@@ -17,7 +16,6 @@ import { HomeState } from './home-state/home.state';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  providers: [CurrencyPipe],
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
@@ -36,6 +34,61 @@ export class HomeComponent implements OnInit, OnDestroy {
   topItems;
   topItemsLoading = true;
   years = ['2015', '2016', '2017'];
+
+  itemsList = [
+    {value: '1', label: 'Option 1'},
+    {value: '2', label: 'Option 2'},
+    {value: '3', label: 'Option 3'},
+  ];
+  /// items graph data
+  multi: any[] = [
+    {
+      "name": "Germany",
+      "series": [
+        {
+          "name": "2010",
+          "value": 7300000
+        },
+        {
+          "name": "2011",
+          "value": 8940000
+        }
+      ]
+    },
+
+    {
+      "name": "USA",
+      "series": [
+        {
+          "name": "2010",
+          "value": 7870000
+        },
+        {
+          "name": "2011",
+          "value": 8270000
+        }
+      ]
+    }
+  ];
+
+  view: any[] = [700, 400];
+
+  // options
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = true;
+  showXAxisLabel = true;
+  xAxisLabel = 'Country';
+  showYAxisLabel = true;
+  yAxisLabel = 'Population';
+
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  };
+
+  // line, area
+  autoScale = true;
 
   constructor(private store: Store,
               private homeStats: HomeStatsService) {
@@ -68,8 +121,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public networkSelectedYear(year) {
-    ///replace true with logic to select network
     this.store.dispatch([new SetNetworkSelectedYearAction(year)]).subscribe(() => true);
+  }
+
+  public get networkURL(){
+    const year = this.store.selectSnapshot(HomeState.networkSelectedYear);
+    return `http://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html#${year}-network.gexf`
   }
 
   private getTopBuyers() {

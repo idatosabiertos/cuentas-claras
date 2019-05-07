@@ -25,4 +25,13 @@ export class HomeStatsService {
     const params = new HttpParams().set('year', year);
     return this.http.get(`${environment.api_base_url}/api/stats/top-items`, {params: params});
   }
+
+  public getListofItems(){
+    return this.http.get(`${environment.api_base_url}/api/stats/items-classification`);
+
+  }
+
+  public getItemPrices(item) {
+    return this.http.get(`${environment.api_base_url}/api/stats/items-classification/${item}`);
+  }
 }

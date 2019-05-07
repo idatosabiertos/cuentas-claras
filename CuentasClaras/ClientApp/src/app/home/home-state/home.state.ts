@@ -16,7 +16,7 @@ import {
     topBuyersSelectedYear: '2017',
     topItemsSelectedYear: '2017',
     topSuppliersSelectedYear: '2017',
-    networkSelectedYear: '2017'
+    networkSelectedYear: '2018'
   }
 })
 export class HomeState {
