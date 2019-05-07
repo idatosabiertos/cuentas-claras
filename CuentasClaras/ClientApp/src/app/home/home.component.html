@@ -376,7 +376,7 @@
           cantidad de compras o montos.
         </p>
         <div class="col-md-11" style="padding: 0">
-          <app-year-filter [years]="['2015', '2016', '2017', '2018']" [defaultYear]="networkSelectedYear$ | async"
+          <app-year-filter [years]="years" [defaultYear]="networkSelectedYear$ | async"
                            (selectedYear)="networkSelectedYear($event)"></app-year-filter>
         </div>
         <div class="col-md-1">

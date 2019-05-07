@@ -20,11 +20,11 @@ import { HomeState } from './home-state/home.state';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   @Select(HomeState.topBuyersSelectedYear) public topBuyersSelectedYear$;
-  @Select(HomeState.topBuyersSelectedYear) public topSuppliersSelectedYear$;
+  @Select(HomeState.topSuppliersSelectedYear) public topSuppliersSelectedYear$;
   @Select(HomeState.topItemsSelectedYear) public topItemsSelectedYear$;
   @Select(HomeState.networkSelectedYear) public networkSelectedYear$;
   @Select(HomeState.topBuyers) private topBuyers$;
-  @Select(HomeState.topBuyers) private topSuppliers$;
+  @Select(HomeState.topSuppliers) private topSuppliers$;
   @Select(HomeState.topItems) private topItems$;
   subs = new Subscription();
   topBuyers;
@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   topSuppliersLoading = true;
   topItems;
   topItemsLoading = true;
-  years = ['2015', '2016', '2017'];
+  years = ['2015', '2016', '2017', '2018'];
 
   itemsList = [
     {value: '1', label: 'Option 1'},
