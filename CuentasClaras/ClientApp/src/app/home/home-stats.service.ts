@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -10,16 +10,19 @@ export class HomeStatsService {
   constructor(private http: HttpClient) {
   }
 
-  public getTopBuyers() {
-    return this.http.get(`${environment.api_base_url}/api/stats/top-buyers`);
+  public getTopBuyers(year) {
+    const params = new HttpParams().set('year', year);
+    return this.http.get(`${environment.api_base_url}/api/stats/top-buyers`, {params: params});
   }
 
-  public getTopSuppliers() {
-    return this.http.get(`${environment.api_base_url}/api/stats/top-suppliers`);
+  public getTopSuppliers(year) {
+    const params = new HttpParams().set('year', year);
+    return this.http.get(`${environment.api_base_url}/api/stats/top-suppliers`, {params: params});
   }
 
 
-  public getTopItems() {
-    return this.http.get(`${environment.api_base_url}/api/stats/top-items`);
+  public getTopItems(year) {
+    const params = new HttpParams().set('year', year);
+    return this.http.get(`${environment.api_base_url}/api/stats/top-items`, {params: params});
   }
 }

@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private requestBuyers() {
     const selectedYear = this.store.selectSnapshot(HomeState.topBuyersSelectedYear);
-    const topBuyersSub = this.homeStats.getTopBuyers().subscribe((data) => {
+    const topBuyersSub = this.homeStats.getTopBuyers(selectedYear).subscribe((data) => {
       this.subs.add(this.store.dispatch([new SetTopBuyersAction(data)]).subscribe(() => {
         this.topBuyersLoading = false;
       }));
@@ -113,7 +113,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private requestSuppliers() {
     const selectedYear = this.store.selectSnapshot(HomeState.topSuppliersSelectedYear);
-    const topSuppliersSub = this.homeStats.getTopSuppliers().subscribe((data) => {
+    const topSuppliersSub = this.homeStats.getTopSuppliers(selectedYear).subscribe((data) => {
       this.subs.add(this.store.dispatch([new SetTopSuppliersAction(data)]).subscribe(() => {
         this.topSuppliersLoading = false;
       }));
@@ -137,7 +137,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private requestItems() {
     const selectedYear = this.store.selectSnapshot(HomeState.topItemsSelectedYear);
-    const topItemsSub = this.homeStats.getTopItems().subscribe((data) => {
+    const topItemsSub = this.homeStats.getTopItems(selectedYear).subscribe((data) => {
       this.subs.add(this.store.dispatch([new SetTopItemsAction(data)]).subscribe(() => {
         this.topItemsLoading = false;
       }));
