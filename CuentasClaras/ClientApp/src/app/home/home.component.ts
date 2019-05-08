@@ -26,6 +26,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   @Select(HomeState.topBuyers) private topBuyers$;
   @Select(HomeState.topSuppliers) private topSuppliers$;
   @Select(HomeState.topItems) private topItems$;
+  @Select(HomeState.itemsList) private itemsList$;
+  itemsList: any = [];
+
   subs = new Subscription();
   topBuyers;
   topBuyersLoading = true;
@@ -35,56 +38,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   topItemsLoading = true;
   years = ['2015', '2016', '2017', '2018'];
 
-  itemsList;
   /// items graph data
-  multi: any[] = [
-    {
-      "name": "Germany",
-      "series": [
-        {
-          "name": "2010",
-          "value": 7300000
-        },
-        {
-          "name": "2011",
-          "value": 8940000
-        }
-      ]
-    },
-
-    {
-      "name": "USA",
-      "series": [
-        {
-          "name": "2010",
-          "value": 7870000
-        },
-        {
-          "name": "2011",
-          "value": 8270000
-        }
-      ]
-    }
-  ];
-
-  view: any[] = [700, 400];
-
-  // options
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = 'Country';
-  showYAxisLabel = true;
-  yAxisLabel = 'Population';
-
+  itemPriceGraphData: any[];
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
-
-  // line, area
-  autoScale = true;
 
   constructor(private store: Store,
               private homeStats: HomeStatsService) {
@@ -105,7 +63,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   public onItemChange(item) {
     this.subs.add(
       this.homeStats.getItemPrices(item).subscribe((prices) => {
-        console.log(prices);
+        const data = {};
+        const result = [];
+        for (const year in prices.releaseItems) {
+          const units = prices.releaseItems[year];
+          for (const unityOfMeassure in units) {
+            const series = [];
+            const items = units[unityOfMeassure];
+            for (const item of items) {
+              const serie = {name: year, value: item.unitValueAmountUYU};
+              series.push(serie);
+            }
+
+            if (!data[unityOfMeassure]) {
+              data[unityOfMeassure] = series;
+            } else {
+              data[unityOfMeassure] = data[unityOfMeassure].concat(series);
+            }
+
+          }
+        }
+        for (const unityOfMeassure in data) {
+          result.push({name: unityOfMeassure, series: data[unityOfMeassure]})
+        }
+        this.itemPriceGraphData = result;
       })
     );
   }
@@ -208,6 +189,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private getListOfItems() {
-    this.subs.add(this.homeStats.getListofItems().subscribe((list) => this.itemsList = list));
+    this.subs.add(this.homeStats.getListofItems().subscribe((list: any) => {
+      this.itemsList = list;
+      if (list && list.length > 0) {
+        this.onItemChange(list[0].releaseItemClassificationId);
+      }
+    }));
+
   }
 }

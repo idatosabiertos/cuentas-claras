@@ -180,18 +180,18 @@
             <option *ngFor="let item of itemsList" value="{{item.releaseItemClassificationId}}">{{item.description}}</option>
           </select>
           <ngx-charts-line-chart
-            [view]="view"
             [scheme]="colorScheme"
-            [results]="multi"
-            [gradient]="gradient"
-            [xAxis]="showXAxis"
-            [yAxis]="showYAxis"
-            [legend]="showLegend"
-            [showXAxisLabel]="showXAxisLabel"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabel"
-            [autoScale]="autoScale">
+            [results]="itemPriceGraphData"
+            [gradient]="false"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="true"
+            legendTitle="Unidades de medida"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="'Año'"
+            [yAxisLabel]="'Precio'"
+            [autoScale]="true">
           </ngx-charts-line-chart>
         </div>
       </div>
