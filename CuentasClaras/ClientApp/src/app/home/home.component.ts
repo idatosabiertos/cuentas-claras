@@ -26,7 +26,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   @Select(HomeState.topBuyers) private topBuyers$;
   @Select(HomeState.topSuppliers) private topSuppliers$;
   @Select(HomeState.topItems) private topItems$;
-  @Select(HomeState.itemsList) private itemsList$;
   itemsList: any = [];
 
   subs = new Subscription();
@@ -62,7 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public onItemChange(item) {
     this.subs.add(
-      this.homeStats.getItemPrices(item).subscribe((prices) => {
+      this.homeStats.getItemPrices(item).subscribe((prices:any) => {
         const data = {};
         const result = [];
         for (const year in prices.releaseItems) {
