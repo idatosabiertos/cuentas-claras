@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/nouislider/distribute/nouislider.min.css",
               "src/styles.scss",
               "node_modules/font-awesome/scss/font-awesome.scss",
               "node_modules/angular-bootstrap-md/scss/bootstrap/bootstrap.scss",
@@ -35,7 +36,7 @@
               "node_modules/@swimlane/ngx-datatable/release/index.css",
               "node_modules/@swimlane/ngx-datatable/release/themes/material.css",
               "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
-              "node_modules/css-star-rating/scss/star-rating.scss"
+              "node_modules/css-star-rating/scss/star-rating.scss",
             ],
             "scripts": [
               "node_modules/hammerjs/hammer.min.js"

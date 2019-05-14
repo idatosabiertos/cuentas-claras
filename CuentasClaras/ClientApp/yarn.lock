@@ -620,6 +620,13 @@ angular-bootstrap-md@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/angular-bootstrap-md/-/angular-bootstrap-md-7.3.0.tgz#cc0db9035553ffe0168049bfac9de92cfe5ee268"
 
+angular-highcharts@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/angular-highcharts/-/angular-highcharts-7.2.0.tgz#18e1c535519b61ef096c8e4597fb970b2ee3607a"
+  integrity sha512-gVqpaDkV9gpYdq0uUOfzCSM6785IBD5a3gYInvwIPX9XrC6WQ8aktW/m0Rt/Jnj2JNqJYyXGjOZrS7xCFkrWQw==
+  dependencies:
+    tslib "^1.9.0"
+
 angular-star-rating@^4.0.0-beta.3:
   version "4.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/angular-star-rating/-/angular-star-rating-4.0.0-beta.3.tgz#b814a2eae02f9670428e1512d513fed44db7b492"
@@ -3243,6 +3250,11 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
+highcharts@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-7.1.1.tgz#8c4433e39d5e7dbdc064685d9548181a35e12c19"
+  integrity sha512-BQtWDQmH4AweQNFLGJCHBQwv9tj9kyp35bp2FFpmNBm7LOecCQdLjvZNgUKvCsKzBzJJIywcwWu4QEcAkPGCjg==
+
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -4552,6 +4564,11 @@ ng-recaptcha@^4.2.1:
   optionalDependencies:
     "@types/grecaptcha" "^2.0.33"
 
+ng2-nouislider@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/ng2-nouislider/-/ng2-nouislider-1.8.2.tgz#4d4aab402d307020415da1714a5e9f46817fe97c"
+  integrity sha512-apCpRxwX/3VapLuPozZkUfM3HAE1unuCm2UdRMDvAHbbY6CLobaZcsWUYQ6b02VzxccyV4G1z0xsq2un8J2Lqw==
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
@@ -4689,6 +4706,11 @@ normalize-path@^2.0.0, normalize-path@^2.0.1, normalize-path@^2.1.1:
 normalize-range@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
+
+nouislider@^13.1.5:
+  version "13.1.5"
+  resolved "https://registry.yarnpkg.com/nouislider/-/nouislider-13.1.5.tgz#3a0f3004159b9a77ebc07c3bedc26c97327d3522"
+  integrity sha512-RZMuNW1Z4PcxC5q7wUKbr5EweCEnEUii3f2XtjS38VWcG5QjN11zvveRld+lrUwHIOKgfRWeIddZm5Xxfr7zCQ==
 
 npm-bundled@^1.0.1:
   version "1.0.5"
