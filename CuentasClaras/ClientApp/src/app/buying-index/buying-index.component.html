@@ -7,46 +7,60 @@
     <div class="row wow fadeIn">
 
       <!--Grid column-->
-      <div class="col-md-12 mb-4 text-center wow fadeIn">
+      <div class="col-md-12 mb-4 wow fadeIn">
+        <div class=" text-center ">
 
-        <h2 class="h1-responsive font-weight-bold my-5  text-center">Índice de compras</h2>
-        <hr class="hr-light my-4 w-75">
-        <h4 class="subtext-header mt-2 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit
-          deleniti consequuntur nihil.</h4>
+          <h2 class="h1-responsive font-weight-bold my-5  text-center">Índice de compras</h2>
+          <hr class="hr-light my-4 w-75">
+          <h4 class="subtext-header mt-2 mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit
+            deleniti consequuntur nihil.</h4>
 
-        <div style="text-align: center">
-          <button mdbBtn
-                  class="waves-light custom-btn-color"
-                  mdbWavesEffect>
-            <i class="fa fa-download"></i> Descargar
-          </button>
+          <div style="text-align: center">
+            <a mdbBtn [href]="'/assets/database/INDEX/index.csv'"
+                    class="waves-light custom-btn-color"
+                    mdbWavesEffect>
+              <i class="fa fa-download"></i> Descargar
+            </a>
+          </div>
+          <hr class="hr-light my-4 w-75">
         </div>
-        <hr class="hr-light my-4 w-75">
+        <div>
 
-        <div class="table-responsive" style="height: 100%; background-color: white">
-          <table class="table">
-            <thead>
-            <tr>
-              <th scope="col"> #</th>
-              <th scope="col" *ngFor="let col of columns">{{col.name}}</th>
-              <th scope="col"> Puntaje</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let row of rows; let i = index;">
-              <td>{{i+1}}</td>
-              <td *ngFor="let col of columns">{{row[col.prop]}}</td>
-              <td>
+          <app-year-filter [years]="years" [defaultYear]="selectedYear$ | async"
+                           (selectedYear)="indexSelectedYear($event)">
+          </app-year-filter>
+
+          <ngx-datatable
+            class="material"
+            [rows]="indexData"
+            [limit]="10"
+            [columnMode]="'flex'"
+            [rowHeight]="'auto'"
+            [headerHeight]="'auto'"
+            [footerHeight]="50"
+            [loadingIndicator]="indexDataLoading">
+            <ngx-datatable-column name="#" [flexGrow]="1">
+              <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                {{rowIndex+1}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="organistationShortName" name="Organismo" [flexGrow]="1">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="performanceIndex" name="Puntaje" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
                 <star-rating [readOnly]="true"
+                             style="float: left"
                              staticColor="negative"
                              [showHalfStars]="true"
                              [starType]="'svg'"
-                             [rating]="row.rating">
+                             [rating]="value">
                 </star-rating>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
         </div>
 
       </div>

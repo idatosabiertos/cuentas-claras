@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ContactService {
 
   constructor(private http: HttpClient) {
@@ -12,7 +10,7 @@ export class ContactService {
 
   public sendEmail(data) {
     let headers = new HttpHeaders();
-    headers.append('Accept', 'application/json'); 
+    headers.append('Accept', 'application/json');
 
     return this.http.post(`${environment.api_base_url}/api/mail/contact`, data,{
       headers: headers

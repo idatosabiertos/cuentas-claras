@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class HomeStatsService {
 
   constructor(private http: HttpClient) {
@@ -26,7 +24,7 @@ export class HomeStatsService {
     return this.http.get(`${environment.api_base_url}/api/stats/top-items`, {params: params});
   }
 
-  public getListofItems(){
+  public getListofItems() {
     return this.http.get(`${environment.api_base_url}/api/stats/items-classification`);
 
   }

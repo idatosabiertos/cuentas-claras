@@ -45,7 +45,16 @@ export class DatabaseComponent {
       files: [
         {src: '/FIN-POL/FIN-POL-2014.csv', name: 'FIN-POL-2014.csv'}
       ]
-    }
+    },
+    {
+      name: 'Índice de Transparencia en las Contrataciones  Públicas',
+      description: 'Esta base de datos contiene los resultados del Índice de Transparencia en las Contrataciones Públicas elaborado para este proyecto. El nivel de desagregación es por Unidad Ejecutora.',
+      source: {src: '#', name: 'Cuentas Claras'},
+      period: '2015-2018',
+      files: [
+        {src: '/INDEX/index.csv', name: 'index.csv'}
+      ]
+    },
 
   ];
   columns = [

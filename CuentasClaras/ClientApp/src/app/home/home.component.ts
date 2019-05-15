@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public onItemChange(item) {
     this.subs.add(
-      this.homeStats.getItemPrices(item).subscribe((prices:any) => {
+      this.homeStats.getItemPrices(item).subscribe((prices: any) => {
         const data = {};
         const result = [];
         for (const year in prices.releaseItems) {
@@ -92,21 +92,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public topBuyersSelectedYear(year) {
     this.topBuyersLoading = true;
-    this.store.dispatch([new SetTopBuyersSelectedYearAction(year)]).subscribe(() => this.requestBuyers());
+    this.subs.add(this.store.dispatch([new SetTopBuyersSelectedYearAction(year)]).subscribe(() => this.requestBuyers()));
   }
 
   public topItemsSelectedYear(year) {
     this.topItemsLoading = true;
-    this.store.dispatch([new SetTopItemsSelectedYearAction(year)]).subscribe(() => this.requestItems());
+    this.subs.add(this.store.dispatch([new SetTopItemsSelectedYearAction(year)]).subscribe(() => this.requestItems()));
   }
 
   public topSuppliersSelectedYear(year) {
     this.topSuppliersLoading = true;
-    this.store.dispatch([new SetTopSuppliersSelectedYearAction(year)]).subscribe(() => this.requestSuppliers());
+    this.subs.add(this.store.dispatch([new SetTopSuppliersSelectedYearAction(year)]).subscribe(() => this.requestSuppliers()));
   }
 
   public networkSelectedYear(year) {
-    this.store.dispatch([new SetNetworkSelectedYearAction(year)]).subscribe(() => true);
+    this.subs.add(this.store.dispatch([new SetNetworkSelectedYearAction(year)]).subscribe(() => true));
   }
 
   public get networkURL() {

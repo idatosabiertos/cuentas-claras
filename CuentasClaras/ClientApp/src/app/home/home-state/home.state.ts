@@ -1,5 +1,5 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { HomeStateModel } from './home-state';
+import { HomeStateModel } from './home-state.model';
 import {
   SetTopBuyersAction,
   SetTopBuyersSelectedYearAction,
