@@ -27,6 +27,7 @@ namespace CuentasClaras.Controllers.Stats
 
         [HttpGet]
         [Route("top-suppliers")]
+        [OutputCache(Duration = 600, VaryByParam = "year")]
         public List<TopSupplier> GetTopSupplier([FromQuery(Name = "year")] string dataSource)
         {
             List<TopSupplier> ret = new List<TopSupplier>();
@@ -60,6 +61,7 @@ namespace CuentasClaras.Controllers.Stats
 
         [HttpGet]
         [Route("top-buyers")]
+        [OutputCache(Duration = 600, VaryByParam = "year")]
         public List<TopBuyer> GetTopBuyers([FromQuery(Name = "year")] string dataSource)
         {
             List<TopBuyer> ret = new List<TopBuyer>();
@@ -190,6 +192,7 @@ namespace CuentasClaras.Controllers.Stats
 
         [HttpGet]
         [Route("items-classification")]
+        [OutputCache(Duration = 600)]
         public List<ReleaseItemClassification> GetItemClassification()
         {
             using (db)
@@ -282,6 +285,7 @@ namespace CuentasClaras.Controllers.Stats
 
         [HttpGet]
         [Route("index")]
+        [OutputCache(Duration = 600, VaryByParam = "year")]
         public List<Api.Index.OrganisationIndex> GetIndex([FromQuery(Name = "year")] string year)
         {
             return this.db.OrganisationIndexes.Where(x => x.Year == year).Select(x => new Api.Index.OrganisationIndex
