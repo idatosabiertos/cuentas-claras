@@ -1,5 +1,6 @@
 ﻿using CuentasClaras.Api.Migration;
 using CuentasClaras.Api.Stats;
+using CuentasClaras.InputDataModel;
 using CuentasClaras.Model;
 using CuentasClaras.Services.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -278,6 +279,28 @@ namespace CuentasClaras.Controllers.Stats
             return new { suppliers = networkSupplier, buyers = networkBuyer, edges = networkEdge };
         }
 
-
+        [HttpGet]
+        [Route("index")]
+        public List<Api.Index.OrganisationIndex> GetIndex([FromQuery(Name = "year")] string year)
+        {
+            return this.db.OrganisationIndexes.Where(x => x.Year == year).Select(x => new Api.Index.OrganisationIndex
+            {
+                AccumulationOfSuppliersByOrganisation = x.AccumulationOfSuppliersByOrganisation,
+                CompletedInfo = x.CompletedInfo,
+                ConcentrationOfSuppliers = x.ConcentrationOfSuppliers,
+                ConectionByAmount = x.ConectionByAmount,
+                Description = x.Description,
+                OrganisationId = x.OrganisationId,
+                OrganisationName = x.OrganisationName,
+                OrganistationShortName = x.OrganistationShortName,
+                PerformanceIndex = x.PerformanceIndex,
+                Process = x.Process,
+                QuantityOfPurchases = x.QuantityOfPurchases,
+                QuantityOfPurchasesByException = x.QuantityOfPurchasesByException,
+                SanctionedCompanies = x.SanctionedCompanies,
+                Year = x.Year,
+                BuyerId = x.BuyerId
+            }).ToList();
+        }
     }
 }

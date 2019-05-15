@@ -19,6 +19,7 @@ namespace CuentasClaras.Model
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Buyer> Buyers { get; set; }
         public DbSet<Currency> Currencies { get; set; }
+        public DbSet<OrganisationIndex> OrganisationIndexes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,13 +33,14 @@ namespace CuentasClaras.Model
             modelBuilder.Entity<Supplier>().ToTable("Suppliers");
             modelBuilder.Entity<Buyer>().ToTable("Buyers");
             modelBuilder.Entity<Currency>().ToTable("Currencies");
+            modelBuilder.Entity<OrganisationIndex>().ToTable("OrganisationIndexes");
 
             //Relations
             modelBuilder.Entity<Release>().HasOne(r => r.Buyer).WithMany(rb => rb.Releases).HasForeignKey(f => f.BuyerId);
             modelBuilder.Entity<Release>().HasOne(r => r.Supplier).WithMany(rb => rb.Releases).HasForeignKey(f => f.SupplierId);
             modelBuilder.Entity<Release>().HasMany(r => r.ReleaseItems).WithOne(rb => rb.Release).HasForeignKey(f => f.ReleaseId);
             modelBuilder.Entity<ReleaseItem>().HasOne(r => r.ReleaseItemClassification).WithMany(rb => rb.ReleaseItems).HasForeignKey(f => f.ReleaseItemClassificationId);
-
+            modelBuilder.Entity<OrganisationIndex>().HasOne(r => r.Buyer).WithMany(rb => rb.OrganisationIndexes).HasForeignKey(f => f.BuyerId);
             //INDEXES
             //modelBuilder.Entity<Supplier>().HasIndex("ExternalId").IsUnique();
             modelBuilder.Entity<Currency>().Property(x => x.ConversionFactorUYU).HasColumnType("decimal(10,6)");

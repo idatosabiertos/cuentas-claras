@@ -14,5 +14,6 @@ namespace CuentasClaras.Model
         public string BuyerExternalId { get; set; }
         public string Type { get; set; }
         public List<Release> Releases { get; set; }
+        public List<OrganisationIndex> OrganisationIndexes { get; set; }
     }
 }

@@ -1,16 +1,20 @@
 ﻿using CuentasClaras.Api.Codes;
+using CuentasClaras.Api.Index;
 using CuentasClaras.Api.Migration;
 using CuentasClaras.InputDataModel;
 using CuentasClaras.Model;
 using CuentasClaras.Services;
 using CuentasClaras.Services.Data;
 using CuentasClaras.Services.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace CuentasClaras.Controllers.Migration
 {
@@ -308,7 +312,7 @@ namespace CuentasClaras.Controllers.Migration
             db.SaveChanges();
         }
 
-        
+
         [HttpPost()]
         [Route("releases/currencies")]
         public void AddCurrencies([FromBody] MigrationConfig migrationConfig)
@@ -327,6 +331,56 @@ namespace CuentasClaras.Controllers.Migration
                 }
             }
             db.SaveChanges();
+        }
+
+        [HttpPost()]
+        [Route("UploadFiles")]
+        public async Task<IActionResult> UploadFile()
+        {
+            var files = Request.Form.Files;
+            foreach (var formFile in files)
+            {
+
+                using (var ms = formFile.OpenReadStream())
+                using (ExcelPackage package = new ExcelPackage(ms))
+                {
+                    List<OrganisationIndexInputDataModel> rows = package.Workbook.Worksheets["index"].ConvertSheetToObjects<OrganisationIndexInputDataModel>().ToList();
+
+                    string year = rows.Select(x => x.Year).First();
+
+                    var indexesToDelete = this.db.OrganisationIndexes;
+                    this.db.OrganisationIndexes.RemoveRange(indexesToDelete);
+
+                    foreach (var x in rows)
+                    {
+
+                        var buyerId = this.db.Buyers.Where(b => b.BuyerExternalId == x.OrganisationId).FirstOrDefault()?.BuyerId;
+
+                        this.db.OrganisationIndexes.Add(new Model.OrganisationIndex()
+                        {
+                            AccumulationOfSuppliersByOrganisation = x.AccumulationOfSuppliersByOrganisation,
+                            CompletedInfo = x.CompletedInfo,
+                            ConcentrationOfSuppliers = x.ConcentrationOfSuppliers,
+                            ConectionByAmount = x.ConectionByAmount,
+                            Description = x.Description,
+                            OrganisationId = x.OrganisationId,
+                            OrganisationName = x.OrganisationName,
+                            OrganistationShortName = x.OrganistationShortName,
+                            PerformanceIndex = x.PerformanceIndex,
+                            Process = x.Process,
+                            QuantityOfPurchases = x.QuantityOfPurchases,
+                            QuantityOfPurchasesByException = x.QuantityOfPurchasesByException,
+                            SanctionedCompanies = x.SanctionedCompanies,
+                            Year = x.Year,
+                            BuyerId = buyerId,
+                        });
+                    }
+
+                    db.SaveChanges();
+                }
+            }
+
+            return Ok();
         }
 
         private double CalculateTotal(Release release, CurrenciesConfig currencies)
@@ -360,7 +414,7 @@ namespace CuentasClaras.Controllers.Migration
             {
                 fromReleaseCurrencyToUYUCurrencyFactor = currenciesConfig.currencies[year][i.CurrencyCode];
                 unitValueAmountUYU = i.UnitValueAmount * fromReleaseCurrencyToUYUCurrencyFactor;
-                totalValueAmountUYU = (int) (unitValueAmountUYU * i.Quantity);
+                totalValueAmountUYU = (int)(unitValueAmountUYU * i.Quantity);
             }
             catch (Exception)
             {
