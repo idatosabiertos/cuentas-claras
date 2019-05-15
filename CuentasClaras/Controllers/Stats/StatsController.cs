@@ -93,6 +93,7 @@ namespace CuentasClaras.Controllers.Stats
 
         [HttpGet]
         [Route("top-items")]
+        [OutputCache(Duration = 600, VaryByParam = "year")]
         public List<TopItemClassification> GetTopItemClassification([FromQuery(Name = "year")] string dataSource)
         {
             List<TopItemClassification> ret = new List<TopItemClassification>();

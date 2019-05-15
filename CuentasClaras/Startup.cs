@@ -41,6 +41,7 @@ namespace CuentasClaras
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddOutputCaching();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -125,7 +126,7 @@ namespace CuentasClaras
                 ServeUnknownFileTypes = true // serve extensionless files
             });
 
-
+            app.UseOutputCaching();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
