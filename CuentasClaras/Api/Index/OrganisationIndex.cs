@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CuentasClaras.Api.Index
 {
@@ -22,5 +20,31 @@ namespace CuentasClaras.Api.Index
         public string PerformanceIndex { get; set; }
         public string QuantityOfPurchases { get; set; }
         public int? BuyerId { get; set; }
+
+        public static OrganisationIndex From(Model.OrganisationIndex oi)
+        {
+            OrganisationIndex o = new OrganisationIndex()
+            {
+                AccumulationOfSuppliersByOrganisation = oi.AccumulationOfSuppliersByOrganisation,
+                BuyerId = oi.BuyerId,
+                CompletedInfo = oi.CompletedInfo,
+                ConcentrationOfSuppliers = oi.ConcentrationOfSuppliers,
+                ConectionByAmount = oi.ConectionByAmount,
+                Description = oi.Description,
+                OrganisationId = oi.OrganisationId,
+                OrganisationName = oi.OrganisationName,
+                OrganistationShortName = oi.OrganistationShortName,
+                PerformanceIndex = oi.PerformanceIndex,
+                Process = oi.Process,
+                QuantityOfPurchases = oi.QuantityOfPurchases,
+                QuantityOfPurchasesByException = oi.QuantityOfPurchasesByException,
+                SanctionedCompanies = oi.SanctionedCompanies,
+                Year = oi.Year
+            };
+
+            return o;
+        }
+
+        public static List<OrganisationIndex> From(List<Model.OrganisationIndex> items) => items.Select(r => From(r)).ToList();
     }
 }

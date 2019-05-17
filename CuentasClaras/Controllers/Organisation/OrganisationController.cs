@@ -58,15 +58,21 @@ namespace CuentasClaras.Controllers
 
         [HttpGet]
         [Route("buyers/stats/{id}")]
-        public BuyerDTO GetBuyer([FromRoute(Name = "id")] int id)
+        public BuyerDTO GetBuyer([FromRoute(Name = "id")] int id, [FromQuery(Name = "years")] string years)
         {
+            var yearsList = years.Split(",");
+
             var buyer = db.Buyers
                 .Where(s => s.BuyerId == id)
                 .Include(x => x.Releases)
-                .ThenInclude(r => r.ReleaseItems)
+                    .ThenInclude(r => r.ReleaseItems)
+                        .ThenInclude(ri => ri.ReleaseItemClassification)
+                .Include(x => x.Releases)
+                    .ThenInclude(r => r.Supplier)
+                .Include(x => x.OrganisationIndexes)
                 .SingleOrDefault();
 
-            return BuyerDTO.From(buyer);
+            return BuyerDTO.From(buyer, yearsList);
         }
 
     }
