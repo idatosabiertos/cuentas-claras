@@ -1,66 +1,32 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NouisliderComponent } from 'ng2-nouislider';
 import { Chart } from 'angular-highcharts';
+import { VisualizationsStatsService } from './visualizations-stats.service';
+import { Subscription } from 'rxjs/index';
 
 @Component({
   selector: 'app-visualizations',
   templateUrl: './visualizations.component.html',
   styleUrls: ['./visualizations.component.scss']
 })
-export class VisualizationsComponent implements OnInit {
-
-  @ViewChild('someKeyboardSlider2') someKeyboardSlider2: NouisliderComponent;
+export class VisualizationsComponent implements OnInit, OnDestroy {
+  selectedOrgId;
   range = [2015, 2018];
-  organisms = [{id: 1, name: 'org1'}, {id: 2, name: 'org2'}];
-  pieChartData = [
-    {
-      "name": "Compra por Exepcion",
-      "value": 8940000
-    },
-    {
-      "name": "Licitacion publica",
-      "value": 5000000
-    },
-    {
-      "name": "Compra directa",
-      "value": 3000000
-    },
-    {
-      "name": "Procedimiento especial",
-      "value": 2000000
-    },
-    {
-      "name": "Pregon",
-      "value": 1000000
-    }
-  ];
+  subs = new Subscription();
+  @ViewChild('someKeyboardSlider2') someKeyboardSlider2: NouisliderComponent;
 
-  treeMapData = [
-    {
-      "name": "Germany",
-      "value": 90632
-    },
-    {
-      "name": "Italy",
-      "value": 15800
-    },
-    {
-      "name": "France",
-      "value": 36745
-    },
-    {
-      "name": "United Kingdom",
-      "value": 36240
-    },
-    {
-      "name": "United States",
-      "value": 49737
-    },
-    {
-      "name": "Spain",
-      "value": 23000
-    }
-  ];
+  //Graph Data
+
+  organisms = [{id: 1, name: 'org1'}, {id: 2, name: 'org2'}];
+
+  // pie chart
+  releaseTypes = [];
+  releasesQty = 0;
+  releasesAmount = 0;
+
+  //Tree map
+  productsTypes = [];
+  suppliers = [];
 
   boxChartOptions: any = {
 
@@ -134,17 +100,29 @@ export class VisualizationsComponent implements OnInit {
   };
   boxChart = new Chart(this.boxChartOptions);
 
-  radarData: Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'My First dataset'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'My Second dataset'}
+  radarData = [];
+  radarLabels = [
+    'accumulationOfSuppliersByOrganisation',
+    'completedInfo',
+    'concentrationOfSuppliers',
+    'conectionByAmount',
+    'description',
+    'performanceIndex',
+    'Process',
+    'quantityOfPurchases',
+    'quantityOfPurchasesByException',
+    'sanctionedCompanies'
   ];
 
-  constructor() {
+  constructor(private visualizationStats: VisualizationsStatsService) {
   }
 
   ngOnInit() {
   }
 
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
 
   public keyboard2: number[] = [1, 3];
 
@@ -181,10 +159,65 @@ export class VisualizationsComponent implements OnInit {
   public someKeyboardConfig2: any = {
     keyboard: true,
     onKeydown: this.keyboardEventHandler
-  }
+  };
 
   onOrgChange(id) {
-    console.log(id);
+    this.selectedOrgId = id;
+    this.getData();
+  }
+
+  getData() {
+    const statsSub = this.visualizationStats.getStats(this.range, this.selectedOrgId).subscribe((data: any) => {
+      this.releasesQty = data.releasesQuantity;
+      this.releasesAmount = data.totalAmountUYU;
+      this.releaseTypes = this.generateSeries(data.releasesTypes);
+      this.productsTypes = this.generateSeries(data.productsTypesTotalAmountUYU);
+      this.suppliers = this.generateSeries(data.suppliersTotalAmountUYU);
+      this.radarData = this.generateRadarData(data.organisationIndexes);
+    });
+    this.subs.add(statsSub);
+  }
+
+  generateSeries(item) {
+    let series = [];
+    const keys = Object.keys(item);
+    for (const key of keys) {
+      series.push({name: key, value: item[key]});
+    }
+    return series;
+  }
+
+  generateRadarData(items) {
+    let data = [
+      // {data: [65, 59, 80, 81, 56, 55, 40], label: 'My First dataset'}
+      ];
+    for (const dataset of items) {
+      data.push({
+        data: [
+          parseFloat(dataset.accumulationOfSuppliersByOrganisation),
+          parseFloat(dataset.completedInfo),
+          parseFloat(dataset.concentrationOfSuppliers),
+          parseFloat(dataset.conectionByAmount),
+          parseFloat(dataset.description),
+          parseFloat(dataset.performanceIndex),
+          parseFloat(dataset.process),
+          parseFloat(dataset.quantityOfPurchases),
+          parseFloat(dataset.quantityOfPurchasesByException),
+          parseFloat(dataset.sanctionedCompanies)
+        ],
+        label: dataset.year
+      })
+
+    }
+    return data;
+  }
+
+  get showCharts() {
+    const hasReleaseTypes = this.releaseTypes && this.releaseTypes.length > 0;
+    const hasProductsTypes = this.productsTypes && this.productsTypes.length > 0;
+    const hasSuppliers = this.suppliers && this.suppliers.length > 0;
+    const hasRadarData = this.radarData && this.radarData.length > 0;
+    return hasReleaseTypes && hasProductsTypes && hasSuppliers && hasRadarData;
   }
 
 }

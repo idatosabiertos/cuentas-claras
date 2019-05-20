@@ -10,6 +10,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import * as more from 'highcharts/highcharts-more.src';
 import * as exporting from 'highcharts/modules/exporting.src';
+import { VisualizationsStatsService } from './visualizations-stats.service';
 
 @NgModule({
   declarations: [VisualizationsComponent],
@@ -24,6 +25,7 @@ import * as exporting from 'highcharts/modules/exporting.src';
     ChartModule
   ],
   providers: [
+    VisualizationsStatsService,
     {provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting]} // add as factory to your providers
   ]
 })

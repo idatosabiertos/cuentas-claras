@@ -18,94 +18,97 @@
     <!--Grid column-->
     <div class="col-md-12 mb-4">
       <nouislider [connect]="true" [config]="someKeyboardConfig2" [min]="2015" [max]="2018" [step]="1"
+                  (change)="getData()"
                   [(ngModel)]="range" [tooltips]="[true,true]"></nouislider>
       <select class="browser-default custom-select" (change)="onOrgChange($event.target.value)">
-        <option value="" selected>Todos los organismos</option>
+        <option value="" selected>Seleccione un Organismo</option>
         <option *ngFor="let org of organisms" value="{{org.id}}">{{org.name}}</option>
       </select>
     </div>
   </div>
 
+  <ng-container *ngIf="showCharts">
 
-  <div class="row">
+    <div class="row">
 
-    <!--Grid column-->
-    <div class="col-md-6 mb-4">
-      <small>¿Cómo se gasta?</small>
-      <ngx-charts-pie-chart
-        [results]="pieChartData"
-        [trimLabels]="false"
-        [labels]="true">
-      </ngx-charts-pie-chart>
-    </div>
+      <!--Grid column-->
+      <div class="col-md-6 mb-4">
+        <small>¿Cómo se gasta?</small>
+        <ngx-charts-pie-chart
+          [results]="releaseTypes"
+          [trimLabels]="false"
+          [labels]="true">
+        </ngx-charts-pie-chart>
+      </div>
 
-    <!--Grid column-->
-    <div class="col-md-6 mb-4">
-      <small>¿Cómo se gasta?</small>
-      <h4>Monto de Compras</h4>
-      <p>$3.789.433</p>
-      <p>En 54 Compras</p>
-    </div>
-
-  </div>
-
-  <div class="row">
-
-    <!--Grid column-->
-    <div class="col-md-12 mb-4">
-      <small>¿Cómo se compra?</small>
-      <h4>Artículos Adquiridos</h4>
-      <ngx-charts-tree-map
-        [animations]="true"
-        [results]="treeMapData">
-      </ngx-charts-tree-map>
-    </div>
-
-  </div>
-
-  <div class="row">
-
-    <!--Grid column-->
-    <div class="col-md-12 mb-4">
-      <small>Comparación</small>
-      <h4>Los 10 artículos más comprados</h4>
-      <div [chart]="boxChart"></div>
+      <!--Grid column-->
+      <div class="col-md-6 mb-4">
+        <small>¿Cómo se gasta?</small>
+        <h4>Monto de Compras</h4>
+        <p>{{releasesAmount | currency}}</p>
+        <p>En {{releasesQty}} Compras</p>
+      </div>
 
     </div>
 
-  </div>
+    <div class="row">
 
-  <div class="row">
+      <!--Grid column-->
+      <div class="col-md-12 mb-4">
+        <small>¿Cómo se compra?</small>
+        <h4>Artículos Adquiridos</h4>
+        <ngx-charts-tree-map
+          [animations]="true"
+          [results]="productsTypes">
+        </ngx-charts-tree-map>
+      </div>
 
-    <!--Grid column-->
-    <div class="col-md-12 mb-4">
-      <small>¿Cómo se compra?</small>
-      <h4>Artículos Adquiridos</h4>
-      <ngx-charts-tree-map
-        [animations]="true"
-        [results]="treeMapData">
-      </ngx-charts-tree-map>
     </div>
 
-  </div>
+    <div class="row">
 
+      <!--Grid column-->
+      <div class="col-md-12 mb-4">
+        <small>Comparación</small>
+        <h4>Los 10 artículos más comprados</h4>
+        <div [chart]="boxChart"></div>
 
-  <div class="row">
+      </div>
 
-    <!--Grid column-->
-    <div class="col-md-12 mb-4">
-      <small>Índice de Desempeño en las Contrataciones Públicas</small>
-      <h4>MTOP</h4>
-      <canvas mdbChart
-              [chartType]="'radar'"
-              [datasets]="radarData"
-              [labels]="['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running']"
-              [options]="{responsive:true}"
-              [legend]="true">
-      </canvas>
     </div>
 
-  </div>
+    <div class="row">
+
+      <!--Grid column-->
+      <div class="col-md-12 mb-4">
+        <small>¿A quienes se le compra?</small>
+        <h4>Proveedores</h4>
+        <ngx-charts-tree-map
+          [animations]="true"
+          [results]="suppliers">
+        </ngx-charts-tree-map>
+      </div>
+
+    </div>
+
+
+    <div class="row">
+
+      <!--Grid column-->
+      <div class="col-md-12 mb-4">
+        <small>Índice de Desempeño en las Contrataciones Públicas</small>
+        <h4>MTOP</h4>
+        <canvas mdbChart
+                [chartType]="'radar'"
+                [datasets]="radarData"
+                [labels]="radarLabels"
+                [options]="{responsive:true}"
+                [legend]="true">
+        </canvas>
+      </div>
+
+    </div>
+  </ng-container>
 
 
 </div>
