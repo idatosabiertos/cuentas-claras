@@ -110,7 +110,6 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     'description',
     'performanceIndex',
     'Process',
-    'quantityOfPurchases',
     'quantityOfPurchasesByException',
     'sanctionedCompanies'
   ];
@@ -197,16 +196,15 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     for (const dataset of items) {
       data.push({
         data: [
-          parseFloat(dataset.accumulationOfSuppliersByOrganisation),
-          parseFloat(dataset.completedInfo),
-          parseFloat(dataset.concentrationOfSuppliers),
-          parseFloat(dataset.conectionByAmount),
-          parseFloat(dataset.description),
-          parseFloat(dataset.performanceIndex),
-          parseFloat(dataset.process),
-          parseFloat(dataset.quantityOfPurchases),
-          parseFloat(dataset.quantityOfPurchasesByException),
-          parseFloat(dataset.sanctionedCompanies)
+          parseFloat(dataset.accumulationOfSuppliersByOrganisation)*100,
+          parseFloat(dataset.completedInfo)*100,
+          parseFloat(dataset.concentrationOfSuppliers)*100,
+          parseFloat(dataset.conectionByAmount)*100,
+          parseFloat(dataset.description)*100,
+          parseFloat(dataset.performanceIndex)*100,
+          parseFloat(dataset.process)*100,
+          parseFloat(dataset.quantityOfPurchasesByException)*100,
+          parseFloat(dataset.sanctionedCompanies)*100
         ],
         label: dataset.year
       })
