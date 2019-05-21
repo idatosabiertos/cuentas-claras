@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  <div appLoaderIndicator [loaderType]="'ld-over'" [busy]="busy">
+  <div appLoaderIndicator [loaderType]="'ld-over'" [busy]="busy" style="min-height: 300px">
 
     <div class="ld ld-ring ld-spin" style="font-size: 60px"></div>
 
@@ -72,9 +72,7 @@
       <!--Grid column-->
       <div class="col-md-12 mb-4">
         <small>Comparación</small>
-        <h4>Los 10 artículos más comprados</h4>
         <div [chart]="boxChart"></div>
-
       </div>
 
     </div>

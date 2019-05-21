@@ -29,6 +29,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   productsTypes = [];
   suppliers = [];
 
+  boxChartData = [];
   boxChartOptions: any = {
 
     chart: {
@@ -36,7 +37,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     },
 
     title: {
-      text: 'Highcharts Box Plot Example'
+      text: 'Los 10 artículos más comprados'
     },
 
     legend: {
@@ -46,20 +47,20 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     xAxis: {
       categories: ['1', '2', '3', '4', '5'],
       title: {
-        text: 'Experiment No.'
+        text: 'Artículo'
       }
     },
 
     yAxis: {
       title: {
-        text: 'Observations'
+        text: 'Precio'
       },
       plotLines: [{
         value: 932,
         color: 'red',
         width: 1,
         label: {
-          text: 'Theoretical mean: 932',
+          text: 'Mediana teórica: 932',
           align: 'center',
           style: {
             color: 'gray'
@@ -68,36 +69,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
       }]
     },
 
-    series: [{
-      name: 'Observations',
-      data: [
-        [760, 801, 848, 895, 965],
-        [733, 853, 939, 980, 1080],
-        [714, 762, 817, 870, 918],
-        [724, 802, 806, 871, 950],
-        [834, 836, 864, 882, 910]
-      ],
-      tooltip: {
-        headerFormat: '<em>Experiment No {point.key}</em><br/>'
-      }
-    }, {
-      name: 'Outlier',
-      type: 'scatter',
-      data: [ // x, y positions where 0 is the first category
-        [0, 644],
-        [4, 718],
-        [4, 951],
-        [4, 969]
-      ],
-      marker: {
-        fillColor: 'white',
-        lineWidth: 1
-      },
-      tooltip: {
-        pointFormat: 'Observation: {point.y}'
-      }
-    }]
-
+    series: this.boxChartData
   };
   boxChart = new Chart(this.boxChartOptions);
 
@@ -175,6 +147,19 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
       this.productsTypes = this.generateSeries(data.productsTypesTotalAmountUYU);
       this.suppliers = this.generateSeries(data.suppliersTotalAmountUYU);
       this.radarData = this.generateRadarData(data.organisationIndexes);
+      this.boxChartData = [{
+        name: 'Precios',
+        data: [
+          [760, 801, 848, 895, 965],
+          [733, 853, 939, 980, 1080],
+          [714, 762, 817, 870, 918],
+          [724, 802, 806, 871, 950],
+          [834, 836, 864, 882, 910]
+        ],
+        tooltip: {
+          headerFormat: '<em>{point.key}</em><br/>'
+        }
+      }];
     });
     this.busy = statsSub;
     this.subs.add(statsSub);
@@ -196,15 +181,15 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     for (const dataset of items) {
       data.push({
         data: [
-          parseFloat(dataset.accumulationOfSuppliersByOrganisation)*100,
-          parseFloat(dataset.completedInfo)*100,
-          parseFloat(dataset.concentrationOfSuppliers)*100,
-          parseFloat(dataset.conectionByAmount)*100,
-          parseFloat(dataset.description)*100,
-          parseFloat(dataset.performanceIndex)*100,
-          parseFloat(dataset.process)*100,
-          parseFloat(dataset.quantityOfPurchasesByException)*100,
-          parseFloat(dataset.sanctionedCompanies)*100
+          parseFloat(dataset.accumulationOfSuppliersByOrganisation) * 100,
+          parseFloat(dataset.completedInfo) * 100,
+          parseFloat(dataset.concentrationOfSuppliers) * 100,
+          parseFloat(dataset.conectionByAmount) * 100,
+          parseFloat(dataset.description) * 100,
+          parseFloat(dataset.performanceIndex) * 100,
+          parseFloat(dataset.process) * 100,
+          parseFloat(dataset.quantityOfPurchasesByException) * 100,
+          parseFloat(dataset.sanctionedCompanies) * 100
         ],
         label: dataset.year
       })
@@ -234,15 +219,16 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   }
 
   get showBoxChart() {
-    return this.boxChart ? true : false;
+    return this.boxChartData && this.boxChartData.length > 0;
   }
 
-  clearData(){
-    this.releaseTypes=[];
-    this.releasesQty=0;
-    this.releasesAmount=0;
-    this.productsTypes=[];
-    this.suppliers=[];
-    this.radarData=[];
+  clearData() {
+    this.releaseTypes = [];
+    this.releasesQty = 0;
+    this.releasesAmount = 0;
+    this.productsTypes = [];
+    this.suppliers = [];
+    this.radarData = [];
+    this.boxChartData = [];
   }
 }
