@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NouisliderComponent } from 'ng2-nouislider';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Chart } from 'angular-highcharts';
 import { VisualizationsStatsService } from './visualizations-stats.service';
 import { Subscription } from 'rxjs/index';
@@ -14,7 +13,6 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   busy: Subscription;
   range = [2015, 2018];
   subs = new Subscription();
-  @ViewChild('someKeyboardSlider2') someKeyboardSlider2: NouisliderComponent;
 
   //Graph Data
 
@@ -75,15 +73,15 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
 
   radarData = [];
   radarLabels = [
-    'accumulationOfSuppliersByOrganisation',
-    'completedInfo',
-    'concentrationOfSuppliers',
-    'conectionByAmount',
-    'description',
-    'performanceIndex',
-    'Process',
-    'quantityOfPurchasesByException',
-    'sanctionedCompanies'
+    'Acumulación de proveedores por organismo',
+    'Completitud de información',
+    'Concentración de proveedores',
+    'Conexiones según monto',
+    'Descripción',
+    'Desempeño',
+    'Tipo de procedimiento',
+    'Cantidad de compras por excepción',
+    'Empresa sancionada'
   ];
 
   constructor(private visualizationStats: VisualizationsStatsService) {
@@ -97,7 +95,6 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   }
 
   public keyboard2: number[] = [1, 3];
-
   private keyboardEventHandler = (e: KeyboardEvent) => {
     // determine which handle triggered the event
     let index = parseInt((<HTMLElement>e.target).getAttribute('data-handle'));
@@ -127,7 +124,6 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     newValue[index] += delta;
     this.keyboard2 = newValue;
   };
-
   public someKeyboardConfig2: any = {
     keyboard: true,
     onKeydown: this.keyboardEventHandler
@@ -181,21 +177,26 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     for (const dataset of items) {
       data.push({
         data: [
-          parseFloat(dataset.accumulationOfSuppliersByOrganisation) * 100,
-          parseFloat(dataset.completedInfo) * 100,
-          parseFloat(dataset.concentrationOfSuppliers) * 100,
-          parseFloat(dataset.conectionByAmount) * 100,
-          parseFloat(dataset.description) * 100,
-          parseFloat(dataset.performanceIndex) * 100,
-          parseFloat(dataset.process) * 100,
-          parseFloat(dataset.quantityOfPurchasesByException) * 100,
-          parseFloat(dataset.sanctionedCompanies) * 100
+          this.getPercentage(dataset.accumulationOfSuppliersByOrganisation),
+          this.getPercentage(dataset.completedInfo),
+          this.getPercentage(dataset.concentrationOfSuppliers),
+          this.getPercentage(dataset.conectionByAmount),
+          this.getPercentage(dataset.description),
+          this.getPercentage(dataset.performanceIndex),
+          this.getPercentage(dataset.process),
+          this.getPercentage(dataset.quantityOfPurchasesByException),
+          this.getPercentage(dataset.sanctionedCompanies)
         ],
         label: dataset.year
       })
 
     }
     return data;
+  }
+
+  getPercentage(num) {
+    const parsedNum = parseFloat(num);
+    return isNaN(parsedNum) ? 0 : parsedNum * 100;
   }
 
   get showPieChart() {
