@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { YearFilterComponent } from './year-filter/year-filter.component';
+import { YearFilterComponent } from './year-filter.component';
 
 @NgModule({
   exports:[YearFilterComponent],
@@ -9,4 +9,4 @@ import { YearFilterComponent } from './year-filter/year-filter.component';
     CommonModule
   ]
 })
-export class SharedModule { }
+export class YearFilterModule { }

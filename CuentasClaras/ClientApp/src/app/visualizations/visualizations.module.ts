@@ -11,6 +11,7 @@ import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import * as more from 'highcharts/highcharts-more.src';
 import * as exporting from 'highcharts/modules/exporting.src';
 import { VisualizationsStatsService } from './visualizations-stats.service';
+import { LoaderIndicatorModule } from '../shared/loader-indicator/loader-indicator.module';
 
 @NgModule({
   declarations: [VisualizationsComponent],
@@ -22,7 +23,8 @@ import { VisualizationsStatsService } from './visualizations-stats.service';
     NouisliderModule,
     NgxChartsModule,
     ChartsModule,
-    ChartModule
+    ChartModule,
+    LoaderIndicatorModule
   ],
   providers: [
     VisualizationsStatsService,

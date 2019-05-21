@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs/index';
 })
 export class VisualizationsComponent implements OnInit, OnDestroy {
   selectedOrgId;
+  busy: Subscription;
   range = [2015, 2018];
   subs = new Subscription();
   @ViewChild('someKeyboardSlider2') someKeyboardSlider2: NouisliderComponent;
@@ -167,6 +168,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   }
 
   getData() {
+    this.clearData();
     const statsSub = this.visualizationStats.getStats(this.range, this.selectedOrgId).subscribe((data: any) => {
       this.releasesQty = data.releasesQuantity;
       this.releasesAmount = data.totalAmountUYU;
@@ -175,6 +177,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
       this.suppliers = this.generateSeries(data.suppliersTotalAmountUYU);
       this.radarData = this.generateRadarData(data.organisationIndexes);
     });
+    this.busy = statsSub;
     this.subs.add(statsSub);
   }
 
@@ -190,7 +193,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   generateRadarData(items) {
     let data = [
       // {data: [65, 59, 80, 81, 56, 55, 40], label: 'My First dataset'}
-      ];
+    ];
     for (const dataset of items) {
       data.push({
         data: [
@@ -212,12 +215,36 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     return data;
   }
 
-  get showCharts() {
-    const hasReleaseTypes = this.releaseTypes && this.releaseTypes.length > 0;
-    const hasProductsTypes = this.productsTypes && this.productsTypes.length > 0;
-    const hasSuppliers = this.suppliers && this.suppliers.length > 0;
-    const hasRadarData = this.radarData && this.radarData.length > 0;
-    return hasReleaseTypes && hasProductsTypes && hasSuppliers && hasRadarData;
+  get showPieChart() {
+    return this.releaseTypes && this.releaseTypes.length > 0;
   }
 
+  get showGeneralData() {
+    return this.releasesQty > 0 && this.releasesAmount > 0;
+  }
+
+  get showProductsTypes() {
+    return this.productsTypes && this.productsTypes.length > 0;
+  }
+
+  get showSuppliers() {
+    return this.suppliers && this.suppliers.length > 0;
+  }
+
+  get showRadarData() {
+    return this.radarData && this.radarData.length > 0;
+  }
+
+  get showBoxChart() {
+    return this.boxChart ? true : false;
+  }
+
+  clearData(){
+    this.releaseTypes=[];
+    this.releasesQty=0;
+    this.releasesAmount=0;
+    this.productsTypes=[];
+    this.suppliers=[];
+    this.radarData=[];
+  }
 }

@@ -6,10 +6,10 @@ import { HomeComponent } from './home.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SafePipe } from './safe.pipe';
-import { SharedModule } from '../shared/shared/shared.module';
 import { HomeStatsService } from './home-stats.service';
 import { NgxsModule } from '@ngxs/store';
 import { HomeState } from './home-state/home.state';
+import { YearFilterModule } from '../shared/year-filter/year-filter.module';
 
 @NgModule({
   declarations: [HomeComponent, SafePipe],
@@ -21,7 +21,7 @@ import { HomeState } from './home-state/home.state';
     NgxDatatableModule,
     NgxChartsModule,
     NgxsModule.forFeature([HomeState]),
-    SharedModule
+    YearFilterModule
   ]
 })
 export class HomeModule {

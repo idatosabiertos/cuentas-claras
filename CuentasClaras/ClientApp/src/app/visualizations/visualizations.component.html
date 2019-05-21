@@ -27,12 +27,14 @@
     </div>
   </div>
 
-  <ng-container *ngIf="showCharts">
+  <div appLoaderIndicator [loaderType]="'ld-over'" [busy]="busy">
+
+    <div class="ld ld-ring ld-spin" style="font-size: 60px"></div>
 
     <div class="row">
 
       <!--Grid column-->
-      <div class="col-md-6 mb-4">
+      <div class="col-md-6 mb-4" *ngIf="showPieChart">
         <small>¿Cómo se gasta?</small>
         <ngx-charts-pie-chart
           [results]="releaseTypes"
@@ -42,7 +44,7 @@
       </div>
 
       <!--Grid column-->
-      <div class="col-md-6 mb-4">
+      <div class="col-md-6 mb-4" *ngIf="showGeneralData">
         <small>¿Cómo se gasta?</small>
         <h4>Monto de Compras</h4>
         <p>{{releasesAmount | currency}}</p>
@@ -51,7 +53,7 @@
 
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="showProductsTypes">
 
       <!--Grid column-->
       <div class="col-md-12 mb-4">
@@ -65,7 +67,7 @@
 
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="showBoxChart">
 
       <!--Grid column-->
       <div class="col-md-12 mb-4">
@@ -77,10 +79,10 @@
 
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="showSuppliers">
 
       <!--Grid column-->
-      <div class="col-md-12 mb-4">
+      <div class="col-md-12 mb-4" *ngIf="showBoxChart">
         <small>¿A quienes se le compra?</small>
         <h4>Proveedores</h4>
         <ngx-charts-tree-map
@@ -95,7 +97,7 @@
     <div class="row">
 
       <!--Grid column-->
-      <div class="col-md-12 mb-4">
+      <div class="col-md-12 mb-4" *ngIf="showRadarData">
         <small>Índice de Desempeño en las Contrataciones Públicas</small>
         <h4>MTOP</h4>
         <canvas mdbChart
@@ -108,7 +110,7 @@
       </div>
 
     </div>
-  </ng-container>
+  </div>
 
 
 </div>
