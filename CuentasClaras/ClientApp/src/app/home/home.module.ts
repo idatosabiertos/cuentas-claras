@@ -10,6 +10,7 @@ import { HomeStatsService } from './home-stats.service';
 import { NgxsModule } from '@ngxs/store';
 import { HomeState } from './home-state/home.state';
 import { YearFilterModule } from '../shared/year-filter/year-filter.module';
+import { LoaderIndicatorModule } from '../shared/loader-indicator/loader-indicator.module';
 
 @NgModule({
   declarations: [HomeComponent, SafePipe],
@@ -18,6 +19,7 @@ import { YearFilterModule } from '../shared/year-filter/year-filter.module';
     CommonModule,
     HomeRoutingModule,
     MDBBootstrapModule,
+    LoaderIndicatorModule,
     NgxDatatableModule,
     NgxChartsModule,
     NgxsModule.forFeature([HomeState]),

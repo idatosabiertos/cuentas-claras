@@ -175,8 +175,11 @@
       </p>
 
       <div class="row">
-        <div class="col-md-12 my-5">
-          <select  class="browser-default custom-select" (change)="onItemChange($event.target.value)">
+        <div class="col-md-12 my-5"appLoaderIndicator [loaderType]="'ld-over'" [busy]="itemsBusy">
+
+          <div class="ld ld-ring ld-spin" style="font-size: 60px"></div>
+
+          <select  [disabled]="itemsListDisabled" class="browser-default custom-select" (change)="onItemChange($event.target.value)">
             <option *ngFor="let item of itemsList" value="{{item.releaseItemClassificationId}}">{{item.description}}</option>
           </select>
           <ngx-charts-line-chart

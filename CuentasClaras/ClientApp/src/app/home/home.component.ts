@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   @Select(HomeState.topSuppliers) private topSuppliers$;
   @Select(HomeState.topItems) private topItems$;
   itemsList: any = [];
+  itemsBusy: Subscription;
+  itemsListDisabled = true;
 
   subs = new Subscription();
   topBuyers;
@@ -60,34 +62,34 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public onItemChange(item) {
-    this.subs.add(
-      this.homeStats.getItemPrices(item).subscribe((prices: any) => {
-        const data = {};
-        const result = [];
-        for (const year in prices.releaseItems) {
-          const units = prices.releaseItems[year];
-          for (const unityOfMeassure in units) {
-            const series = [];
-            const items = units[unityOfMeassure];
-            for (const item of items) {
-              const serie = {name: year, value: item.unitValueAmountUYU};
-              series.push(serie);
-            }
-
-            if (!data[unityOfMeassure]) {
-              data[unityOfMeassure] = series;
-            } else {
-              data[unityOfMeassure] = data[unityOfMeassure].concat(series);
-            }
-
+    const itemsPricesSub = this.homeStats.getItemPrices(item).subscribe((prices: any) => {
+      const data = {};
+      const result = [];
+      for (const year in prices.releaseItems) {
+        const units = prices.releaseItems[year];
+        for (const unityOfMeassure in units) {
+          const series = [];
+          const items = units[unityOfMeassure];
+          for (const item of items) {
+            const serie = {name: year, value: item.unitValueAmountUYU};
+            series.push(serie);
           }
+
+          if (!data[unityOfMeassure]) {
+            data[unityOfMeassure] = series;
+          } else {
+            data[unityOfMeassure] = data[unityOfMeassure].concat(series);
+          }
+
         }
-        for (const unityOfMeassure in data) {
-          result.push({name: unityOfMeassure, series: data[unityOfMeassure]})
-        }
-        this.itemPriceGraphData = result;
-      })
-    );
+      }
+      for (const unityOfMeassure in data) {
+        result.push({name: unityOfMeassure, series: data[unityOfMeassure]})
+      }
+      this.itemPriceGraphData = result;
+    });
+    this.itemsBusy = itemsPricesSub;
+    this.subs.add(itemsPricesSub);
   }
 
   public topBuyersSelectedYear(year) {
@@ -188,12 +190,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private getListOfItems() {
-    this.subs.add(this.homeStats.getListofItems().subscribe((list: any) => {
+    const itemsListSub = this.homeStats.getListofItems().subscribe((list: any) => {
       this.itemsList = list;
       if (list && list.length > 0) {
+        this.itemsListDisabled = false;
         this.onItemChange(list[0].releaseItemClassificationId);
       }
-    }));
+    });
+    this.subs.add(itemsListSub);
+    this.itemsBusy = itemsListSub;
 
   }
 }
