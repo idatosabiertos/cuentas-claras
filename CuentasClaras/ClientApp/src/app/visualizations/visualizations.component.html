@@ -35,20 +35,26 @@
 
       <!--Grid column-->
       <div class="col-md-6 mb-4" *ngIf="showPieChart">
-        <small>¿Cómo se gasta?</small>
-        <ngx-charts-pie-chart
-          [results]="releaseTypes"
-          [trimLabels]="false"
-          [labels]="true">
-        </ngx-charts-pie-chart>
+        <div class="visualization-card">
+          <small>¿Cómo se gasta?</small>
+          <ngx-charts-pie-chart
+            [results]="releaseTypes"
+            [trimLabels]="false"
+            [labels]="true">
+          </ngx-charts-pie-chart>
+        </div>
       </div>
 
       <!--Grid column-->
       <div class="col-md-6 mb-4" *ngIf="showGeneralData">
-        <small>¿Cómo se gasta?</small>
-        <h4>Monto de Compras</h4>
-        <p>{{releasesAmount | currency}}</p>
-        <p>En {{releasesQty}} Compras</p>
+        <div class="visualization-card general-stats">
+          <small>¿Cómo se gasta?</small>
+          <h4>Monto de Compras</h4>
+          <div class="general-stats-content">
+            <p>{{releasesAmount | currency}}</p>
+            <p>En {{releasesQty}} Compras</p>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -56,32 +62,37 @@
     <div class="row" *ngIf="showProductsTypes">
 
       <!--Grid column-->
-      <div class="col-md-12 mb-4" style="min-height: 700px">
-        <small>¿Cómo se compra?</small>
-        <h4>Artículos Adquiridos</h4>
-        <div class="product-tabs btn-group" role="group" style="border-radius: 6px;
+      <div class="col-md-12 mb-4">
+        <div class="visualization-card">
+
+          <small>¿Cómo se compra?</small>
+          <h4>Artículos Adquiridos</h4>
+          <div class="product-tabs btn-group" role="group" style="border-radius: 6px;
     border: 1px solid #00c851;">
-          <button mdbBtn type="button"
-                  [ngClass]="{'active':productsActiveTab==='amount'}"
-                  (click)="productsActiveTab='amount'"
-                  class="waves-light custom-btn-color">Monto
-          </button>
-          <button mdbBtn type="button"
-                  [ngClass]="{'active':productsActiveTab==='qty'}"
-                  (click)="productsActiveTab='qty'"
-                  class="waves-light custom-btn-color">Cantidad
-          </button>
+            <button mdbBtn type="button"
+                    [ngClass]="{'active':productsActiveTab==='amount'}"
+                    (click)="productsActiveTab='amount'"
+                    class="waves-light custom-btn-color">Monto
+            </button>
+            <button mdbBtn type="button"
+                    [ngClass]="{'active':productsActiveTab==='qty'}"
+                    (click)="productsActiveTab='qty'"
+                    class="waves-light custom-btn-color">Cantidad
+            </button>
+          </div>
+          <div class="row" style="min-height: 700px">
+            <ngx-charts-tree-map
+              *ngIf="productsActiveTab==='amount'"
+              [animations]="true"
+              [results]="productsTypes">
+            </ngx-charts-tree-map>
+            <ngx-charts-tree-map
+              *ngIf="productsActiveTab==='qty'"
+              [animations]="true"
+              [results]="productsTypesQuantity">
+            </ngx-charts-tree-map>
+          </div>
         </div>
-        <ngx-charts-tree-map
-          *ngIf="productsActiveTab==='amount'"
-          [animations]="true"
-          [results]="productsTypes">
-        </ngx-charts-tree-map>
-        <ngx-charts-tree-map
-          *ngIf="productsActiveTab==='qty'"
-          [animations]="true"
-          [results]="productsTypesQuantity">
-        </ngx-charts-tree-map>
       </div>
 
     </div>
@@ -90,8 +101,10 @@
 
       <!--Grid column-->
       <div class="col-md-12 mb-4">
-        <small>Comparación</small>
-        <div [chart]="boxChart"></div>
+        <div class="visualization-card">
+          <small>Comparación</small>
+          <div [chart]="boxChart"></div>
+        </div>
       </div>
 
     </div>
@@ -100,12 +113,16 @@
 
       <!--Grid column-->
       <div class="col-md-12 mb-4" *ngIf="showSuppliers" style="min-height: 700px;">
-        <small>¿A quienes se le compra?</small>
-        <h4>Proveedores</h4>
-        <ngx-charts-tree-map
-          [animations]="true"
-          [results]="suppliers">
-        </ngx-charts-tree-map>
+        <div class="visualization-card">
+          <small>¿A quienes se le compra?</small>
+          <h4>Proveedores</h4>
+          <div class="row" style="min-height: 700px">
+            <ngx-charts-tree-map
+              [animations]="true"
+              [results]="suppliers">
+            </ngx-charts-tree-map>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -115,14 +132,16 @@
 
       <!--Grid column-->
       <div class="col-md-12 mb-4" *ngIf="showRadarData">
-        <small>Índice de Desempeño en las Contrataciones Públicas</small>
-        <canvas mdbChart
-                [chartType]="'radar'"
-                [datasets]="radarData"
-                [labels]="radarLabels"
-                [options]="{responsive:true}"
-                [legend]="true">
-        </canvas>
+        <div class="visualization-card">
+          <small>Índice de Desempeño en las Contrataciones Públicas</small>
+          <canvas mdbChart
+                  [chartType]="'radar'"
+                  [datasets]="radarData"
+                  [labels]="radarLabels"
+                  [options]="{responsive:true}"
+                  [legend]="true">
+          </canvas>
+        </div>
       </div>
 
     </div>

@@ -1,4 +1,4 @@
-.product-tabs{
+.product-tabs {
 
   .active {
     opacity: 1;
@@ -7,4 +7,17 @@
   button {
     opacity: .6;
   }
+}
+
+.general-stats {
+  .general-stats-content {
+    padding-left: 5%;
+  }
+}
+
+.visualization-card{
+  min-height: 100%;
+  padding: 15px;
+  background-color: white;
+  border-radius: 5px;
 }
