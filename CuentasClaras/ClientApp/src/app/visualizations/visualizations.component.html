@@ -56,12 +56,31 @@
     <div class="row" *ngIf="showProductsTypes">
 
       <!--Grid column-->
-      <div class="col-md-12 mb-4">
+      <div class="col-md-12 mb-4" style="min-height: 700px">
         <small>¿Cómo se compra?</small>
         <h4>Artículos Adquiridos</h4>
+        <div class="product-tabs btn-group" role="group" style="border-radius: 6px;
+    border: 1px solid #00c851;">
+          <button mdbBtn type="button"
+                  [ngClass]="{'active':productsActiveTab==='amount'}"
+                  (click)="productsActiveTab='amount'"
+                  class="waves-light custom-btn-color">Monto
+          </button>
+          <button mdbBtn type="button"
+                  [ngClass]="{'active':productsActiveTab==='qty'}"
+                  (click)="productsActiveTab='qty'"
+                  class="waves-light custom-btn-color">Cantidad
+          </button>
+        </div>
         <ngx-charts-tree-map
+          *ngIf="productsActiveTab==='amount'"
           [animations]="true"
           [results]="productsTypes">
+        </ngx-charts-tree-map>
+        <ngx-charts-tree-map
+          *ngIf="productsActiveTab==='qty'"
+          [animations]="true"
+          [results]="productsTypesQuantity">
         </ngx-charts-tree-map>
       </div>
 
@@ -80,7 +99,7 @@
     <div class="row" *ngIf="showSuppliers">
 
       <!--Grid column-->
-      <div class="col-md-12 mb-4" *ngIf="showBoxChart">
+      <div class="col-md-12 mb-4" *ngIf="showSuppliers" style="min-height: 700px;">
         <small>¿A quienes se le compra?</small>
         <h4>Proveedores</h4>
         <ngx-charts-tree-map
@@ -97,7 +116,6 @@
       <!--Grid column-->
       <div class="col-md-12 mb-4" *ngIf="showRadarData">
         <small>Índice de Desempeño en las Contrataciones Públicas</small>
-        <h4>MTOP</h4>
         <canvas mdbChart
                 [chartType]="'radar'"
                 [datasets]="radarData"

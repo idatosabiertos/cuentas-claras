@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Chart } from 'angular-highcharts';
 import { VisualizationsStatsService } from './visualizations-stats.service';
 import { Subscription } from 'rxjs/index';
@@ -24,10 +24,12 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   releasesAmount = 0;
 
   //Tree map
+  productsActiveTab = 'amount';
   productsTypes = [];
+  productsTypesQuantity = [];
+
   suppliers = [];
 
-  boxChartData = [];
   boxChartOptions: any = {
 
     chart: {
@@ -65,9 +67,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
           }
         }
       }]
-    },
-
-    series: this.boxChartData
+    }
   };
   boxChart = new Chart(this.boxChartOptions);
 
@@ -84,7 +84,8 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     'Empresa sancionada'
   ];
 
-  constructor(private visualizationStats: VisualizationsStatsService) {
+  constructor(private visualizationStats: VisualizationsStatsService,
+              private zone: NgZone) {
   }
 
   ngOnInit() {
@@ -135,32 +136,36 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   }
 
   onSliderChange() {
-      this.getData();
+    this.getData();
   }
 
   getData() {
-    if(this.range && this.selectedOrgId !==undefined){
+    if (this.range && this.selectedOrgId !== undefined) {
       this.clearData();
       const statsSub = this.visualizationStats.getStats(this.range, this.selectedOrgId).subscribe((data: any) => {
         this.releasesQty = data.releasesQuantity;
         this.releasesAmount = data.totalAmountUYU;
         this.releaseTypes = this.generateSeries(data.releasesTypes);
         this.productsTypes = this.generateSeries(data.productsTypesTotalAmountUYU);
+        this.productsTypesQuantity = this.generateSeries(data.productsTypesQuantity);
         this.suppliers = this.generateSeries(data.suppliersTotalAmountUYU);
         this.radarData = this.generateRadarData(data.organisationIndexes);
-        this.boxChartData = [{
-          name: 'Precios',
-          data: [
-            [760, 801, 848, 895, 965],
-            [733, 853, 939, 980, 1080],
-            [714, 762, 817, 870, 918],
-            [724, 802, 806, 871, 950],
-            [834, 836, 864, 882, 910]
-          ],
-          tooltip: {
-            headerFormat: '<em>{point.key}</em><br/>'
-          }
-        }];
+        this.zone.run(() => {
+          this.boxChartOptions.series = [{
+            name: 'Precios',
+            data: [
+              [760, 801, 848, 895, 965],
+              [733, 853, 939, 980, 1080],
+              [714, 762, 817, 870, 918],
+              [724, 802, 806, 871, 950],
+              [834, 836, 864, 882, 910]
+            ],
+            tooltip: {
+              headerFormat: '<em>{point.key}</em><br/>'
+            }
+          }];
+          this.boxChart = new Chart(this.boxChartOptions);
+        });
       });
       this.busy = statsSub;
       this.subs.add(statsSub);
@@ -226,7 +231,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   }
 
   get showBoxChart() {
-    return this.boxChartData && this.boxChartData.length > 0;
+    return this.boxChartOptions.series && this.boxChartOptions.series.length > 0;
   }
 
   clearData() {
@@ -236,6 +241,6 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     this.productsTypes = [];
     this.suppliers = [];
     this.radarData = [];
-    this.boxChartData = [];
+    this.boxChartOptions.series = [];
   }
 }
