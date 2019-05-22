@@ -134,31 +134,37 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
+  onSliderChange() {
+      this.getData();
+  }
+
   getData() {
-    this.clearData();
-    const statsSub = this.visualizationStats.getStats(this.range, this.selectedOrgId).subscribe((data: any) => {
-      this.releasesQty = data.releasesQuantity;
-      this.releasesAmount = data.totalAmountUYU;
-      this.releaseTypes = this.generateSeries(data.releasesTypes);
-      this.productsTypes = this.generateSeries(data.productsTypesTotalAmountUYU);
-      this.suppliers = this.generateSeries(data.suppliersTotalAmountUYU);
-      this.radarData = this.generateRadarData(data.organisationIndexes);
-      this.boxChartData = [{
-        name: 'Precios',
-        data: [
-          [760, 801, 848, 895, 965],
-          [733, 853, 939, 980, 1080],
-          [714, 762, 817, 870, 918],
-          [724, 802, 806, 871, 950],
-          [834, 836, 864, 882, 910]
-        ],
-        tooltip: {
-          headerFormat: '<em>{point.key}</em><br/>'
-        }
-      }];
-    });
-    this.busy = statsSub;
-    this.subs.add(statsSub);
+    if(this.range && this.selectedOrgId !==undefined){
+      this.clearData();
+      const statsSub = this.visualizationStats.getStats(this.range, this.selectedOrgId).subscribe((data: any) => {
+        this.releasesQty = data.releasesQuantity;
+        this.releasesAmount = data.totalAmountUYU;
+        this.releaseTypes = this.generateSeries(data.releasesTypes);
+        this.productsTypes = this.generateSeries(data.productsTypesTotalAmountUYU);
+        this.suppliers = this.generateSeries(data.suppliersTotalAmountUYU);
+        this.radarData = this.generateRadarData(data.organisationIndexes);
+        this.boxChartData = [{
+          name: 'Precios',
+          data: [
+            [760, 801, 848, 895, 965],
+            [733, 853, 939, 980, 1080],
+            [714, 762, 817, 870, 918],
+            [724, 802, 806, 871, 950],
+            [834, 836, 864, 882, 910]
+          ],
+          tooltip: {
+            headerFormat: '<em>{point.key}</em><br/>'
+          }
+        }];
+      });
+      this.busy = statsSub;
+      this.subs.add(statsSub);
+    }
   }
 
   generateSeries(item) {

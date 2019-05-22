@@ -18,7 +18,7 @@
     <!--Grid column-->
     <div class="col-md-12 mb-4">
       <nouislider [connect]="true" [config]="someKeyboardConfig2" [min]="2015" [max]="2018" [step]="1"
-                  (change)="getData()"
+                  (ngModelChange)="onSliderChange()"
                   [(ngModel)]="range" [tooltips]="[true,true]"></nouislider>
       <select class="browser-default custom-select" (change)="onOrgChange($event.target.value)">
         <option value="" selected>Seleccione un Organismo</option>
