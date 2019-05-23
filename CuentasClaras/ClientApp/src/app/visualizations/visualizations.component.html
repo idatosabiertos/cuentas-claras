@@ -17,13 +17,15 @@
   <div class="row">
     <!--Grid column-->
     <div class="col-md-12 mb-4">
-      <nouislider [connect]="true" [config]="someKeyboardConfig2" [min]="2015" [max]="2018" [step]="1"
-                  (ngModelChange)="onSliderChange()"
-                  [(ngModel)]="range" [tooltips]="[true,true]"></nouislider>
-      <select class="browser-default custom-select" (change)="onOrgChange($event.target.value)">
-        <option value="" selected>Seleccione un Organismo</option>
-        <option *ngFor="let org of organisms" value="{{org.id}}">{{org.name}}</option>
-      </select>
+      <div class="visualization-card">
+        <nouislider [connect]="true" [config]="someKeyboardConfig2" [min]="2015" [max]="2018" [step]="1"
+                    (ngModelChange)="onSliderChange()"
+                    [(ngModel)]="range" [tooltips]="[true,true]"></nouislider>
+        <select class="browser-default custom-select" (change)="onOrgChange($event.target.value)">
+          <option value="" selected>Seleccione un Organismo</option>
+          <option *ngFor="let org of organisms" value="{{org.id}}">{{org.name}}</option>
+        </select>
+      </div>
     </div>
   </div>
 
@@ -49,10 +51,10 @@
       <div class="col-md-6 mb-4" *ngIf="showGeneralData">
         <div class="visualization-card general-stats">
           <small>¿Cómo se gasta?</small>
-          <h4>Monto de Compras</h4>
+          <p class="visualization-card-title">Monto de Compras</p>
           <div class="general-stats-content">
-            <p>{{releasesAmount | currency}}</p>
-            <p>En {{releasesQty}} Compras</p>
+            <p class="general-stats-amount">{{releasesAmount | currency}}</p>
+            <p class="general-stats-purchases">En {{releasesQty}} Compras</p>
           </div>
         </div>
       </div>
@@ -66,7 +68,7 @@
         <div class="visualization-card">
 
           <small>¿Cómo se compra?</small>
-          <h4>Artículos Adquiridos</h4>
+          <p class="visualization-card-title">Artículos Adquiridos</p>
           <div class="product-tabs btn-group" role="group" style="border-radius: 6px;
     border: 1px solid #00c851;">
             <button mdbBtn type="button"
@@ -100,9 +102,14 @@
     <div class="row" *ngIf="showBoxChart">
 
       <!--Grid column-->
-      <div class="col-md-12 mb-4">
+      <div class="col-md-12 mb-4" style="padding-right: 0">
         <div class="visualization-card">
           <small>Comparación</small>
+          <p class="visualization-card-title"> Los 10 artículos más comprados</p>
+          <!--<ng-template #popTemplate><img class="img-fluid" src="assets/boxchart_tip.png"></ng-template>-->
+          <!--<button type="button" class="btn btn-success waves-light" [mdbTooltip]="popTemplate" mdbWavesEffect>-->
+            <!--Como-->
+          <!--</button>-->
           <div [chart]="boxChart"></div>
         </div>
       </div>
@@ -115,7 +122,7 @@
       <div class="col-md-12 mb-4" *ngIf="showSuppliers" style="min-height: 700px;">
         <div class="visualization-card">
           <small>¿A quienes se le compra?</small>
-          <h4>Proveedores</h4>
+          <p class="visualization-card-title">Proveedores</p>
           <div class="row" style="min-height: 700px">
             <ngx-charts-tree-map
               [animations]="true"
@@ -133,7 +140,7 @@
       <!--Grid column-->
       <div class="col-md-12 mb-4" *ngIf="showRadarData">
         <div class="visualization-card">
-          <small>Índice de Desempeño en las Contrataciones Públicas</small>
+          <p class="visualization-card-title">Índice de Desempeño en las Contrataciones Públicas</p>
           <canvas mdbChart
                   [chartType]="'radar'"
                   [datasets]="radarData"

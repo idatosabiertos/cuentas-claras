@@ -1,9 +1,7 @@
 .product-tabs {
-
   .active {
     opacity: 1;
   }
-
   button {
     opacity: .6;
   }
@@ -11,13 +9,33 @@
 
 .general-stats {
   .general-stats-content {
-    padding-left: 5%;
+    text-align: center;
+  }
+  .general-stats-amount {
+    font-size: 40px;
+    font-weight: bold;
+  }
+  .general-stats-purchases {
+    font-size: 30px;
+    font-weight: 400;
   }
 }
 
-.visualization-card{
+.visualization-card {
   min-height: 100%;
   padding: 15px;
   background-color: white;
   border-radius: 5px;
+  small {
+    opacity: 0.6;
+    font-weight: 500;
+  }
+  .visualization-card-title {
+    font-weight: bold;
+  }
+}
+
+.boxchart-tooltip {
+  padding-left: 0;
+  background-color: white;
 }

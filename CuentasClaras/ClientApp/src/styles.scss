@@ -62,11 +62,15 @@ $fill-color: darken($control-color, 10%);
 /// Height of the slider's gutter
 /// @type String
 $gutter-height: 16px;
+.noUi-tooltip {
+  font-weight: bold;
+}
 
-.noUi-target{
+.noUi-target {
   margin-left: 1.5%;
   margin-right: 1.5%;
 }
+
 /// noUiSlider Gutter
 .noUi-background {
   height: $gutter-height;
@@ -76,6 +80,7 @@ $gutter-height: 16px;
     margin: 0 auto 30px;
   }
 }
+
 .noUi-base {
 
   .noUi-connect {

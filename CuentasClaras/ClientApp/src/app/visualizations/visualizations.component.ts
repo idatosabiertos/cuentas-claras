@@ -37,7 +37,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     },
 
     title: {
-      text: 'Los 10 artículos más comprados'
+      text: ''
     },
 
     legend: {
