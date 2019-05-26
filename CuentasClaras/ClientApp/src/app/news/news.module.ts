@@ -5,6 +5,7 @@ import { NewsRoutingModule } from './news-routing.module';
 import { NewsComponent } from './news.component';
 import { PostComponent } from './post/post.component';
 import { NewsService } from './news.service';
+import { LoaderIndicatorModule } from '../shared/loader-indicator/loader-indicator.module';
 
 @NgModule({
   declarations: [NewsComponent, PostComponent],
@@ -12,7 +13,8 @@ import { NewsService } from './news.service';
   imports: [
     CommonModule,
     NewsRoutingModule,
-    MDBBootstrapModule
+    MDBBootstrapModule,
+    LoaderIndicatorModule
   ]
 })
 export class NewsModule {

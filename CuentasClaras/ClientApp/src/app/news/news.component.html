@@ -4,10 +4,16 @@
     <!-- Section heading -->
     <h2 class="h1-responsive font-weight-bold text-center my-5">Notas</h2>
 
-    <ng-container *ngFor="let post of news">
+    <div appLoaderIndicator [loaderType]="'ld-over-full'" [busy]="busy" style="min-height: 300px">
+      <div class="ld ld-ring ld-spin" style="font-size: 60px"></div>
 
-      <app-post [post]="post"></app-post>
-    </ng-container>
+      <ng-container *ngFor="let post of news">
+
+        <div class="ld ld-ring ld-spin" style="font-size: 60px"></div>
+
+        <app-post [post]="post"></app-post>
+      </ng-container>
+    </div>
 
   </section>
   <!-- Section: Blog v.3 -->

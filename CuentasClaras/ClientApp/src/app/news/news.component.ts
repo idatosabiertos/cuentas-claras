@@ -9,8 +9,8 @@ import { Subscription } from 'rxjs/index';
 })
 export class NewsComponent implements OnInit, OnDestroy {
   public subs = new Subscription();
+  public busy: Subscription;
   public news = [];
-
 
   constructor(private newsService: NewsService) {
   }
@@ -20,10 +20,12 @@ export class NewsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.subs.add(this.newsService.getNews()
+    const newsSub = this.newsService.getNews()
       .subscribe((data: any) => {
         this.news = data && data.items ? data.items : [];
-      }));
+      });
+    this.busy = newsSub;
+    this.subs.add(newsSub);
   }
 
 }
