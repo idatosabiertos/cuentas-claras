@@ -69,18 +69,20 @@
 
           <small>¿Cómo se compra?</small>
           <p class="visualization-card-title">Artículos Adquiridos</p>
-          <div class="product-tabs btn-group" role="group" style="border-radius: 6px;
+          <div class="text-center">
+            <div class="product-tabs btn-group" role="group" style="border-radius: 6px;
     border: 1px solid #00c851;">
-            <button mdbBtn type="button"
-                    [ngClass]="{'active':productsActiveTab==='amount'}"
-                    (click)="productsActiveTab='amount'"
-                    class="waves-light custom-btn-color">Monto
-            </button>
-            <button mdbBtn type="button"
-                    [ngClass]="{'active':productsActiveTab==='qty'}"
-                    (click)="productsActiveTab='qty'"
-                    class="waves-light custom-btn-color">Cantidad
-            </button>
+              <button mdbBtn type="button"
+                      [ngClass]="{'active':productsActiveTab==='amount'}"
+                      (click)="productsActiveTab='amount'"
+                      class="waves-light custom-btn-color">Monto
+              </button>
+              <button mdbBtn type="button"
+                      [ngClass]="{'active':productsActiveTab==='qty'}"
+                      (click)="productsActiveTab='qty'"
+                      class="waves-light custom-btn-color">Cantidad
+              </button>
+            </div>
           </div>
           <div class="row" style="min-height: 700px">
             <ngx-charts-tree-map
@@ -107,7 +109,7 @@
           <small>Comparación</small>
           <div style="text-align: right">
             <ng-template #popTemplate><img width="160" src="assets/boxchart_tip.png"></ng-template>
-            <i class="boxchart-tooltip fa fa-question-circle" [mdbTooltip]="popTemplate"  data-container="body">
+            <i class="boxchart-tooltip fa fa-question-circle" [mdbTooltip]="popTemplate" data-container="body">
             </i>
           </div>
           <p class="visualization-card-title"> Los 10 artículos más comprados</p>
