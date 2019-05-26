@@ -105,11 +105,12 @@
       <div class="col-md-12 mb-4" style="padding-right: 0">
         <div class="visualization-card">
           <small>Comparación</small>
+          <div style="text-align: right">
+            <ng-template #popTemplate><img width="160" src="assets/boxchart_tip.png"></ng-template>
+            <i class="boxchart-tooltip fa fa-question-circle" [mdbTooltip]="popTemplate"  data-container="body">
+            </i>
+          </div>
           <p class="visualization-card-title"> Los 10 artículos más comprados</p>
-          <!--<ng-template #popTemplate><img class="img-fluid" src="assets/boxchart_tip.png"></ng-template>-->
-          <!--<button type="button" class="btn btn-success waves-light" [mdbTooltip]="popTemplate" mdbWavesEffect>-->
-            <!--Como-->
-          <!--</button>-->
           <div [chart]="boxChart"></div>
         </div>
       </div>
