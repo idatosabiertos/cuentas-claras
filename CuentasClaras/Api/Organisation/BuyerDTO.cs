@@ -33,7 +33,7 @@ namespace CuentasClaras.Api.Organisation
             buyerDTO.Name = buyer.Name;
             buyerDTO.TotalAmountUYU = buyerReleases.Sum(x => x.TotalAmountUYU);
             buyerDTO.ReleasesTypes = buyerReleases.GroupBy(x => x.TenderProcurementMethodDetails)
-                                                   .ToDictionary(x => x.Key ?? "", y => y.Sum(z => z.TotalAmountUYU));
+                                                   .ToDictionary(x => x.Key ?? "Otros", y => y.Sum(z => z.TotalAmountUYU));
             buyerDTO.SuppliersTotalAmountUYU = buyerReleases.GroupBy(x => x.Supplier.Name)
                                                    .ToDictionary(x => x.Key, y => y.Sum(z => z.TotalAmountUYU));
             var productTypesQuery = buyerReleases.SelectMany(x => x.ReleaseItems)
