@@ -1,20 +1,10 @@
+using CuentasClaras.Api.Organisation;
+using CuentasClaras.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using CuentasClaras.Api.Mail;
-using CuentasClaras.Services;
-using CuentasClaras.Model;
-using Microsoft.EntityFrameworkCore;
-using CuentasClaras.Api.Organisation;
 
 namespace CuentasClaras.Controllers
 {
@@ -31,7 +21,7 @@ namespace CuentasClaras.Controllers
 
         [HttpGet]
         [Route("buyers/search")]
-        public List<Buyer> GetBuyers([FromQuery(Name ="name")] String name)
+        public List<Buyer> GetBuyers([FromQuery(Name = "name")] String name)
         {
             return db.Buyers.Where(x => x.Name.Contains(name)).ToList();
         }
@@ -71,6 +61,27 @@ namespace CuentasClaras.Controllers
                     .ThenInclude(r => r.Supplier)
                 .Include(x => x.OrganisationIndexes)
                 .SingleOrDefault();
+
+            /*
+            var query = (from b in db.Buyers
+                         where b.BuyerId == id
+                         select new
+                         {
+                             BuyerExternalId = b.BuyerExternalId,
+                             BuyerId = b.BuyerId,
+                             Name = b.Name,
+                             Type = b.Type,
+                             OrganisationIndexes = from o in db.OrganisationIndexes
+                                                   where o.BuyerId == b.BuyerId
+                                                   select new OrganisationIndex
+                                                   {
+                                                       OrganisationId = o.OrganisationId,
+                                                       AccumulationOfSuppliersByOrganisation = o.AccumulationOfSuppliersByOrganisation,
+                                                       BuyerId = o.BuyerId,
+                                                       CompletedInfo = o.CompletedInfo
+                                                   },
+                             Releases = b.Releases.Where(x => yearsList.Contains(x.DataSource))
+                         }).First();*/
 
             return BuyerDTO.From(buyer, yearsList);
         }
