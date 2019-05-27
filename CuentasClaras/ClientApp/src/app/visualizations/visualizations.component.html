@@ -23,7 +23,7 @@
                     [(ngModel)]="range" [tooltips]="[true,true]"></nouislider>
         <select class="browser-default custom-select" (change)="onOrgChange($event.target.value)">
           <option value="" selected>Seleccione un Organismo</option>
-          <option *ngFor="let org of organisms" value="{{org.id}}">{{org.name}}</option>
+          <option *ngFor="let org of organisms" value="{{org.buyerId}}">{{org.name}}</option>
         </select>
       </div>
     </div>

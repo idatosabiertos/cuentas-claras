@@ -16,7 +16,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
 
   //Graph Data
 
-  organisms = [{id: 1, name: 'org1'}, {id: 2, name: 'org2'}];
+  organisms: any[] = [];
 
   // pie chart
   releaseTypes = [];
@@ -71,6 +71,9 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.subs.add(this.visualizationStats.getBuyersList().subscribe((buyers: any) => {
+      this.organisms = buyers;
+    }));
   }
 
   ngOnDestroy() {

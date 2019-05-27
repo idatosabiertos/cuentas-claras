@@ -15,6 +15,11 @@ export class VisualizationsStatsService {
     return this.http.get(`${environment.api_base_url}/api/buyer/${orgId}/stats`, {params: params});
   }
 
+  public getBuyersList(){
+    return this.http.get(`${environment.api_base_url}/api/buyer`);
+
+  }
+
   private range(start, end) {
     const result = [];
     for (let i = start; i <= end; i++) {
