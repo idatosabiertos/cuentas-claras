@@ -31,42 +31,24 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   suppliers = [];
 
   boxChartOptions: any = {
-
     chart: {
       type: 'boxplot'
     },
-
     title: {
       text: ''
     },
-
     legend: {
       enabled: false
     },
-
     xAxis: {
-      categories: ['1', '2', '3', '4', '5'],
       title: {
         text: 'Artículo'
       }
     },
-
     yAxis: {
       title: {
         text: 'Precio'
-      },
-      plotLines: [{
-        value: 932,
-        color: 'red',
-        width: 1,
-        label: {
-          text: 'Mediana teórica: 932',
-          align: 'center',
-          style: {
-            color: 'gray'
-          }
-        }
-      }]
+      }
     }
   };
   boxChart = new Chart(this.boxChartOptions);
@@ -150,22 +132,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
         this.productsTypesQuantity = this.generateSeries(data.productsTypesQuantity);
         this.suppliers = this.generateSeries(data.suppliersTotalAmountUYU);
         this.radarData = this.generateRadarData(data.organisationIndexes);
-        this.zone.run(() => {
-          this.boxChartOptions.series = [{
-            name: 'Precios',
-            data: [
-              [760, 801, 848, 895, 965],
-              [733, 853, 939, 980, 1080],
-              [714, 762, 817, 870, 918],
-              [724, 802, 806, 871, 950],
-              [834, 836, 864, 882, 910]
-            ],
-            tooltip: {
-              headerFormat: '<em>{point.key}</em><br/>'
-            }
-          }];
-          this.boxChart = new Chart(this.boxChartOptions);
-        });
+        this.generateBoxChartData(data.topProductsByTotalAmountUYU);
       });
       this.busy = statsSub;
       this.subs.add(statsSub);
@@ -205,6 +172,28 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     return data;
   }
 
+  generateBoxChartData(items) {
+    let series = [];
+    let labels = [];
+    for (const item of items) {
+      series.push([item.min, item.q1, item.mean, item.q3, item.max]);
+      labels.push(item.description);
+    }
+    // update the chart with the new info
+    this.zone.run(() => {
+      this.boxChartOptions.series = [{
+        name: 'Precios',
+        data: series,
+        tooltip: {
+          headerFormat: '<em>{point.key}</em><br/>'
+        }
+      }];
+      this.boxChartOptions.xAxis.categories = labels;
+      this.boxChart = new Chart(this.boxChartOptions);
+    });
+
+  }
+
   getPercentage(num) {
     const parsedNum = parseFloat(num);
     return isNaN(parsedNum) ? 0 : parsedNum * 100;
@@ -242,5 +231,6 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     this.suppliers = [];
     this.radarData = [];
     this.boxChartOptions.series = [];
+    this.boxChartOptions.xAxis.categories = [];
   }
 }

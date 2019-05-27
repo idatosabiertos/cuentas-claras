@@ -10,7 +10,17 @@ export class VisualizationsStatsService {
   }
 
   public getStats(years, orgId) {
-    const params = new HttpParams().set('years', years.join(","));
-    return this.http.get(`${environment.api_base_url}/api/organisation/buyers/stats/${orgId}`, {params: params});
+    const range = this.range(years[0], years[1]);
+    const params = new HttpParams().set('years', range.join(","));
+    return this.http.get(`${environment.api_base_url}/api/buyer/${orgId}/stats`, {params: params});
   }
+
+  private range(start, end) {
+    const result = [];
+    for (let i = start; i <= end; i++) {
+      result.push(i);
+    }
+    return result;
+  }
+
 }
