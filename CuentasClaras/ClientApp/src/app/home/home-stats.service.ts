@@ -32,4 +32,10 @@ export class HomeStatsService {
   public getItemPrices(item) {
     return this.http.get(`${environment.api_base_url}/api/stats/items-classification/${item}`);
   }
+
+  public getReleaseTypes() {
+    return this.http.get(`${environment.api_base_url}/api/stats/releases-types`);
+  }
+
+
 }

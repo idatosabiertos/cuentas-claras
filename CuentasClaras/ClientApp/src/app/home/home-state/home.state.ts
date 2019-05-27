@@ -1,22 +1,26 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { HomeStateModel } from './home-state.model';
 import {
+  SetNetworkSelectedYearAction,
+  SetReleaseTypesAction, SetReleaseTypesFilterAction,
+  SetReleaseTypesSelectedYearAction,
   SetTopBuyersAction,
   SetTopBuyersSelectedYearAction,
   SetTopItemsAction,
   SetTopItemsSelectedYearAction,
   SetTopSuppliersAction,
-  SetNetworkSelectedYearAction,
   SetTopSuppliersSelectedYearAction
 } from './actions';
 
 @State<HomeStateModel>({
   name: 'home',
   defaults: {
-    topBuyersSelectedYear: '2017',
-    topItemsSelectedYear: '2017',
-    topSuppliersSelectedYear: '2017',
-    networkSelectedYear: '2018'
+    topBuyersSelectedYear: '2018',
+    topItemsSelectedYear: '2018',
+    topSuppliersSelectedYear: '2018',
+    networkSelectedYear: '2018',
+    releaseTypesSelectedYear: '2018',
+    releaseTypesFilter: 'amount'
   }
 })
 export class HomeState {
@@ -43,6 +47,21 @@ export class HomeState {
   @Selector()
   public static topSuppliersSelectedYear(state: HomeStateModel) {
     return state.topSuppliersSelectedYear;
+  }
+
+  @Selector()
+  public static releaseTypes(state: HomeStateModel) {
+    return state.releaseTypes;
+  }
+
+  @Selector()
+  public static releaseTypesSelectedYear(state: HomeStateModel) {
+    return state.releaseTypesSelectedYear;
+  }
+
+  @Selector()
+  public static releaseTypesFilter(state: HomeStateModel) {
+    return state.releaseTypesFilter;
   }
 
   @Selector()
@@ -73,6 +92,21 @@ export class HomeState {
   @Action(SetTopSuppliersSelectedYearAction)
   public setTopSuppliersSelectedYear({patchState}: StateContext<HomeStateModel>, {payload}: SetTopSuppliersSelectedYearAction) {
     patchState({topSuppliersSelectedYear: payload});
+  }
+
+  @Action(SetReleaseTypesAction)
+  public setReleaseTypesAction({patchState}: StateContext<HomeStateModel>, {payload}: SetReleaseTypesAction) {
+    patchState({releaseTypes: payload});
+  }
+
+  @Action(SetReleaseTypesSelectedYearAction)
+  public setReleaseTypesSelectedYearAction({patchState}: StateContext<HomeStateModel>, {payload}: SetReleaseTypesSelectedYearAction) {
+    patchState({releaseTypesSelectedYear: payload});
+  }
+
+  @Action(SetReleaseTypesFilterAction)
+  public setReleaseTypesFilterAction({patchState}: StateContext<HomeStateModel>, {payload}: SetReleaseTypesFilterAction) {
+    patchState({releaseTypesFilter: payload});
   }
 
   @Action(SetTopItemsAction)

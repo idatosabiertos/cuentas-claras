@@ -6,4 +6,7 @@ export type HomeStateModel = {
   topItems?: any;
   topItemsSelectedYear?: string;
   networkSelectedYear?: string;
+  releaseTypes?: any;
+  releaseTypesSelectedYear?: string;
+  releaseTypesFilter?: string;
 };

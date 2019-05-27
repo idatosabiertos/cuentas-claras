@@ -175,12 +175,14 @@
       </p>
 
       <div class="row">
-        <div class="col-md-12 my-5"appLoaderIndicator [loaderType]="'ld-over'" [busy]="itemsBusy">
+        <div class="col-md-12 my-5" appLoaderIndicator [loaderType]="'ld-over'" [busy]="itemsBusy">
 
           <div class="ld ld-ring ld-spin" style="font-size: 60px"></div>
 
-          <select  [disabled]="itemsListDisabled" class="browser-default custom-select" (change)="onItemChange($event.target.value)">
-            <option *ngFor="let item of itemsList" value="{{item.releaseItemClassificationId}}">{{item.description}}</option>
+          <select [disabled]="itemsListDisabled" class="browser-default custom-select"
+                  (change)="onItemChange($event.target.value)">
+            <option *ngFor="let item of itemsList" value="{{item.releaseItemClassificationId}}">{{item.description}}
+            </option>
           </select>
           <ngx-charts-line-chart
             [scheme]="colorScheme"
@@ -251,10 +253,39 @@
         directas. Lo siguen las licitaciones abreviadas - 3.947 en 2017-, las compras por excepción -2.845- y luego las
         licitaciones públicas que fueron 572.
       </p>
-      <p align="center" class="bold-800" style="color: red">
-        GRÁFICO: cantidad compras por mecanismo | montos por mecanismo
-      </p>
-      <p align="justify">
+
+      <div style="text-align: left">
+        <app-year-filter *ngIf="releaseTypes" [years]="getReleaseTypeYears"
+                         [defaultYear]="releaseTypesSelectedYear$ | async"
+                         (selectedYear)="releaseTypesSelectedYear($event)">
+        </app-year-filter>
+      </div>
+      <div style="background-color: white; padding: 15px; border-radius: 5px;">
+        <div class="text-center">
+          <div class="releases-tabs btn-group" role="group" style="border-radius: 6px;
+    border: 1px solid #00c851;">
+            <button mdbBtn type="button"
+                    [ngClass]="{'active':((releaseTypesFilter$|async)==='amount')}"
+                    (click)="releasesSetActiveFilter('amount')"
+                    class="waves-light custom-btn-color">Monto
+            </button>
+            <button mdbBtn type="button"
+                    [ngClass]="{'active':((releaseTypesFilter$|async)==='qty')}"
+                    (click)="releasesSetActiveFilter('qty')"
+                    class="waves-light custom-btn-color">Cantidad
+            </button>
+          </div>
+        </div>
+        <div style="min-height: 350px;">
+          <ngx-charts-pie-chart
+            *ngIf="releaseTypes && releaseTypes[releaseTypesSelectedYear$|async] && releaseTypes[releaseTypesSelectedYear$|async][releaseTypesFilter$|async]"
+            [results]="releaseTypes[releaseTypesSelectedYear$|async][releaseTypesFilter$|async]"
+            [trimLabels]="false"
+            [labels]="true">
+          </ngx-charts-pie-chart>
+        </div>
+      </div>
+      <p align="justify" style="padding-top: 10px">
         Que este mecanismo sea el más utilizado no es necesariamente una buena noticia. La falta de competitividad es
         uno de los principales argumentos en contra del abuso de las contrataciones directas, lo que puede repercutir en
         un mayor gasto de los organismos públicos.

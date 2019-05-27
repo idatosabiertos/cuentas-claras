@@ -82,3 +82,12 @@ h3 {
     font-size: 35px;
   }
 }
+
+.releases-tabs {
+  .active {
+    opacity: 1;
+  }
+  button {
+    opacity: .6;
+  }
+}

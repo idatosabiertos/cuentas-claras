@@ -4,6 +4,9 @@ import { Subscription } from 'rxjs/index';
 import { Select, Store } from '@ngxs/store';
 import {
   SetNetworkSelectedYearAction,
+  SetReleaseTypesAction,
+  SetReleaseTypesFilterAction,
+  SetReleaseTypesSelectedYearAction,
   SetTopBuyersAction,
   SetTopBuyersSelectedYearAction,
   SetTopItemsAction,
@@ -23,9 +26,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   @Select(HomeState.topSuppliersSelectedYear) public topSuppliersSelectedYear$;
   @Select(HomeState.topItemsSelectedYear) public topItemsSelectedYear$;
   @Select(HomeState.networkSelectedYear) public networkSelectedYear$;
+  @Select(HomeState.releaseTypesSelectedYear) public releaseTypesSelectedYear$;
+  @Select(HomeState.releaseTypesFilter) public releaseTypesFilter$;
   @Select(HomeState.topBuyers) private topBuyers$;
   @Select(HomeState.topSuppliers) private topSuppliers$;
   @Select(HomeState.topItems) private topItems$;
+  @Select(HomeState.releaseTypes) private releaseTypes$;
+
   itemsList: any = [];
   itemsBusy: Subscription;
   itemsListDisabled = true;
@@ -34,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   topBuyers;
   topBuyersLoading = true;
   topSuppliers;
+  releaseTypes;
   topSuppliersLoading = true;
   topItems;
   topItemsLoading = true;
@@ -53,6 +61,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.getListOfItems();
     this.getTopBuyers();
+    this.getReleaseTypes();
     this.getTopSuppliers();
     this.getTopItems();
   }
@@ -108,7 +117,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public networkSelectedYear(year) {
-    this.subs.add(this.store.dispatch([new SetNetworkSelectedYearAction(year)]).subscribe(() => true));
+    this.store.dispatch([new SetNetworkSelectedYearAction(year)]);
+  }
+
+  public releaseTypesSelectedYear(year) {
+    this.store.dispatch([new SetReleaseTypesSelectedYearAction(year)]);
+  }
+
+  public releasesSetActiveFilter(filter) {
+    this.store.dispatch([new SetReleaseTypesFilterAction(filter)]);
+  }
+
+  public get getReleaseTypeYears() {
+    if (this.releaseTypes) {
+      return Object.keys(this.releaseTypes);
+    }
   }
 
   public get networkURL() {
@@ -199,6 +222,39 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
     this.subs.add(itemsListSub);
     this.itemsBusy = itemsListSub;
+  }
 
+  private getReleaseTypes() {
+    const releaseTypesSub = this.releaseTypes$.subscribe((releaseTypes) => {
+      if (!releaseTypes) {
+        this.requestReleaseTypes();
+      } else {
+        this.releaseTypes = releaseTypes;
+      }
+    });
+    this.subs.add(releaseTypesSub);
+  }
+
+  private requestReleaseTypes() {
+    const releaseTypesSub = this.homeStats.getReleaseTypes().subscribe((releaseTypes) => {
+      const result = {};
+      const years = Object.keys(releaseTypes);
+      for (const year of years) {
+        result[year] = {};
+        result[year].amount = this.generateSeries(releaseTypes[year].releasesTypesByTotalAmountUYU);
+        result[year].qty = this.generateSeries(releaseTypes[year].releasesTypesByQuantity);
+      }
+      this.store.dispatch(new SetReleaseTypesAction(result));
+    });
+    this.subs.add(releaseTypesSub);
+  }
+
+  generateSeries(item) {
+    let series = [];
+    const keys = Object.keys(item);
+    for (const key of keys) {
+      series.push({name: key, value: item[key]});
+    }
+    return series;
   }
 }
