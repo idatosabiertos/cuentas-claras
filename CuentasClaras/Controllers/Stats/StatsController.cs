@@ -201,6 +201,28 @@ namespace CuentasClaras.Controllers.Stats
             }
         }
 
+        [HttpGet]
+        [Route("releases-types")]
+        [OutputCache(Duration = 600)]
+        public object GetReleasesTypes()
+        {
+            using (db)
+            {
+                var query = db.Releases
+                    .GroupBy(x => x.DataSource)
+                    .ToDictionary(
+                        x => x.Key,
+                        item => new {
+                            releasesTypesByTotalAmountUYU = item.GroupBy(x => x.TenderProcurementMethodDetails).ToDictionary(x => x.Key ?? "Otros", y => y.Sum(z => z.TotalAmountUYU)),
+                            releasesTypesByQuantity = item.GroupBy(x => x.TenderProcurementMethodDetails).ToDictionary(x => x.Key ?? "Otros", y => y.Count())
+                        }
+                    );
+
+                return query;
+            }
+        }
+        
+
         [HttpPost]
         [Route("network")]
         public object GetNetwork([FromBody] MigrationConfig migrationConfig)
