@@ -5,6 +5,7 @@ using CuentasClaras.Model;
 using CuentasClaras.Services.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -327,7 +328,7 @@ namespace CuentasClaras.Controllers.Stats
                 SanctionedCompanies = x.SanctionedCompanies,
                 Year = x.Year,
                 BuyerId = x.BuyerId
-            }).ToList();
+            }).ToList().OrderByDescending(x => Convert.ToDecimal(x.PerformanceIndex)).ToList();
         }
     }
 }
