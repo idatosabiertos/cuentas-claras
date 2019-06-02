@@ -186,7 +186,17 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
         name: 'Precios',
         data: series,
         tooltip: {
-          headerFormat: '<em>{point.key}</em><br/>'
+          headerFormat: '',
+          pointFormatter: function() {
+            const x = this.x;
+            const currentData = this.series.data.find(data => data.x === x);
+            const boxplotValues = currentData ? currentData.options : {};
+            return `Máximo: $${boxplotValues.high}<br>
+              Q3: $${boxplotValues.q3}<br>
+              Mediana: $${boxplotValues.median}<br>
+              Q1: $${boxplotValues.q1}<br>
+              Mínimo: $${boxplotValues.low}<br>`;
+          }
         }
       }];
       this.boxChartOptions.xAxis.categories = labels;
