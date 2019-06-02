@@ -146,7 +146,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public get networkURL() {
     const year = this.store.selectSnapshot(HomeState.networkSelectedYear);
-    return `http://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html#${year}-network.gexf`
+    return `https://cuentasclaras-uy.azurewebsites.net/NetworkApp/index.html#${year}-network.gexf`
   }
 
   private getTopBuyers() {
