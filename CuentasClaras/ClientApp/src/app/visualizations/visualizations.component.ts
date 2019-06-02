@@ -60,7 +60,6 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     'Concentración de proveedores',
     'Conexiones según monto',
     'Descripción',
-    'Desempeño',
     'Tipo de procedimiento',
     'Cantidad de compras por excepción',
     'Empresa sancionada'
@@ -163,7 +162,6 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
           this.getPercentage(dataset.concentrationOfSuppliers),
           this.getPercentage(dataset.conectionByAmount),
           this.getPercentage(dataset.description),
-          this.getPercentage(dataset.performanceIndex),
           this.getPercentage(dataset.process),
           this.getPercentage(dataset.quantityOfPurchasesByException),
           this.getPercentage(dataset.sanctionedCompanies)
