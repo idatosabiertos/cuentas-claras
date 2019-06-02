@@ -72,91 +72,97 @@
         facilitan la rendición de cuentas. Además, favorecen la competencia y negociación de los organismos públicos con
         las empresas, alcanzando resultados más eficientes.
       </p>
-      <h3 class="h1 font-bold mb-3">¿Qué y quién?</h3>
+      <!--Grid column-->
+    </div>
+    <!--Grid row-->
 
-      <div class="row">
-        <div class="col-md-8" style="padding-right: 2px">
-          <p align="justify">
-            En 2018, las compras y contrataciones del Estado uruguayo alcanzaron los $19.354,78 millones de pesos.
-          </p>
+    <div class="row">
+      <div class="col-md-12 text-center my-5">
+
+        <h2 class="h1 font-bold mb-5">¿Qué y quién?</h2>
+
+        <div class="row">
+          <div class="col-md-8" style="padding-right: 2px">
+            <p align="justify">
+              En 2018, las compras y contrataciones del Estado uruguayo alcanzaron los $19.354,78 millones de pesos.
+            </p>
+          </div>
+
+          <div class="col-md-4" style="padding-left: 2px">
+            <p class="pbi-box">
+              Esto representa un 5% del Presupuesto Nacional de ese año.
+            </p>
+          </div>
         </div>
+        <p align="justify">
+          ¿Cuáles fueron los productos más adquiridos? Esto es el top cinco de organismos más compradores y los
+          artículos
+          más comprados por el Estado uruguayo.
+        </p>
+        <div class="row">
+          <div class="col-md-6 my-3" style="text-align:left">
 
-        <div class="col-md-4" style="padding-left: 2px">
-          <p class="pbi-box">
-            Esto representa un 5% del Presupuesto Nacional de ese año.
-          </p>
-        </div>
-      </div>
-      <p align="justify">
-        ¿Cuáles fueron los productos más adquiridos? Esto es el top cinco de organismos más compradores y los artículos
-        más comprados por el Estado uruguayo.
-      </p>
-      <div class="row">
-        <div class="col-md-6 my-3" style="text-align:left">
+            <app-year-filter [years]="years" [defaultYear]="topBuyersSelectedYear$ | async"
+                             (selectedYear)="topBuyersSelectedYear($event)">
+            </app-year-filter>
 
-          <app-year-filter [years]="years" [defaultYear]="topBuyersSelectedYear$ | async"
-                           (selectedYear)="topBuyersSelectedYear($event)">
-          </app-year-filter>
+            <ngx-datatable
+              class="material"
+              [rows]="topBuyers"
+              [limit]="5"
+              [columnMode]="'flex'"
+              [rowHeight]="'auto'"
+              [headerHeight]="'auto'"
+              [footerHeight]="50"
+              [loadingIndicator]="topBuyersLoading">
+              <ngx-datatable-column prop="name" name="Organismo" [flexGrow]="2">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="totalAmount" name="Monto" [flexGrow]="1">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  {{value | currency}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="quantity" name="Cantidad de compras" [flexGrow]="1">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+          <div class="col-md-6 my-3" style="text-align:left">
 
-          <ngx-datatable
-            class="material"
-            [rows]="topBuyers"
-            [limit]="5"
-            [columnMode]="'flex'"
-            [rowHeight]="'auto'"
-            [headerHeight]="'auto'"
-            [footerHeight]="50"
-            [loadingIndicator]="topBuyersLoading">
-            <ngx-datatable-column prop="name" name="Organismo" [flexGrow]="2">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                {{value}}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column prop="totalAmount" name="Monto" [flexGrow]="1">
-              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{value | currency}}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column prop="quantity" name="Cantidad de compras" [flexGrow]="1">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                {{value}}
-              </ng-template>
-            </ngx-datatable-column>
-          </ngx-datatable>
-        </div>
-        <div class="col-md-6 my-3" style="text-align:left">
+            <app-year-filter [years]="years" [defaultYear]="topItemsSelectedYear$ | async"
+                             (selectedYear)="topItemsSelectedYear($event)">
+            </app-year-filter>
 
-          <app-year-filter [years]="years" [defaultYear]="topItemsSelectedYear$ | async"
-                           (selectedYear)="topItemsSelectedYear($event)">
-          </app-year-filter>
-
-          <ngx-datatable
-            class="material"
-            [rows]="topItems"
-            [limit]="5"
-            [columnMode]="'flex'"
-            [rowHeight]="'auto'"
-            [headerHeight]="'auto'"
-            [footerHeight]="50"
-            [loadingIndicator]="topItemsLoading">
-            <ngx-datatable-column prop="description" name="Producto" [flexGrow]="2">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                {{value}}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column prop="totalAmount" name="Monto" [flexGrow]="1">
-              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{value | currency}}
-              </ng-template>
-            </ngx-datatable-column>
-          </ngx-datatable>
+            <ngx-datatable
+              class="material"
+              [rows]="topItems"
+              [limit]="5"
+              [columnMode]="'flex'"
+              [rowHeight]="'auto'"
+              [headerHeight]="'auto'"
+              [footerHeight]="50"
+              [loadingIndicator]="topItemsLoading">
+              <ngx-datatable-column prop="description" name="Producto" [flexGrow]="2">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column prop="totalAmount" name="Monto" [flexGrow]="1">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  {{value | currency}}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
         </div>
       </div>
     </div>
-    <!--Grid column-->
   </div>
-  <!--Grid row-->
-
   <!--Grid row-->
   <div class="row">
     <!--Grid column-->
