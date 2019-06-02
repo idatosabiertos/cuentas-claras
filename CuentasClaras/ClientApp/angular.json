@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/ngx-select-dropdown/dist/assets/style.css",
               "src/app/shared/loader-indicator/loader-indicator.css",
               "node_modules/nouislider/distribute/nouislider.min.css",
               "src/styles.scss",

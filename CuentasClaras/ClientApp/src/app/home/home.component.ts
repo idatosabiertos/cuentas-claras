@@ -32,8 +32,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   @Select(HomeState.topSuppliers) private topSuppliers$;
   @Select(HomeState.topItems) private topItems$;
   @Select(HomeState.releaseTypes) private releaseTypes$;
-
+  itemsListDDconfig = {
+    displayKey: 'description', //if objects array passed which key to be displayed defaults to description
+    search: true,//true/false for the search functionlity defaults to false,
+    height: 'auto', //height of the list so that if there are more no of items it can show a scroll defaults to auto. With auto height scroll will never appear
+    placeholder: 'Select', // text to be displayed when no item is selected defaults to Select,
+    moreText: 'more', // text to be displayed whenmore than one items are selected like Option 1 + 5 more
+    noResultsFound: 'No results found!', // text to be displayed when no items are found while searching
+    searchPlaceholder: 'Search', // label thats displayed in search input,
+    searchOnKey: 'description' // key on which search should be performed this will be selective search. if undefined this will be extensive search on all keys
+  };
   itemsList: any = [];
+  selectedItem;
   itemsBusy: Subscription;
   itemsListDisabled = true;
 
@@ -70,8 +80,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  public onItemChange(item) {
-    const itemsPricesSub = this.homeStats.getItemPrices(item).subscribe((prices: any) => {
+  public onItemChange() {
+    const itemsPricesSub = this.homeStats.getItemPrices(this.selectedItem.releaseItemClassificationId).subscribe((prices: any) => {
       const data = {};
       const result = [];
       for (const year in prices.releaseItems) {
@@ -217,7 +227,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.itemsList = list;
       if (list && list.length > 0) {
         this.itemsListDisabled = false;
-        this.onItemChange(list[0].releaseItemClassificationId);
+        this.selectedItem = list[0];
+        this.onItemChange();
       }
     });
     this.subs.add(itemsListSub);

@@ -11,17 +11,21 @@ import { NgxsModule } from '@ngxs/store';
 import { HomeState } from './home-state/home.state';
 import { YearFilterModule } from '../shared/year-filter/year-filter.module';
 import { LoaderIndicatorModule } from '../shared/loader-indicator/loader-indicator.module';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [HomeComponent, SafePipe],
   providers: [HomeStatsService],
   imports: [
     CommonModule,
+    FormsModule,
     HomeRoutingModule,
     MDBBootstrapModule,
     LoaderIndicatorModule,
     NgxDatatableModule,
     NgxChartsModule,
+    SelectDropDownModule,
     NgxsModule.forFeature([HomeState]),
     YearFilterModule
   ]
