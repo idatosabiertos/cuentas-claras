@@ -17,8 +17,8 @@
 
           <div style="text-align: center">
             <a mdbBtn [href]="'/assets/database/INDEX/index.csv'"
-                    class="waves-light custom-btn-color"
-                    mdbWavesEffect>
+               class="waves-light custom-btn-color"
+               mdbWavesEffect>
               <i class="fa fa-download"></i> Descargar
             </a>
           </div>
@@ -51,7 +51,9 @@
             </ngx-datatable-column>
             <ngx-datatable-column prop="performanceIndex" name="Puntaje" [flexGrow]="1">
               <ng-template let-value="value" ngx-datatable-cell-template>
-                <star-rating [readOnly]="true"
+                <ng-template #popTemplate>{{value}}</ng-template>
+                <star-rating [mdbTooltip]="popTemplate" data-container="body"
+                             [readOnly]="true"
                              style="float: left"
                              staticColor="negative"
                              [showHalfStars]="true"
