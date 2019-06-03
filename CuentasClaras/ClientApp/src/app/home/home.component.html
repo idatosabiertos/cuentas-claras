@@ -26,8 +26,10 @@
       <div class="col-md-12 wow fadeIn mb-3">
         <div class="intro-info-content text-center">
           <h3 class="mb-3 mt-1 wow fadeIn" data-wow-delay="0.4s">
-            Cuentas Claras es un proyecto desarrollado por CÍVICO en colaboración con la diaria, con el apoyo de Open Contracting
-            Partnership, la Iniciativa Latinoamericana de Datos Abiertos (ILDA) e International Development Research Centre (IDRC | CRDI Canada). Los datos abiertos utilizados surgen
+            Cuentas Claras es un proyecto desarrollado por CÍVICO en colaboración con la diaria, con el apoyo de Open
+            Contracting
+            Partnership, la Iniciativa Latinoamericana de Datos Abiertos (ILDA) e International Development Research
+            Centre (IDRC | CRDI Canada). Los datos abiertos utilizados surgen
             de la Agencia de Contrataciones y Compra del Estado (ACCE).
           </h3>
           <div class="container">
@@ -184,7 +186,7 @@
       </p>
 
       <div class="row">
-        <div class="col-md-12 my-5" appLoaderIndicator [loaderType]="'ld-over'" [busy]="itemsBusy">
+        <div class="col-md-12 my-2" appLoaderIndicator [loaderType]="'ld-over'" [busy]="itemsBusy">
 
           <div class="ld ld-ring ld-spin" style="font-size: 60px"></div>
           <ngx-select-dropdown [config]="itemsListDDconfig" [options]="itemsList"
@@ -370,18 +372,9 @@
           </mdb-card-text>
         </mdb-card-body>
       </mdb-card>
-    </div>
-    <!--Grid column-->
-  </div>
-  <!--Grid row-->
 
-  <!--Grid row-->
-  <div class="row">
-    <!--Grid column-->
-    <div class="col-md-12 my-5">
       <div class="row">
         <div class="col-md-6">
-
           <mdb-card class="text-white mb-3" bgColor="bg-danger">
             <mdb-card-header class="thumbs-card-header"><i class="fa fa-thumbs-down"></i></mdb-card-header>
             <mdb-card-body>
@@ -413,11 +406,24 @@
             </mdb-card-body>
           </mdb-card>
         </div>
+      </div>
+    </div>
+    <!--Grid column-->
+  </div>
+  <!--Grid row-->
 
-        <p align="justify" style="margin-top: 20px;">
-          A continuación, esta visualización permite observar la relación entre proveedores y organismos públicos, según
-          cantidad de compras o montos.
-        </p>
+  <!--Grid row-->
+  <div class="row" style="padding-bottom: 40px">
+    <!--Grid column-->
+    <div class="col-md-12">
+      <h2 class="h1 font-bold mb-5 text-center">Relaciones entre compras y proveedores</h2>
+
+      <p align="justify" style="margin-top: 20px;">
+        A continuación, esta visualización permite observar la relación entre proveedores y organismos públicos, según
+        cantidad de compras o montos.
+      </p>
+
+      <div class="row">
         <div class="col-md-11" style="padding: 0">
           <app-year-filter [years]="years" [defaultYear]="networkSelectedYear$ | async"
                            (selectedYear)="networkSelectedYear($event)"></app-year-filter>
@@ -426,16 +432,13 @@
           <a [href]="networkURL"
              style="color:black; font-size:24px;"><i class="fa fa-expand"></i></a>
         </div>
-        <div class="col-md-12" style="padding: 0">
+        <div class="col-md-12" style="padding: 0;">
 
           <iframe [src]="networkURL | safe" frameborder="0" height="1000"
                   width="1100"></iframe>
         </div>
       </div>
-      <!--Grid column-->
     </div>
     <!--Grid row-->
-
-
   </div>
 </div>
