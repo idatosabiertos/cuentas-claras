@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs/index';
 })
 export class VisualizationsComponent implements OnInit, OnDestroy {
   selectedOrgId;
+  showNotFound = false;
   busy: Subscription;
   range = [2015, 2018];
   subs = new Subscription();
@@ -124,6 +125,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   }
 
   getData() {
+    this.showNotFound = false;
     if (this.range && this.selectedOrgId !== undefined) {
       this.clearData();
       const statsSub = this.visualizationStats.getStats(this.range, this.selectedOrgId).subscribe((data: any) => {
@@ -135,6 +137,9 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
         this.suppliers = this.generateSeries(data.suppliersTotalAmountUYU);
         this.radarData = this.generateRadarData(data.organisationIndexes);
         this.generateBoxChartData(data.topProductsByTotalAmountUYU);
+        this.showNotFound = true;
+      }, () => {
+        this.showNotFound = false;
       });
       this.busy = statsSub;
       this.subs.add(statsSub);

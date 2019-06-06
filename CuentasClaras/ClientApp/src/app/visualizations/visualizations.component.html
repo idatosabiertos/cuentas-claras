@@ -33,7 +33,7 @@
 
     <div class="ld ld-ring ld-spin" style="font-size: 60px"></div>
 
-    <div class="row">
+    <div class="row" *ngIf="showPieChart || showGeneralData">
 
       <!--Grid column-->
       <div class="col-md-6 mb-4" *ngIf="showPieChart">
@@ -138,10 +138,10 @@
     </div>
 
 
-    <div class="row">
+    <div class="row" *ngIf="showRadarData">
 
       <!--Grid column-->
-      <div class="col-md-12 mb-4" *ngIf="showRadarData">
+      <div class="col-md-12 mb-4">
         <div class="visualization-card">
           <p class="visualization-card-title">Índice de Desempeño en las Contrataciones Públicas</p>
           <canvas mdbChart
@@ -154,6 +154,13 @@
         </div>
       </div>
 
+    </div>
+
+    <div class="row text-center"
+         *ngIf="showNotFound && !showPieChart && !showGeneralData && !showProductsTypes && !showBoxChart && !showSuppliers && !showRadarData">
+      <div class="col-md-12 mb-4">
+        <p><strong>No se encontraron datos para esta consulta.</strong></p>
+      </div>
     </div>
   </div>
 
