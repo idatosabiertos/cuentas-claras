@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CuentasClaras.Api.Index
@@ -9,36 +10,36 @@ namespace CuentasClaras.Api.Index
         public string OrganisationId { get; set; }
         public string OrganistationShortName { get; set; }
         public string OrganisationName { get; set; }
-        public string ConectionByAmount { get; set; }
-        public string SanctionedCompanies { get; set; }
-        public string Process { get; set; }
-        public string Description { get; set; }
-        public string CompletedInfo { get; set; }
-        public string ConcentrationOfSuppliers { get; set; }
-        public string AccumulationOfSuppliersByOrganisation { get; set; }
-        public string QuantityOfPurchasesByException { get; set; }
-        public string PerformanceIndex { get; set; }
-        public string QuantityOfPurchases { get; set; }
+        public decimal Description { get; set; }
+        public decimal ConectionByAmount { get; set; }
+        public decimal SanctionedCompanies { get; set; }
+        public decimal Process { get; set; }
+        public decimal CompletedInfo { get; set; }
+        public decimal ConcentrationOfSuppliers { get; set; }
+        public decimal AccumulationOfSuppliersByOrganisation { get; set; }
+        public decimal PerformanceIndex { get; set; }
+        public decimal QuantityOfPurchasesByException { get; set; }
+        public int QuantityOfPurchases { get; set; }
         public int? BuyerId { get; set; }
 
         public static OrganisationIndex From(Model.OrganisationIndex oi)
         {
             OrganisationIndex o = new OrganisationIndex()
             {
-                AccumulationOfSuppliersByOrganisation = oi.AccumulationOfSuppliersByOrganisation,
                 BuyerId = oi.BuyerId,
-                CompletedInfo = oi.CompletedInfo,
-                ConcentrationOfSuppliers = oi.ConcentrationOfSuppliers,
-                ConectionByAmount = oi.ConectionByAmount,
-                Description = oi.Description,
                 OrganisationId = oi.OrganisationId,
                 OrganisationName = oi.OrganisationName,
                 OrganistationShortName = oi.OrganistationShortName,
-                PerformanceIndex = oi.PerformanceIndex,
-                Process = oi.Process,
-                QuantityOfPurchases = oi.QuantityOfPurchases,
-                QuantityOfPurchasesByException = oi.QuantityOfPurchasesByException,
-                SanctionedCompanies = oi.SanctionedCompanies,
+                Description = decimal.Parse(oi.Description),
+                AccumulationOfSuppliersByOrganisation = decimal.Parse(oi.AccumulationOfSuppliersByOrganisation),
+                CompletedInfo = decimal.Parse(oi.CompletedInfo),
+                ConcentrationOfSuppliers = decimal.Parse(oi.ConcentrationOfSuppliers),
+                ConectionByAmount = decimal.Parse(oi.ConectionByAmount),
+                PerformanceIndex = decimal.Parse(oi.PerformanceIndex),
+                Process = decimal.Parse(oi.Process),
+                QuantityOfPurchasesByException = decimal.Parse(oi.QuantityOfPurchasesByException),
+                QuantityOfPurchases = (int) decimal.Parse(oi.QuantityOfPurchases),
+                SanctionedCompanies = decimal.Parse(oi.SanctionedCompanies),
                 Year = oi.Year
             };
 

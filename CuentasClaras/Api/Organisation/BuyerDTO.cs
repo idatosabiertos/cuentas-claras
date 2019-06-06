@@ -41,7 +41,7 @@ namespace CuentasClaras.Api.Organisation
             buyerDTO.ProductsTypesTotalAmountUYU = productTypesQuery.ToDictionary(x => x.Key, y => y.Sum(z => z.TotalAmountUYU));
             buyerDTO.ProductsTypesQuantity = productTypesQuery.ToDictionary(x => x.Key, y => y.Count());
 
-            var query = buyer.Releases
+            var query = buyerReleases
                 .SelectMany(x => x.ReleaseItems)
                 .Select(x => new TopProductQuery
                 {

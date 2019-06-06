@@ -311,24 +311,11 @@ namespace CuentasClaras.Controllers.Stats
         [OutputCache(Duration = 600, VaryByParam = "year")]
         public List<Api.Index.OrganisationIndex> GetIndex([FromQuery(Name = "year")] string year)
         {
-            return this.db.OrganisationIndexes.Where(x => x.Year == year).Select(x => new Api.Index.OrganisationIndex
-            {
-                AccumulationOfSuppliersByOrganisation = x.AccumulationOfSuppliersByOrganisation,
-                CompletedInfo = x.CompletedInfo,
-                ConcentrationOfSuppliers = x.ConcentrationOfSuppliers,
-                ConectionByAmount = x.ConectionByAmount,
-                Description = x.Description,
-                OrganisationId = x.OrganisationId,
-                OrganisationName = x.OrganisationName,
-                OrganistationShortName = x.OrganistationShortName,
-                PerformanceIndex = x.PerformanceIndex,
-                Process = x.Process,
-                QuantityOfPurchases = x.QuantityOfPurchases,
-                QuantityOfPurchasesByException = x.QuantityOfPurchasesByException,
-                SanctionedCompanies = x.SanctionedCompanies,
-                Year = x.Year,
-                BuyerId = x.BuyerId
-            }).ToList().OrderByDescending(x => Convert.ToDecimal(x.PerformanceIndex)).ToList();
+            return this.db.OrganisationIndexes.Where(x => x.Year == year)
+                .ToList()
+                .Select(x => Api.Index.OrganisationIndex.From(x))
+                .OrderByDescending(x => x.PerformanceIndex)
+                .ToList();
         }
     }
 }
