@@ -162,14 +162,14 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     for (const dataset of items) {
       data.push({
         data: [
-          this.getPercentage(dataset.accumulationOfSuppliersByOrganisation),
-          this.getPercentage(dataset.completedInfo),
-          this.getPercentage(dataset.concentrationOfSuppliers),
-          this.getPercentage(dataset.conectionByAmount),
-          this.getPercentage(dataset.description),
-          this.getPercentage(dataset.process),
-          this.getPercentage(dataset.quantityOfPurchasesByException),
-          this.getPercentage(dataset.sanctionedCompanies)
+          this.parseNum(dataset.accumulationOfSuppliersByOrganisation),
+          this.parseNum(dataset.completedInfo),
+          this.parseNum(dataset.concentrationOfSuppliers),
+          this.parseNum(dataset.conectionByAmount),
+          this.parseNum(dataset.description),
+          this.parseNum(dataset.process),
+          this.parseNum(dataset.quantityOfPurchasesByException),
+          this.parseNum(dataset.sanctionedCompanies)
         ],
         label: dataset.year
       })
@@ -210,9 +210,9 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
 
   }
 
-  getPercentage(num) {
+  parseNum(num) {
     const parsedNum = parseFloat(num);
-    return isNaN(parsedNum) ? 0 : parsedNum * 100;
+    return isNaN(parsedNum) ? 0 : parsedNum;
   }
 
   get showPieChart() {
