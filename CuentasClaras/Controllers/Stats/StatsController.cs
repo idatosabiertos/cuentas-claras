@@ -202,6 +202,12 @@ namespace CuentasClaras.Controllers.Stats
             }
         }
 
+        class ReleaseTypeDTO
+        {
+            public Dictionary<string, double> releasesTypesByTotalAmountUYU { get; set; }
+            public Dictionary<string, int> releasesTypesByQuantity { get; set; }
+        }
+
         [HttpGet]
         [Route("releases-types")]
         [OutputCache(Duration = 600)]
@@ -209,17 +215,32 @@ namespace CuentasClaras.Controllers.Stats
         {
             using (db)
             {
-                var query = db.Releases
-                    .GroupBy(x => x.DataSource)
-                    .ToDictionary(
-                        x => x.Key,
-                        item => new {
-                            releasesTypesByTotalAmountUYU = item.GroupBy(x => x.TenderProcurementMethodDetails).ToDictionary(x => x.Key ?? "Otros", y => y.Sum(z => z.TotalAmountUYU)),
-                            releasesTypesByQuantity = item.GroupBy(x => x.TenderProcurementMethodDetails).ToDictionary(x => x.Key ?? "Otros", y => y.Count())
-                        }
-                    );
+                Dictionary<string, ReleaseTypeDTO> res = db.Releases.Select(x => x.DataSource).Distinct().ToDictionary(x => x, y => new ReleaseTypeDTO());
+                foreach (var item in res)
+                {
+                    string year = item.Key;
 
-                return query;
+                    res[year].releasesTypesByTotalAmountUYU = db.Releases
+                                                      .Where(x => x.DataSource == year)
+                                                      .GroupBy(x => x.TenderProcurementMethodDetails)
+                                                      .Select(x => new {
+                                                          key = x.Key,
+                                                          sum = x.Sum(y => y.TotalAmountUYU)
+                                                      })
+                                                      .ToDictionary(x => x.key ?? "Otros", y => y.sum);
+                    res[year].releasesTypesByQuantity = db.Releases
+                                                .Where(x => x.DataSource == year)
+                                                .GroupBy(x => x.TenderProcurementMethodDetails)
+                                                .Select(x => new
+                                                {
+                                                    key = x.Key,
+                                                    quantity = x.Count()
+                                                })
+                                                .ToDictionary(x => x.key ?? "Otros", y => y.quantity);
+                  
+                }
+
+                return res;
             }
         }
         
