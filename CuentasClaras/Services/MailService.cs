@@ -45,5 +45,10 @@ namespace CuentasClaras.Services
             return true;
         }
 
+        public MailConfig GetConfig() {
+            var section = this._configuration.GetSection("MailConfig");
+            var mailConfig = section.Get<MailConfig>();
+            return mailConfig;
+        }
     }
 }

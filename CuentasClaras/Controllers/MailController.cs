@@ -1,17 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using CuentasClaras.Api.Mail;
 using CuentasClaras.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace CuentasClaras.Controllers
 {
@@ -25,7 +15,7 @@ namespace CuentasClaras.Controllers
         {
             this.mailService = mailService;
         }
-       
+
         [HttpPost]
         [Route("contact")]
         public ContentResult sendEmail([FromBody]EmailDTO contact)
@@ -35,9 +25,21 @@ namespace CuentasClaras.Controllers
             return new ContentResult
             {
                 StatusCode = (int)HttpStatusCode.OK,
-                Content = {}
+                Content = { }
             };
         }
 
+        [HttpGet]
+        [Route("")]
+        public object test()
+        {
+            var config = mailService.GetConfig();
+
+            return new
+            {
+                config.User
+            };
+        }
     }
+
 }
