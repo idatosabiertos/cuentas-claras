@@ -147,20 +147,19 @@
                                [disabled]="itemsListDisabled" class="browser-default custom-select"
                                (change)="onItemChange()">
           </ngx-select-dropdown>
-          <ngx-charts-line-chart
-            [scheme]="colorScheme"
-            [results]="itemPriceGraphData"
-            [gradient]="false"
-            [xAxis]="true"
-            [yAxis]="true"
-            [legend]="true"
-            legendTitle="Unidades de medida"
-            [showXAxisLabel]="true"
-            [showYAxisLabel]="true"
-            [xAxisLabel]="'Año'"
-            [yAxisLabel]="'Precio'"
-            [autoScale]="true">
-          </ngx-charts-line-chart>
+          <div class="row" style="min-height: 400px;">
+            <ngx-charts-bar-vertical
+              [scheme]="colorScheme"
+              [results]="itemPriceGraphData"
+              [gradient]="false"
+              [xAxis]="true"
+              [yAxis]="true"
+              [showXAxisLabel]="true"
+              [showYAxisLabel]="true"
+              [xAxisLabel]="'Año'"
+              [yAxisLabel]="'Monto'">
+            </ngx-charts-bar-vertical>
+          </div>
         </div>
       </div>
       <mdb-card class="text-white mb-3" bgColor="bg-info">
