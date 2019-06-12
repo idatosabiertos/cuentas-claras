@@ -16,7 +16,7 @@ namespace CuentasClaras.Migrations
                         FROM 
                         (SELECT
 	                        R.ReleaseItemClassificationId as ReleaseItemClassificationId,
-	                        SUM(R.UnitValueAmount * Quantity) as TotalAmount
+	                        SUM(R.UnitValueAmountUYU * Quantity) as TotalAmount
                         FROM ReleaseItems as R
 						INNER JOIN Releases as RR on RR.ReleaseId = R.ReleaseId
 						WHERE RR.DataSource = @datasource
