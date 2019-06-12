@@ -90,7 +90,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         for (const unityOfMeassure in units) {
           const items = units[unityOfMeassure];
           for (const item of items) {
-            total += item.unitValueAmountUYU;
+            total += item.totalAmountUYU;
           }
 
         }
