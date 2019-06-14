@@ -48,7 +48,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     },
     yAxis: {
       title: {
-        text: 'Precio'
+        text: 'Precio (sin IVA)'
       }
     }
   };
@@ -188,7 +188,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     // update the chart with the new info
     this.zone.run(() => {
       this.boxChartOptions.series = [{
-        name: 'Precios',
+        name: 'Precios (sin IVA)',
         data: series,
         tooltip: {
           headerFormat: '',
