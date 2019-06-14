@@ -51,7 +51,7 @@
       <div class="col-md-6 mb-4" *ngIf="showGeneralData">
         <div class="visualization-card general-stats">
           <small>¿Cómo se gasta?</small>
-          <p class="visualization-card-title">Monto de Compras</p>
+          <p class="visualization-card-title">Monto (sin IVA) de Compras</p>
           <div class="general-stats-content">
             <p class="general-stats-amount">{{releasesAmount | currency}}</p>
             <p class="general-stats-purchases">En {{releasesQty}} Compras</p>
@@ -75,7 +75,7 @@
               <button mdbBtn type="button"
                       [ngClass]="{'active':productsActiveTab==='amount'}"
                       (click)="productsActiveTab='amount'"
-                      class="waves-light custom-btn-color">Monto
+                      class="waves-light custom-btn-color">Monto (sin IVA)
               </button>
               <button mdbBtn type="button"
                       [ngClass]="{'active':productsActiveTab==='qty'}"

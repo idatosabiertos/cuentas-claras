@@ -77,7 +77,7 @@
                   {{value}}
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column prop="totalAmount" name="Monto" [flexGrow]="1">
+              <ngx-datatable-column prop="totalAmount" name="Monto (sin IVA)" [flexGrow]="1">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                   {{value | currency}}
                 </ng-template>
@@ -109,7 +109,7 @@
                   {{value}}
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column prop="totalAmount" name="Monto" [flexGrow]="1">
+              <ngx-datatable-column prop="totalAmount" name="Monto (sin IVA)" [flexGrow]="1">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                   {{value | currency}}
                 </ng-template>
@@ -157,7 +157,7 @@
               [showXAxisLabel]="true"
               [showYAxisLabel]="true"
               [xAxisLabel]="'Año'"
-              [yAxisLabel]="'Monto'">
+              [yAxisLabel]="'Monto (sin IVA)'">
             </ngx-charts-bar-vertical>
           </div>
         </div>
@@ -229,7 +229,7 @@
             <button mdbBtn type="button"
                     [ngClass]="{'active':((releaseTypesFilter$|async)==='amount')}"
                     (click)="releasesSetActiveFilter('amount')"
-                    class="waves-light custom-btn-color">Monto
+                    class="waves-light custom-btn-color">Monto (sin IVA)
             </button>
             <button mdbBtn type="button"
                     [ngClass]="{'active':((releaseTypesFilter$|async)==='qty')}"
@@ -372,8 +372,7 @@
             Cuentas Claras es un proyecto desarrollado por CÍVICO en colaboración con la diaria, con el apoyo de Open
             Contracting
             Partnership, la Iniciativa Latinoamericana de Datos Abiertos (ILDA) e International Development Research
-            Centre (IDRC | CRDI Canada). Los datos abiertos utilizados surgen
-            de la Agencia de Contrataciones y Compra del Estado (ACCE).
+            Centre (IDRC | CRDI Canada).
           </h3>
           <div class="container">
 
