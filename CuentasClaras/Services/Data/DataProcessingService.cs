@@ -174,7 +174,7 @@ namespace CuentasClaras.Services.Data
 
                             try
                             {
-                                if (val.Value == null)
+                                if (val.Value == null || (val.Value as string) == "NA")
                                 {
                                     col.Property.SetValue(tnew, null);
                                     return;

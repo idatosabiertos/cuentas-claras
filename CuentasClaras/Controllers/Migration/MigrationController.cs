@@ -392,7 +392,8 @@ namespace CuentasClaras.Controllers.Migration
                 double fromReleaseCurrencyToUYUCurrencyFactor = 0;
                 try
                 {
-                    fromReleaseCurrencyToUYUCurrencyFactor = currencies.currencies[year][x.CurrencyCode];
+                    if (x.CurrencyCode != null)
+                        fromReleaseCurrencyToUYUCurrencyFactor = currencies.currencies[year][x.CurrencyCode];
                     return x.UnitValueAmount * x.Quantity * fromReleaseCurrencyToUYUCurrencyFactor;
                 }
                 catch (Exception)
@@ -412,11 +413,13 @@ namespace CuentasClaras.Controllers.Migration
             double fromReleaseCurrencyToUYUCurrencyFactor = 0;
             try
             {
-                fromReleaseCurrencyToUYUCurrencyFactor = currenciesConfig.currencies[year][i.CurrencyCode];
-                unitValueAmountUYU = i.UnitValueAmount * fromReleaseCurrencyToUYUCurrencyFactor;
-                totalValueAmountUYU = (int)(unitValueAmountUYU * i.Quantity);
+                if (i.CurrencyCode != null) {
+                    fromReleaseCurrencyToUYUCurrencyFactor = currenciesConfig.currencies[year][i.CurrencyCode];
+                    unitValueAmountUYU = i.UnitValueAmount * fromReleaseCurrencyToUYUCurrencyFactor;
+                    totalValueAmountUYU = (int)(unitValueAmountUYU * i.Quantity);
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
