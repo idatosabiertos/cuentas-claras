@@ -6,7 +6,8 @@
   <div class="row mt-5">
     <div class="col-md-12 wow fadeIn mb-3">
       <div class="intro-info-content text-center">
-        <div><img class="mx-auto d-block" style="max-height: 150px" src="assets/horizontal_blanco.svg"></div>
+        <div class="mx-3"><img class="mx-auto d-block img-fluid" style="max-height: 150px" src="assets/horizontal_blanco.svg">
+        </div>
         <div class="home-intro-text container">
           <h3 class="font-up mb-3 mt-1 font-bold wow fadeIn font-bold" data-wow-delay="0.4s">
             ¿Qué compro y cuánto gastó el Estado uruguayo en los últimos años?
@@ -41,85 +42,84 @@
       <!--Grid column-->
     </div>
     <!--Grid row-->
+  </div>
 
-    <div class="row">
-      <div class="col-md-12 text-center my-5">
+  <div class="row">
+    <div class="col-md-12 text-center my-5">
 
-        <h2 class="h1 font-bold mb-5">¿Qué y quién?</h2>
+      <h2 class="h1 font-bold mb-5">¿Qué y quién?</h2>
 
-        <p align="justify">
-          En 2018, las compras y contrataciones del Estado uruguayo alcanzaron los $19.354,78 millones de pesos.
-          <strong> Esto representa un 5% del Presupuesto Nacional de ese año.</strong>
-        </p>
-        <p align="justify">
-          ¿Cuáles fueron los productos más adquiridos? Esto es el top cinco de organismos más compradores y los
-          artículos
-          más comprados por el Estado uruguayo.
-        </p>
-        <div class="row">
-          <div class="col-md-6 my-3" style="text-align:left">
+      <p align="justify">
+        En 2018, las compras y contrataciones del Estado uruguayo alcanzaron los $19.354,78 millones de pesos.
+        <strong> Esto representa un 5% del Presupuesto Nacional de ese año.</strong><br>
+        ¿Cuáles fueron los productos más adquiridos? Esto es el top cinco de organismos más compradores y los
+        artículos
+        más comprados por el Estado uruguayo.
+      </p>
+      <div class="row my-3">
+        <div class="col-md-6 my-3" style="text-align:left">
 
-            <app-year-filter [years]="years" [defaultYear]="topBuyersSelectedYear$ | async"
-                             (selectedYear)="topBuyersSelectedYear($event)">
-            </app-year-filter>
+          <app-year-filter [years]="years" [defaultYear]="topBuyersSelectedYear$ | async"
+                           (selectedYear)="topBuyersSelectedYear($event)">
+          </app-year-filter>
 
-            <ngx-datatable
-              class="material"
-              [rows]="topBuyers"
-              [limit]="5"
-              [columnMode]="'flex'"
-              [rowHeight]="'auto'"
-              [headerHeight]="'auto'"
-              [footerHeight]="50"
-              [loadingIndicator]="topBuyersLoading">
-              <ngx-datatable-column prop="name" name="Organismo" [flexGrow]="2">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column prop="totalAmount" name="Monto (sin IVA)" [flexGrow]="1">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                  {{value | currency}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column prop="quantity" name="Nº compras" [flexGrow]="1">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-            </ngx-datatable>
-          </div>
-          <div class="col-md-6 my-3" style="text-align:left">
+          <ngx-datatable
+            class="material"
+            [rows]="topBuyers"
+            [limit]="5"
+            [columnMode]="'flex'"
+            [rowHeight]="'auto'"
+            [headerHeight]="'auto'"
+            [footerHeight]="50"
+            [loadingIndicator]="topBuyersLoading">
+            <ngx-datatable-column prop="name" name="Organismo" [flexGrow]="2">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="totalAmount" name="Monto (sin IVA)" [flexGrow]="1">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{value | currency}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="quantity" name="Nº compras" [flexGrow]="1">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+        <div class="col-md-6 my-3" style="text-align:left">
 
-            <app-year-filter [years]="years" [defaultYear]="topItemsSelectedYear$ | async"
-                             (selectedYear)="topItemsSelectedYear($event)">
-            </app-year-filter>
+          <app-year-filter [years]="years" [defaultYear]="topItemsSelectedYear$ | async"
+                           (selectedYear)="topItemsSelectedYear($event)">
+          </app-year-filter>
 
-            <ngx-datatable
-              class="material"
-              [rows]="topItems"
-              [limit]="5"
-              [columnMode]="'flex'"
-              [rowHeight]="'auto'"
-              [headerHeight]="'auto'"
-              [footerHeight]="50"
-              [loadingIndicator]="topItemsLoading">
-              <ngx-datatable-column prop="description" name="Producto" [flexGrow]="2">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                  {{value}}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column prop="totalAmount" name="Monto (sin IVA)" [flexGrow]="1">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                  {{value | currency}}
-                </ng-template>
-              </ngx-datatable-column>
-            </ngx-datatable>
-          </div>
+          <ngx-datatable
+            class="material"
+            [rows]="topItems"
+            [limit]="5"
+            [columnMode]="'flex'"
+            [rowHeight]="'auto'"
+            [headerHeight]="'auto'"
+            [footerHeight]="50"
+            [loadingIndicator]="topItemsLoading">
+            <ngx-datatable-column prop="description" name="Producto" [flexGrow]="2">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="totalAmount" name="Monto (sin IVA)" [flexGrow]="1">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                {{value | currency}}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
         </div>
       </div>
     </div>
   </div>
+
   <!--Grid row-->
   <div class="row">
     <!--Grid column-->
@@ -169,7 +169,7 @@
               <span>🤔</span>
             </div>
             <div class="col-md-11 think-text">
-              <p>
+              <p align="justify">
                 PARA PENSAR: En 2017 el gasto total en sillas de este estilo fue de $ 2.799.703 (más iva)
                 aproximadamente, lo que implica que en promedio se pagó $3.369 por cada una. Ahora, si las 831 sillas se
                 hubiesen comprado por el valor de la licitación pública ($2.743), ello hubiese significado un ahorro de

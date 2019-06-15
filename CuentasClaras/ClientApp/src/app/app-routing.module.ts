@@ -11,6 +11,7 @@ const routes: Routes = [
   {path: 'visualizations', loadChildren: './visualizations/visualizations.module#VisualizationsModule'},
   {path: 'database', loadChildren: './database/database.module#DatabaseModule'},
   {path: 'contact', loadChildren: './contact/contact.module#ContactModule'},
+  {path: 'terms-and-conditions', loadChildren: './terms-and-conditions/terms-and-conditions.module#TermsAndConditionsModule'},
   {path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];
 
