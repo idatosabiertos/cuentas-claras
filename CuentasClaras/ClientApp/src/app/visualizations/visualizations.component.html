@@ -21,10 +21,14 @@
         <nouislider [connect]="true" [config]="someKeyboardConfig2" [min]="2015" [max]="2018" [step]="1"
                     (ngModelChange)="onSliderChange()"
                     [(ngModel)]="range" [tooltips]="[true,true]"></nouislider>
-        <select class="browser-default custom-select" (change)="onOrgChange($event.target.value)">
-          <option value="" selected>Seleccione un Organismo</option>
-          <option *ngFor="let org of organisms" value="{{org.buyerId}}">{{org.name}}</option>
-        </select>
+        <ngx-select-dropdown [options]="organisms"
+                             [config]="{displayKey:'name', placeholder:'Seleccione un organismo', height: 'auto'}"
+                             [(ngModel)]="selectedOrg"
+                             [disabled]="orgsDisabled"
+                             style="padding: 1px 0px;"
+                             class="browser-default custom-select"
+                             (change)="onOrgChange()">
+        </ngx-select-dropdown>
       </div>
     </div>
   </div>

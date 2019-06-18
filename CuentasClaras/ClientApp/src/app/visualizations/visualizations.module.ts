@@ -12,6 +12,7 @@ import * as more from 'highcharts/highcharts-more.src';
 import * as exporting from 'highcharts/modules/exporting.src';
 import { VisualizationsStatsService } from './visualizations-stats.service';
 import { LoaderIndicatorModule } from '../shared/loader-indicator/loader-indicator.module';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
 
 @NgModule({
   declarations: [VisualizationsComponent],
@@ -20,6 +21,7 @@ import { LoaderIndicatorModule } from '../shared/loader-indicator/loader-indicat
     FormsModule,
     VisualizationsRoutingModule,
     MDBBootstrapModule,
+    SelectDropDownModule,
     NouisliderModule,
     NgxChartsModule,
     ChartsModule,

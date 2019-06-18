@@ -9,7 +9,8 @@ import { Subscription } from 'rxjs/index';
   styleUrls: ['./visualizations.component.scss']
 })
 export class VisualizationsComponent implements OnInit, OnDestroy {
-  selectedOrgId;
+  orgsDisabled = true;
+  selectedOrg;
   showNotFound = false;
   busy: Subscription;
   range = [2015, 2018];
@@ -73,6 +74,9 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subs.add(this.visualizationStats.getBuyersList().subscribe((buyers: any) => {
       this.organisms = buyers;
+      this.orgsDisabled = false;
+      this.selectedOrg = buyers[0];
+      this.onOrgChange();
     }));
   }
 
@@ -115,8 +119,7 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     onKeydown: this.keyboardEventHandler
   };
 
-  onOrgChange(id) {
-    this.selectedOrgId = id;
+  onOrgChange() {
     this.getData();
   }
 
@@ -126,9 +129,9 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
 
   getData() {
     this.showNotFound = false;
-    if (this.range && this.selectedOrgId !== undefined) {
+    if (this.range && this.selectedOrg !== undefined) {
       this.clearData();
-      const statsSub = this.visualizationStats.getStats(this.range, this.selectedOrgId).subscribe((data: any) => {
+      const statsSub = this.visualizationStats.getStats(this.range, this.selectedOrg.buyerId).subscribe((data: any) => {
         this.releasesQty = data.releasesQuantity;
         this.releasesAmount = data.totalAmountUYU;
         this.releaseTypes = this.generateSeries(data.releasesTypes);
