@@ -44,6 +44,7 @@
         <div class="visualization-card">
           <small>¿Cómo se gasta?</small>
           <ngx-charts-pie-chart
+            [scheme]="'vivid'"
             [results]="releaseTypes"
             [trimLabels]="false"
             [labels]="true">
@@ -90,11 +91,13 @@
           </div>
           <div class="row" style="min-height: 700px">
             <ngx-charts-tree-map
+              [scheme]="'vivid'"
               *ngIf="productsActiveTab==='amount'"
               [animations]="true"
               [results]="productsTypes">
             </ngx-charts-tree-map>
             <ngx-charts-tree-map
+              [scheme]="'vivid'"
               *ngIf="productsActiveTab==='qty'"
               [animations]="true"
               [results]="productsTypesQuantity">
@@ -132,6 +135,7 @@
           <p class="visualization-card-title">Proveedores</p>
           <div class="row" style="min-height: 700px">
             <ngx-charts-tree-map
+              [scheme]="'vivid'"
               [animations]="true"
               [results]="suppliers">
             </ngx-charts-tree-map>

@@ -60,9 +60,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   /// items graph data
   itemPriceGraphData: any[];
-  colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
 
   constructor(private store: Store,
               private homeStats: HomeStatsService) {

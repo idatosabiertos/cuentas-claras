@@ -149,7 +149,7 @@
           </ngx-select-dropdown>
           <div class="row" style="min-height: 400px;">
             <ngx-charts-bar-vertical
-              [scheme]="colorScheme"
+              [scheme]="'vivid'"
               [results]="itemPriceGraphData"
               [gradient]="false"
               [xAxis]="true"
@@ -240,6 +240,7 @@
         </div>
         <div style="min-height: 350px;">
           <ngx-charts-pie-chart
+            [scheme]="'vivid'"
             *ngIf="releaseTypes && releaseTypes[releaseTypesSelectedYear$|async] && releaseTypes[releaseTypesSelectedYear$|async][releaseTypesFilter$|async]"
             [results]="releaseTypes[releaseTypesSelectedYear$|async][releaseTypesFilter$|async]"
             [trimLabels]="false"
