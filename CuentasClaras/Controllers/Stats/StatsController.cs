@@ -1,11 +1,9 @@
 ﻿using CuentasClaras.Api.Migration;
 using CuentasClaras.Api.Stats;
-using CuentasClaras.InputDataModel;
 using CuentasClaras.Model;
 using CuentasClaras.Services.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -39,7 +37,8 @@ namespace CuentasClaras.Controllers.Stats
                         .Include(x => x.Release)
                         .Where(x => x.Release.DataSource == dataSource)
                         .GroupBy(x => x.Supplier.Name, x => x)
-                        .Select(x => new TopSupplier {
+                        .Select(x => new TopSupplier
+                        {
                             Name = x.Key,
                             TotalAmount = x.Sum(y => y.TotalAmountUYU),
                             Quantity = x.Count(),
@@ -193,7 +192,7 @@ namespace CuentasClaras.Controllers.Stats
             }
         }
 
-        class ReleaseTypeDTO
+        private class ReleaseTypeDTO
         {
             public Dictionary<string, double> releasesTypesByTotalAmountUYU { get; set; }
             public Dictionary<string, int> releasesTypesByQuantity { get; set; }
@@ -214,7 +213,8 @@ namespace CuentasClaras.Controllers.Stats
                     res[year].releasesTypesByTotalAmountUYU = db.Releases
                                                       .Where(x => x.DataSource == year)
                                                       .GroupBy(x => x.TenderProcurementMethodDetails)
-                                                      .Select(x => new {
+                                                      .Select(x => new
+                                                      {
                                                           key = x.Key,
                                                           sum = x.Sum(y => y.TotalAmountUYU)
                                                       })
@@ -228,13 +228,13 @@ namespace CuentasClaras.Controllers.Stats
                                                     quantity = x.Count()
                                                 })
                                                 .ToDictionary(x => x.key ?? "Otros", y => y.quantity);
-                  
+
                 }
 
                 return res;
             }
         }
-        
+
 
         [HttpPost]
         [Route("network")]
@@ -248,24 +248,17 @@ namespace CuentasClaras.Controllers.Stats
 
             using (db)
             {
-                using (var command = db.Database.GetDbConnection().CreateCommand())
-                {
-                    command.CommandText = "NetworkEdges";
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add(new SqlParameter("@datasource", dataSource));
+                networkEdge = db.ReleaseItems
+                                .Include(x => x.Release)
+                                  .ThenInclude(x => x.Buyer)
+                                .Include(x => x.Supplier)
+                                .Where(x => x.Release.DataSource == dataSource)
+                                .Select(x => new NetworkEdge()
+                                {
+                                    BuyerId = x.Release.BuyerId.GetValueOrDefault(),
+                                    SupplierId = x.SupplierId
+                                }).ToList();
 
-                    db.Database.OpenConnection();
-                    using (var result = command.ExecuteReader())
-                    {
-                        while (result.Read())
-                        {
-                            var item = new NetworkEdge();
-                            item.BuyerId = ((int)result[0]).ToString();
-                            item.SupplierId = (int)result[1];
-                            networkEdge.Add(item);
-                        }
-                    }
-                }
                 using (var command = db.Database.GetDbConnection().CreateCommand())
                 {
                     command.CommandText = "NetworkBuyers";
@@ -288,28 +281,19 @@ namespace CuentasClaras.Controllers.Stats
                     }
                 }
 
-                using (var command = db.Database.GetDbConnection().CreateCommand())
-                {
-                    command.CommandText = "NetworkSuppliers";
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add(new SqlParameter("@datasource", dataSource));
 
-                    db.Database.OpenConnection();
-                    using (var result = command.ExecuteReader())
-                    {
-                        while (result.Read())
-                        {
-                            var item = new NetworkSupplier();
-                            item.SupplierId = (int)result[0];
-                            item.Name = (string)result[1];
-                            item.TotalAmountUYU = (double)result[2];
+                networkSupplier = db.ReleaseItems
+                                    .Include(x => x.Supplier)
+                                    .Include(x => x.Release)
+                                    .Where(x => x.Release.DataSource == dataSource && x.TotalAmountUYU >= 0)
+                                    .GroupBy(x => new { x.SupplierId, x.Supplier.Name }, y => y)
+                                    .Select(x => new NetworkSupplier()
+                                    {
+                                        Name = x.Key.Name,
+                                        SupplierId = x.Key.SupplierId,
+                                        TotalAmountUYU = x.Sum(y => y.TotalAmountUYU)
+                                    }).ToList();
 
-                            if (item.TotalAmountUYU >= 0)
-                                networkSupplier.Add(item);
-                        }
-
-                    }
-                }
             }
 
             var nodes = networkSupplier.Cast<INetworkNode>().Concat(networkBuyer.Cast<INetworkNode>());
