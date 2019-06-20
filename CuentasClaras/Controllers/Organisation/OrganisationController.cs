@@ -32,18 +32,5 @@ namespace CuentasClaras.Controllers
         {
             return db.Suppliers.Where(x => x.Name.Contains(name)).ToList();
         }
-
-        [HttpGet]
-        [Route("suppliers/stats/{id}")]
-        public SupplierDTO GetSupplier([FromRoute(Name = "id")] int id)
-        {
-            var supplier = db.Suppliers
-                .Where(s => s.SupplierId == id)
-                .Include(x => x.Releases)
-                .ThenInclude(r => r.ReleaseItems)
-                .SingleOrDefault();
-
-            return SupplierDTO.From(supplier);
-        }
     }
 }

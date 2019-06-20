@@ -8,8 +8,8 @@ namespace CuentasClaras.Model
 {
     public class Currency
     {
-        [Key]
         public string CurrencyCode { get; set; }
+        public int Year { get; set; }
         public double ConversionFactorUYU { get; set; }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using CuentasClaras.Api.Codes;
-using CuentasClaras.Api.Index;
 using CuentasClaras.Api.Migration;
 using CuentasClaras.InputDataModel;
 using CuentasClaras.Model;
 using CuentasClaras.Services;
 using CuentasClaras.Services.Data;
 using CuentasClaras.Services.Utils;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -63,12 +61,6 @@ namespace CuentasClaras.Controllers.Migration
                 .GroupBy(x => x.id)
                 .ToDictionary(x => x.Key, x => x.ToList());
 
-            Dictionary<string, string> suppliersInputDicc = this.dataProcessingService
-                .ItemsFrom<AwaSuppliersInputDataModel>(migrationConfig.DataSource, "awa_suppliers")
-                .Where(s => adjudicacion.IsMatch(s.id))
-                .DistinctBy(x => x.id)
-                .ToDictionary(x => x.id, x => x.awardsSuppliersId);
-
             var releases = releasesInput.Where(x => x.buyerId != null)
                 .Where(s => adjudicacion.IsMatch(s.id))
                 .Select(y => new Release
@@ -107,10 +99,10 @@ namespace CuentasClaras.Controllers.Migration
                             UnitName = x.awardsItemsUnitName,
                             UnitValueAmount = x.awardsItemsUnitValueAmount,
                             CurrencyCode = x.awardsItemsUnitValueCurrency,
+                            SupplierId = suppliersDicc[x.awardsId].SupplierId,
                         };
                     }).ToList(),
                     BuyerId = getBuyerId(buyersDicc, y.buyerId),
-                    SupplierId = getSupplierId(suppliersInputDicc, suppliersDicc, y),
                     TotalAmountUYU = getReleaseItems(releaseItemsInputDicc, y.id).Sum(x => x.awardsItemsQuantity * x.awardsItemsUnitValueAmount),
                     DataSource = migrationConfig.DataSource
                 });
@@ -146,26 +138,6 @@ namespace CuentasClaras.Controllers.Migration
             else
             {
                 Console.WriteLine("NOT FOUND CLASSIFICATION");
-                return null;
-            }
-        }
-
-        private int? getSupplierId(Dictionary<string, string> suppliersInputDicc, Dictionary<string, Supplier> suppliersDicc, ReleaseInputDataModel y)
-        {
-            if (suppliersInputDicc.ContainsKey(y.id))
-            {
-                if (suppliersDicc.ContainsKey(suppliersInputDicc[y.id]))
-                {
-                    var x = suppliersDicc[suppliersInputDicc[y.id]].SupplierId;
-                    return x;
-                }
-                else
-                    // en la base no existe el supplier 
-                    return null;
-            }
-            else
-            {
-                //el input de suppliers no contiene el idSupplier, 
                 return null;
             }
         }
@@ -282,9 +254,25 @@ namespace CuentasClaras.Controllers.Migration
 
         [HttpPost()]
         [Route("releases/calculate")]
-        public void ReleasesCalculate([FromBody] CurrenciesConfig currenciesConfig)
+        public void ReleasesCalculate()
         {
             var query = db.Releases.Include(release => release.ReleaseItems);
+
+            var currencies = db.Currencies.Select(x => x).ToList();
+            CurrenciesConfig currenciesConfig = new CurrenciesConfig()
+            {
+                currencies = new Dictionary<int, Dictionary<string, double>>()
+            };
+            foreach (var item in currencies)
+            {
+                if (!currenciesConfig.currencies.ContainsKey(item.Year))
+                {
+                    currenciesConfig.currencies[item.Year] = new Dictionary<string, double>();
+                }
+
+                currenciesConfig.currencies[item.Year][item.CurrencyCode] = item.ConversionFactorUYU;
+            }
+
             foreach (var release in query)
             {
                 int total = (int)CalculateTotal(release, currenciesConfig);
@@ -296,13 +284,27 @@ namespace CuentasClaras.Controllers.Migration
 
         [HttpPost()]
         [Route("releases/calculate-items")]
-        public void ReleasesItemsCalculate([FromBody] CurrenciesConfig currenciesConfig)
+        public void ReleasesItemsCalculate()
         {
             var query = db.ReleaseItems.Include(x => x.Release);
+            var currencies = db.Currencies.Select(x => x).ToList();
+            CurrenciesConfig currenciesConfig = new CurrenciesConfig() {
+                currencies = new Dictionary<int, Dictionary<string, double>>()
+            };
+            foreach (var item in currencies)
+            {
+                if (!currenciesConfig.currencies.ContainsKey(item.Year)) {
+                    currenciesConfig.currencies[item.Year] = new Dictionary<string, double>();
+                }
+
+                currenciesConfig.currencies[item.Year][item.CurrencyCode] = item.ConversionFactorUYU;
+            }
+            
             foreach (var i in query)
             {
                 double unitValueAmountUYU = 0;
                 int totalValueAmountUYU = 0;
+
                 CalculateTotal(i.Release.DataSource, i, currenciesConfig, out unitValueAmountUYU, out totalValueAmountUYU);
 
                 i.UnitValueAmountUYU = unitValueAmountUYU;
@@ -322,7 +324,7 @@ namespace CuentasClaras.Controllers.Migration
             {
                 if (!String.IsNullOrEmpty(currencyCode))
                 {
-                    var currency = db.Currencies.Find(currencyCode);
+                    var currency = db.Currencies.Where(x => x.CurrencyCode == currencyCode).FirstOrDefault();
                     if (currency == null)
                         db.Currencies.Add(new Currency()
                         {
@@ -413,7 +415,8 @@ namespace CuentasClaras.Controllers.Migration
             double fromReleaseCurrencyToUYUCurrencyFactor = 0;
             try
             {
-                if (i.CurrencyCode != null) {
+                if (i.CurrencyCode != null)
+                {
                     fromReleaseCurrencyToUYUCurrencyFactor = currenciesConfig.currencies[year][i.CurrencyCode];
                     unitValueAmountUYU = i.UnitValueAmount * fromReleaseCurrencyToUYUCurrencyFactor;
                     totalValueAmountUYU = (int)(unitValueAmountUYU * i.Quantity);

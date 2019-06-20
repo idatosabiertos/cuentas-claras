@@ -29,20 +29,27 @@ namespace CuentasClaras.Migrations
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 17, "Tribunal de Cuentas" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 18, "Corte Electoral" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 19, "Tribunal de lo Contencioso Administrativo" });
+
+            migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 24, "Diversos Créditos" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 25, "Administración Nal. de Educación Pública" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 26, "Universidad de la República" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 27, "Instit.del Niño y Adolescente del Uruguay" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 28, "Banco de Previsión Social" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 29, "Adm.Servicios de Salud del Estado" });
+
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 31, "Universidad Tecnológica(UTEC)" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 32, "Instituto Uruguayo de Meteorología(INUMET)" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 33, "Fiscalía General de la Nación" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 34, "Junta de Transparencia y Ética Pública" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 35, "Inst.Nal.de Inclusión Social Adolescente" });
+
+            migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 40, "Instituciones sin fines de lucro públicas" });
+
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 50, "Banco Central del Uruguay" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 51, "Banco de la Rep. Oriental del Uruguay" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 52, "Banco Hipotecario del Uruguay" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 53, "Banco de Seguros del Estado" });
+
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 60, "Adm.Nal.de Comb. Alcohol y Portland" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 61, "Adm.Nal.de Usinas y Trasm. Eléctricas" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 62, "Administración de Ferrocarriles del Estado" });
@@ -52,7 +59,9 @@ namespace CuentasClaras.Migrations
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 66, "Adm.de las Obras Sanitarias del Estado" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 67, "Adm.Nacional de Correos" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 68, "Agencia Nacional de Vivienda" });
+
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 70, "Instituto Nacional de Colonización" });
+
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 80, "Gobierno Departamental de Artigas" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 81, "Gobierno Departamental de Canelones" });
             migrationBuilder.InsertData(table, new string[] { buyerExternalId, name }, new object[] { 82, "Gobierno Departamental de Cerro Largo" });

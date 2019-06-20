@@ -31,33 +31,25 @@ namespace CuentasClaras.Controllers.Stats
         [OutputCache(Duration = 600, VaryByParam = "year")]
         public List<TopSupplier> GetTopSupplier([FromQuery(Name = "year")] string dataSource)
         {
-            List<TopSupplier> ret = new List<TopSupplier>();
-
             using (db)
-            using (var command = db.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "TopSuppliers";
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@datasource", dataSource));
+                List<TopSupplier> topSuppliers = new List<TopSupplier>();
+                var releaseItems = db.ReleaseItems
+                        .Include(x => x.Supplier)
+                        .Include(x => x.Release)
+                        .Where(x => x.Release.DataSource == dataSource)
+                        .GroupBy(x => x.Supplier.Name, x => x)
+                        .Select(x => new TopSupplier {
+                            Name = x.Key,
+                            TotalAmount = x.Sum(y => y.TotalAmountUYU),
+                            Quantity = x.Count(),
+                            SupplierId = x.First().SupplierId
+                        })
+                        .OrderByDescending(x => x.TotalAmount)
+                        .ToList();
 
-                db.Database.OpenConnection();
-                using (var result = command.ExecuteReader())
-                {
-                    while (result.Read())
-                    {
-                        var item = new TopSupplier();
-                        item.SupplierId = (int)result[0];
-                        item.Name = (string)result[1];
-                        item.TotalAmount = (double)result[2];
-                        item.Quantity = (int)result[3];
-
-                        if (item.TotalAmount > 0)
-                            ret.Add(item);
-                    }
-                }
+                return releaseItems;
             }
-
-            return ret;
         }
 
         [HttpGet]
@@ -138,7 +130,6 @@ namespace CuentasClaras.Controllers.Stats
                                                     .ThenInclude(r => r.Release)
                                                     .ThenInclude(b => b.Buyer)
                                                 .Include(s => s.ReleaseItems)
-                                                    .ThenInclude(r => r.Release)
                                                     .ThenInclude(s => s.Supplier)
                                                 .FirstOrDefault();
 
@@ -168,12 +159,12 @@ namespace CuentasClaras.Controllers.Stats
                             ReleaseId = x.ReleaseId,
                             ReleaseItemId = x.ReleaseItemId,
                             TotalAmountUYU = x.TotalAmountUYU,
-                            UnitValueAmountUYU = x.UnitValueAmountUYU.GetValueOrDefault(),
+                            UnitValueAmountUYU = x.UnitValueAmountUYU,
                             UnitId = x.UnitId,
                             UnitName = x.UnitName,
                             UnitValueAmount = x.UnitValueAmount,
-                            SupplierName = x.Release.Supplier.Name,
-                            SupplierId = x.Release.Supplier.SupplierId,
+                            //SupplierName = x.Release.Supplier.Name,
+                            //SupplierId = x.Release.Supplier.SupplierId,
                             BuyerName = x.Release.Buyer.Name,
                             BuyerId = x.Release.Buyer.BuyerId
                         }).ToList();

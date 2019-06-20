@@ -39,7 +39,8 @@ namespace CuentasClaras.Controllers
                     .ThenInclude(r => r.ReleaseItems)
                         .ThenInclude(ri => ri.ReleaseItemClassification)
                 .Include(x => x.Releases)
-                    .ThenInclude(r => r.Supplier)
+                    .ThenInclude(r => r.ReleaseItems)
+                    .ThenInclude(ri => ri.Supplier)
                 .Include(x => x.OrganisationIndexes)
                 .SingleOrDefault();
 

@@ -16,7 +16,7 @@ namespace CuentasClaras.Api.Stats
         public int Quantity { get; set; }
         public int? ReleaseId { get; set; }
         public string CurrencyCode { get; set; }
-        public int TotalAmountUYU { get; internal set; }
+        public double TotalAmountUYU { get; internal set; }
         public double UnitValueAmountUYU { get; internal set; }
         public string SupplierName { get; internal set; }
         public int SupplierId { get; internal set; }

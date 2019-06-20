@@ -14,16 +14,18 @@ namespace CuentasClaras.Model
         public string ExternalId { get; set; }
         public int UnitId { get; set; }
         public double UnitValueAmount { get; set; }
-        public double? UnitValueAmountUYU { get; set; }
+        public double UnitValueAmountUYU { get; set; }
         public string UnitName { get; set; }
         public string Description { get; set; }
         public int Quantity { get; set; }
-        public int TotalAmountUYU { get; set; }
+        public double TotalAmountUYU { get; set; }
         //FK
         public int? ReleaseItemClassificationId { get; set; }
         public ReleaseItemClassification ReleaseItemClassification { get; set; }
-        public int? ReleaseId { get; set; }
+        public int ReleaseId { get; set; }
         public Release Release { get; set; }
         public string CurrencyCode { get; set; }
+        public int SupplierId { get; set; }
+        public Supplier Supplier { get; set; }
     }
 }

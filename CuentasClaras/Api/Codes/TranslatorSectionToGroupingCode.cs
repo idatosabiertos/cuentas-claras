@@ -109,6 +109,7 @@ namespace CuentasClaras.Api.Codes
             { 33, 5},
             { 34, 5},
             { 35, 6},
+            { 40, 6},
             { 50, 6},
             { 51, 6},
             { 52, 6},

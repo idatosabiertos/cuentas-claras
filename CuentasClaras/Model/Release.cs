@@ -41,8 +41,6 @@ namespace CuentasClaras.Model
         //FK
         public int? BuyerId { get; set; }
         public Buyer Buyer { get; set; }
-        public int? SupplierId { get; set; }
-        public Supplier Supplier { get; set; }
         public List<ReleaseItem> ReleaseItems { get; set; }
     }
 }

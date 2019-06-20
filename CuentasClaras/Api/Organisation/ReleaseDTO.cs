@@ -40,8 +40,6 @@ namespace CuentasClaras.Model
 
         public int? BuyerId { get; set; }
         public string BuyerName { get; set; }
-        public int? SupplierId { get; set; }
-        public string SupplierName { get; set; }
         public List<ReleaseItemDTO> ReleaseItems { get; set; }
 
         public static ReleaseDTO From(Release r)
@@ -56,8 +54,6 @@ namespace CuentasClaras.Model
             releaseDTO.Language = r.Language;
             releaseDTO.Ocid = r.Ocid;
             releaseDTO.ReleaseId = r.ReleaseId;
-            releaseDTO.SupplierId = r.SupplierId;
-            releaseDTO.SupplierName = r.Supplier?.Name;
             releaseDTO.Tag = r.Tag;
             releaseDTO.TenderDescription = r.TenderDescription;
             releaseDTO.TenderEnquiryPeriodEndDate = r.TenderEnquiryPeriodEndDate;

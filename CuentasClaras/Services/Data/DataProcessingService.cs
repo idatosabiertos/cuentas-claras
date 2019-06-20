@@ -228,8 +228,7 @@ namespace CuentasClaras.Services.Data
                             }
                             catch (Exception ex)
                             {
-
-                                throw;
+                                throw ex;
                             }
 
 

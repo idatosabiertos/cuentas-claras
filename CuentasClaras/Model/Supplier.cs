@@ -13,6 +13,6 @@ namespace CuentasClaras.Model
         public string Name { get; set; }
         public string ExternalId { get; set; }
 
-        public List<Release> Releases { get; set; }
+        public List<ReleaseItem> ReleaseItems { get; set; }
     }
 }
