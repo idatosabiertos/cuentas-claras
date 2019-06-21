@@ -2,6 +2,7 @@
 using CuentasClaras.Api.Stats;
 using CuentasClaras.Model;
 using CuentasClaras.Services.Data;
+using CuentasClaras.Services.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -252,11 +253,16 @@ namespace CuentasClaras.Controllers.Stats
                                 .Include(x => x.Release)
                                   .ThenInclude(x => x.Buyer)
                                 .Include(x => x.Supplier)
-                                .Where(x => x.Release.DataSource == dataSource)
-                                .Select(x => new NetworkEdge()
-                                {
+                                .Where(x => x.Release.DataSource == dataSource && x.TotalAmountUYU > 0)
+                                .Select(x => new {
                                     BuyerId = x.Release.BuyerId.GetValueOrDefault(),
                                     SupplierId = x.SupplierId
+                                })
+                                .Distinct()
+                                .Select(x => new NetworkEdge()
+                                {
+                                   BuyerId = x.BuyerId,
+                                   SupplierId = x.SupplierId
                                 }).ToList();
 
                 using (var command = db.Database.GetDbConnection().CreateCommand())
@@ -292,7 +298,9 @@ namespace CuentasClaras.Controllers.Stats
                                         Name = x.Key.Name,
                                         SupplierId = x.Key.SupplierId,
                                         TotalAmountUYU = x.Sum(y => y.TotalAmountUYU)
-                                    }).ToList();
+                                    })
+                                    .Where(x => x.TotalAmountUYU > 0)
+                                    .ToList();
 
             }
 
