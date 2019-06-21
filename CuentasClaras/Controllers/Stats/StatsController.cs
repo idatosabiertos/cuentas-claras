@@ -2,7 +2,6 @@
 using CuentasClaras.Api.Stats;
 using CuentasClaras.Model;
 using CuentasClaras.Services.Data;
-using CuentasClaras.Services.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -37,18 +36,20 @@ namespace CuentasClaras.Controllers.Stats
                         .Include(x => x.Supplier)
                         .Include(x => x.Release)
                         .Where(x => x.Release.DataSource == dataSource)
-                        .GroupBy(x => x.Supplier.Name, x => x)
-                        .Select(x => new TopSupplier
-                        {
-                            Name = x.Key,
-                            TotalAmount = x.Sum(y => y.TotalAmountUYU),
-                            Quantity = x.Count(),
-                            SupplierId = x.First().SupplierId
-                        })
-                        .OrderByDescending(x => x.TotalAmount)
+                        .Select(x => new { x.TotalAmountUYU, x.Supplier.Name, x.SupplierId})
                         .ToList();
 
-                return releaseItems;
+                return releaseItems
+                .GroupBy(x => x.Name, x => x)
+                .Select(x => new TopSupplier
+                {
+                    Name = x.Key,
+                    TotalAmount = x.Sum(y => y.TotalAmountUYU),
+                    Quantity = x.Count(),
+                    SupplierId = x.First().SupplierId
+                })
+                .OrderByDescending(x => x.TotalAmount)
+                .ToList();
             }
         }
 
@@ -254,15 +255,16 @@ namespace CuentasClaras.Controllers.Stats
                                   .ThenInclude(x => x.Buyer)
                                 .Include(x => x.Supplier)
                                 .Where(x => x.Release.DataSource == dataSource && x.TotalAmountUYU > 0)
-                                .Select(x => new {
+                                .Select(x => new
+                                {
                                     BuyerId = x.Release.BuyerId.GetValueOrDefault(),
                                     SupplierId = x.SupplierId
                                 })
                                 .Distinct()
                                 .Select(x => new NetworkEdge()
                                 {
-                                   BuyerId = x.BuyerId,
-                                   SupplierId = x.SupplierId
+                                    BuyerId = x.BuyerId,
+                                    SupplierId = x.SupplierId
                                 }).ToList();
 
                 using (var command = db.Database.GetDbConnection().CreateCommand())
