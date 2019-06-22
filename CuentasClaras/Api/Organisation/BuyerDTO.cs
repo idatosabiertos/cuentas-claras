@@ -45,7 +45,7 @@ namespace CuentasClaras.Api.Organisation
             var productTypesQuery = buyerReleases.SelectMany(x => x.ReleaseItems)
                                                  .GroupBy(x => x.ReleaseItemClassification.Description);
             buyerDTO.ProductsTypesTotalAmountUYU = productTypesQuery.ToDictionary(x => x.Key, y => y.Sum(z => z.TotalAmountUYU));
-            buyerDTO.ProductsTypesQuantity = productTypesQuery.ToDictionary(x => x.Key, y => y.Count());
+            buyerDTO.ProductsTypesQuantity = productTypesQuery.ToDictionary(x => x.Key, y => y.Select(x => x.ReleaseId).Distinct().Count());
 
             var query = buyerReleases
                 .SelectMany(x => x.ReleaseItems)
@@ -64,7 +64,7 @@ namespace CuentasClaras.Api.Organisation
 
             buyerDTO.topProductsByQuantity = GetBoxedGraph(GetTopProductsByQuantity(query));
             buyerDTO.topProductsByTotalAmountUYU = GetBoxedGraph(GetTopProductsByTotalAmountUYU(query));
-            buyerDTO.ReleasesQuantity = ReleaseDTO.From(buyerReleases.ToList()).Count;
+            buyerDTO.ReleasesQuantity = buyerReleases.Count;
             buyerDTO.OrganisationIndexes = Index.OrganisationIndex.From(buyer.OrganisationIndexes).Where(x => years.Contains(x.Year)).ToList();
 
             return buyerDTO;
