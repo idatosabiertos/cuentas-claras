@@ -20,7 +20,7 @@ namespace CuentasClaras.Controllers
         [Route("contact")]
         public ContentResult sendEmail([FromBody]EmailDTO contact)
         {
-            mailService.sendEmail(contact.Name, contact.Email, contact.Msg);
+            mailService.sendEmail(contact.Email, contact.Name, contact.Msg);
 
             return new ContentResult
             {

@@ -38,7 +38,8 @@ namespace CuentasClaras.Services
             }
 
             mailMessage.To.Add(mailConfig.User);
-            mailMessage.Subject = name + "-" + email;
+            mailMessage.ReplyToList.Add(email);
+            mailMessage.Subject = $"{name} - cuentasclaras.uy | Consulta";
             mailMessage.Body = msg;
 
             client.Send(mailMessage);
