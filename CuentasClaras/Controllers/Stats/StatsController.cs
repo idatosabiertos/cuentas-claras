@@ -36,7 +36,7 @@ namespace CuentasClaras.Controllers.Stats
                         .Include(x => x.Supplier)
                         .Include(x => x.Release)
                         .Where(x => x.Release.DataSource == dataSource)
-                        .Select(x => new { x.TotalAmountUYU, x.Supplier.Name, x.SupplierId})
+                        .Select(x => new { x.TotalAmountUYU, x.Supplier.Name, x.SupplierId, x.ReleaseId })
                         .ToList();
 
                 return releaseItems
@@ -45,7 +45,7 @@ namespace CuentasClaras.Controllers.Stats
                 {
                     Name = x.Key,
                     TotalAmount = x.Sum(y => y.TotalAmountUYU),
-                    Quantity = x.Count(),
+                    Quantity = x.Select(y => y.ReleaseId).Distinct().Count(),
                     SupplierId = x.First().SupplierId
                 })
                 .OrderByDescending(x => x.TotalAmount)
