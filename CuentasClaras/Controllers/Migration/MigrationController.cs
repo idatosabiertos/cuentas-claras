@@ -261,13 +261,13 @@ namespace CuentasClaras.Controllers.Migration
             var currencies = db.Currencies.Select(x => x).ToList();
             CurrenciesConfig currenciesConfig = new CurrenciesConfig()
             {
-                currencies = new Dictionary<int, Dictionary<string, double>>()
+                currencies = new Dictionary<int, Dictionary<string, decimal>>()
             };
             foreach (var item in currencies)
             {
                 if (!currenciesConfig.currencies.ContainsKey(item.Year))
                 {
-                    currenciesConfig.currencies[item.Year] = new Dictionary<string, double>();
+                    currenciesConfig.currencies[item.Year] = new Dictionary<string, decimal>();
                 }
 
                 currenciesConfig.currencies[item.Year][item.CurrencyCode] = item.ConversionFactorUYU;
@@ -275,7 +275,7 @@ namespace CuentasClaras.Controllers.Migration
 
             foreach (var release in query)
             {
-                int total = (int)CalculateTotal(release, currenciesConfig);
+                decimal total = CalculateTotal(release, currenciesConfig);
                 release.TotalAmountUYU = total < 0 ? 0 : total;
             }
 
@@ -289,12 +289,12 @@ namespace CuentasClaras.Controllers.Migration
             var query = db.ReleaseItems.Include(x => x.Release);
             var currencies = db.Currencies.Select(x => x).ToList();
             CurrenciesConfig currenciesConfig = new CurrenciesConfig() {
-                currencies = new Dictionary<int, Dictionary<string, double>>()
+                currencies = new Dictionary<int, Dictionary<string, decimal>>()
             };
             foreach (var item in currencies)
             {
                 if (!currenciesConfig.currencies.ContainsKey(item.Year)) {
-                    currenciesConfig.currencies[item.Year] = new Dictionary<string, double>();
+                    currenciesConfig.currencies[item.Year] = new Dictionary<string, decimal>();
                 }
 
                 currenciesConfig.currencies[item.Year][item.CurrencyCode] = item.ConversionFactorUYU;
@@ -302,8 +302,8 @@ namespace CuentasClaras.Controllers.Migration
             
             foreach (var i in query)
             {
-                double unitValueAmountUYU = 0;
-                int totalValueAmountUYU = 0;
+                decimal unitValueAmountUYU = 0;
+                decimal totalValueAmountUYU = 0;
 
                 CalculateTotal(i.Release.DataSource, i, currenciesConfig, out unitValueAmountUYU, out totalValueAmountUYU);
 
@@ -385,13 +385,13 @@ namespace CuentasClaras.Controllers.Migration
             return Ok();
         }
 
-        private double CalculateTotal(Release release, CurrenciesConfig currencies)
+        private decimal CalculateTotal(Release release, CurrenciesConfig currencies)
         {
             return release.ReleaseItems.Sum(x =>
             {
                 int year = Int32.Parse(release.DataSource);
 
-                double fromReleaseCurrencyToUYUCurrencyFactor = 0;
+                decimal fromReleaseCurrencyToUYUCurrencyFactor = 0;
                 try
                 {
                     if (x.CurrencyCode != null)
@@ -405,21 +405,21 @@ namespace CuentasClaras.Controllers.Migration
             });
         }
 
-        private void CalculateTotal(string dataSource, ReleaseItem i, CurrenciesConfig currenciesConfig, out double unitValueAmountUYU, out int totalValueAmountUYU)
+        private void CalculateTotal(string dataSource, ReleaseItem i, CurrenciesConfig currenciesConfig, out decimal unitValueAmountUYU, out decimal totalValueAmountUYU)
         {
             unitValueAmountUYU = 0;
             totalValueAmountUYU = 0;
 
             int year = Int32.Parse(dataSource);
 
-            double fromReleaseCurrencyToUYUCurrencyFactor = 0;
+            decimal fromReleaseCurrencyToUYUCurrencyFactor = 0;
             try
             {
                 if (i.CurrencyCode != null)
                 {
                     fromReleaseCurrencyToUYUCurrencyFactor = currenciesConfig.currencies[year][i.CurrencyCode];
                     unitValueAmountUYU = i.UnitValueAmount * fromReleaseCurrencyToUYUCurrencyFactor;
-                    totalValueAmountUYU = (int)(unitValueAmountUYU * i.Quantity);
+                    totalValueAmountUYU = (unitValueAmountUYU * i.Quantity);
                 }
             }
             catch (Exception ex)

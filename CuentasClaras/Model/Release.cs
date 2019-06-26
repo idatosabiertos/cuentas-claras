@@ -35,7 +35,7 @@ namespace CuentasClaras.Model
         public DateTime Date { get; set; }
         public string InitiationType { get; set; }
         public string Awards { get; set; }
-        public double TotalAmountUYU { get; set; }
+        public decimal TotalAmountUYU { get; set; }
         public string DataSource { get; set; }
 
         //FK

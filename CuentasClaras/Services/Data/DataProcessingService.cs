@@ -71,7 +71,7 @@ namespace CuentasClaras.Services.Data
                     i++;
                     worksheetNodes.Cells[$"A{i}"].Value = node.Id;
                     worksheetNodes.Cells[$"B{i}"].Value = node.Name;
-                    worksheetNodes.Cells[$"C{i}"].Value = (int) CalculateWeight(node.Weight, weightMin, weightMax, 10D, 1000D);
+                    worksheetNodes.Cells[$"C{i}"].Value = (int) CalculateWeight(node.Weight, weightMin, weightMax, 10m, 1000m);
                     worksheetNodes.Cells[$"D{i}"].Value = node.Type.ToString();
                 }
 
@@ -93,7 +93,7 @@ namespace CuentasClaras.Services.Data
             }
         }
 
-        public double CalculateWeight(double weight, double weightMin, double weightMax, double a, double b)
+        public decimal CalculateWeight(decimal weight, decimal weightMin, decimal weightMax, decimal a, decimal b)
         {
             return ((b - a) * (weight - weightMin)) / (weightMax - weightMin) + a;
         }

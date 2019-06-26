@@ -12,7 +12,7 @@ namespace CuentasClaras.InputDataModel
         public string awardsId { get; set; }
         public string awardsItemsId { get; set; }
         public int awardsItemsUnitId { get; set; }
-        public double awardsItemsUnitValueAmount { get; set; }
+        public decimal awardsItemsUnitValueAmount { get; set; }
         public string awardsItemsUnitValueCurrency { get; set; }
         public string awardsItemsUnitName { get; set; }
         public string awardsItemsDescription { get; set; }

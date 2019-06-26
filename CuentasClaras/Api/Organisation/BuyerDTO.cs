@@ -10,17 +10,17 @@ namespace CuentasClaras.Api.Organisation
         public string BuyerExternalId { get; internal set; }
         public int BuyerId { get; internal set; }
         public string Name { get; internal set; }
-        public double TotalAmountUYU { get; set; }
-        public double ReleasesQuantity { get; set; }
+        public decimal TotalAmountUYU { get; set; }
+        public decimal ReleasesQuantity { get; set; }
 
         public List<TopGraph> topProductsByQuantity;
         public List<TopGraph> topProductsByTotalAmountUYU;
 
         public List<Index.OrganisationIndex> OrganisationIndexes { get; private set; }
-        public Dictionary<string, double> ReleasesTypes { get; set; }
-        public Dictionary<string, double> ProductsTypesTotalAmountUYU { get; set; }
+        public Dictionary<string, decimal> ReleasesTypes { get; set; }
+        public Dictionary<string, decimal> ProductsTypesTotalAmountUYU { get; set; }
         public Dictionary<string, int> ProductsTypesQuantity { get; set; }
-        public Dictionary<string, double> SuppliersTotalAmountUYU { get; set; }
+        public Dictionary<string, decimal> SuppliersTotalAmountUYU { get; set; }
 
         public static BuyerDTO From(Buyer buyer, string[] years)
         {
@@ -37,18 +37,22 @@ namespace CuentasClaras.Api.Organisation
             buyerDTO.ReleasesTypes = buyerReleases.GroupBy(x => x.TenderProcurementMethodDetails)
                                                    .ToDictionary(x => x.Key ?? "Otros", y => y.Sum(z => z.TotalAmountUYU));
             
-            //TODO: RETURN SUPPLIERS TOTAL AMOUNT UYU
             buyerDTO.SuppliersTotalAmountUYU = buyerReleases
-                                                 .SelectMany(x => x.ReleaseItems).GroupBy(x => x.Supplier.Name)
+                                                 .SelectMany(x => x.ReleaseItems)
+                                                 .Where(x => !string.IsNullOrEmpty(x.UnitName) && x.TotalAmountUYU >= 0)
+                                                 .GroupBy(x => x.Supplier.Name)
                                                  .ToDictionary(x => x.Key, y => y.Sum(z => z.TotalAmountUYU));
 
             var productTypesQuery = buyerReleases.SelectMany(x => x.ReleaseItems)
+                                                 .Where(x => !string.IsNullOrEmpty(x.UnitName) && x.TotalAmountUYU >= 0)
                                                  .GroupBy(x => x.ReleaseItemClassification.Description);
+
             buyerDTO.ProductsTypesTotalAmountUYU = productTypesQuery.ToDictionary(x => x.Key, y => y.Sum(z => z.TotalAmountUYU));
             buyerDTO.ProductsTypesQuantity = productTypesQuery.ToDictionary(x => x.Key, y => y.Select(x => x.ReleaseId).Distinct().Count());
 
             var query = buyerReleases
                 .SelectMany(x => x.ReleaseItems)
+                .Where(x => !string.IsNullOrEmpty(x.UnitName) && x.TotalAmountUYU >= 0)
                 .Select(x => new TopProductQuery
                 {
                     Key = $"{x.ReleaseItemClassificationId}_{x.UnitName}",
@@ -82,7 +86,7 @@ namespace CuentasClaras.Api.Organisation
         private static IEnumerable<List<TopProductQuery>> GetTopProductsByTotalAmountUYU(IEnumerable<TopProductQuery> query)
         {
             return query
-                    .GroupBy(x => x.ReleaseItemClassificationId)
+                    .GroupBy(x => x.Key)
                     .OrderByDescending(x => x.Select(y => y.TotalAmountUYU).Sum())
                     .Take(10)
                     .Select(x => x.ToList());

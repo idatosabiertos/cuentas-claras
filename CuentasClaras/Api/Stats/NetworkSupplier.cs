@@ -9,10 +9,10 @@ namespace CuentasClaras.Api.Stats
     {
         public int SupplierId { get; set; }
         public string Name { get; set; }
-        public double TotalAmountUYU { get; set; }
+        public decimal TotalAmountUYU { get; set; }
 
         public string Id => $"SUPPLIER-{SupplierId}";
-        public double Weight => TotalAmountUYU;
+        public decimal Weight => TotalAmountUYU;
 
         public String Type => NetworkNodeTypes.Supplier.ToString();
     }

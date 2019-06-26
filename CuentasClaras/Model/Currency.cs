@@ -10,6 +10,6 @@ namespace CuentasClaras.Model
     {
         public string CurrencyCode { get; set; }
         public int Year { get; set; }
-        public double ConversionFactorUYU { get; set; }
+        public decimal ConversionFactorUYU { get; set; }
     }
 }

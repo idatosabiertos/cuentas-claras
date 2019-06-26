@@ -9,7 +9,7 @@ namespace CuentasClaras.Api.Stats
     {
         string Id { get; }
         string Name { get; }
-        double Weight { get; }
+        decimal Weight { get; }
         string Type { get; }
         
     }

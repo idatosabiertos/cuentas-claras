@@ -8,6 +8,6 @@ namespace CuentasClaras.Api.Migration
     public class CurrenciesConfig
     {
         //YEAR -> CURRENCY CODE -> VALUE
-        public Dictionary<int, Dictionary<string, double>> currencies { get; set; }
+        public Dictionary<int, Dictionary<string, decimal>> currencies { get; set; }
     }
 }

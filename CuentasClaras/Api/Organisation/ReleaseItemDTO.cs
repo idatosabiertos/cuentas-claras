@@ -11,11 +11,11 @@ namespace CuentasClaras.Model
         public int ReleaseItemId { get; set; }
         public string ExternalId { get; set; }
         public int UnitId { get; set; }
-        public double UnitValueAmount { get; set; }
+        public decimal UnitValueAmount { get; set; }
         public string UnitName { get; set; }
         public string Description { get; set; }
         public int Quantity { get; set; }
-        public double TotalAmountUYU { get; set; }
+        public decimal TotalAmountUYU { get; set; }
         //FK
         public int? ClassificationId { get; set; }
         public string Classification { get; set; }

@@ -196,7 +196,7 @@ namespace CuentasClaras.Controllers.Stats
 
         private class ReleaseTypeDTO
         {
-            public Dictionary<string, double> releasesTypesByTotalAmountUYU { get; set; }
+            public Dictionary<string, decimal> releasesTypesByTotalAmountUYU { get; set; }
             public Dictionary<string, int> releasesTypesByQuantity { get; set; }
         }
 
@@ -282,7 +282,7 @@ namespace CuentasClaras.Controllers.Stats
                             item.BuyerId = ((int)result[0]).ToString();
                             item.Name = (string)result[1];
                             item.Type = (string)result[2];
-                            item.TotalAmountUYU = (double)result[3];
+                            item.TotalAmountUYU = (decimal)result[3];
                             if (item.TotalAmountUYU >= 0)
                                 networkBuyer.Add(item);
                         }
