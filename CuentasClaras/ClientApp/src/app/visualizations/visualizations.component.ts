@@ -84,6 +84,18 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
+  amountFormat(value) {
+    return `$${new Intl.NumberFormat('es', {
+      minimumFractionDigits: 2
+    }).format(Number(value))}`;
+  }
+
+  qtyFormat(value) {
+    return new Intl.NumberFormat('es', {
+      minimumFractionDigits: 0
+    }).format(Number(value));
+  }
+
   public keyboard2: number[] = [1, 3];
   private keyboardEventHandler = (e: KeyboardEvent) => {
     // determine which handle triggered the event
@@ -197,13 +209,16 @@ export class VisualizationsComponent implements OnInit, OnDestroy {
           headerFormat: '',
           pointFormatter: function() {
             const x = this.x;
+            const formatNum = (value) => new Intl.NumberFormat('es', {
+              minimumFractionDigits: 2
+            }).format(Number(value));
             const currentData = this.series.data.find(data => data.x === x);
             const boxplotValues = currentData ? currentData.options : {};
-            return `Máximo: $${boxplotValues.high}<br>
-              Q3: $${boxplotValues.q3}<br>
-              Mediana: $${boxplotValues.median}<br>
-              Q1: $${boxplotValues.q1}<br>
-              Mínimo: $${boxplotValues.low}<br>`;
+            return `Máximo: $${formatNum(boxplotValues.high)}<br>
+              Q3: $${formatNum(boxplotValues.q3)}<br>
+              Mediana: $${formatNum(boxplotValues.median)}<br>
+              Q1: $${formatNum(boxplotValues.q1)}<br>
+              Mínimo: $${formatNum(boxplotValues.low)}<br>`;
           }
         }
       }];

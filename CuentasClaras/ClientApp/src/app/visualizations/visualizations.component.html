@@ -48,6 +48,10 @@
             [results]="releaseTypes"
             [trimLabels]="false"
             [labels]="true">
+            <ng-template #tooltipTemplate let-model="model">
+              <span><strong>{{model.name}}</strong></span><br>
+              <span>{{model.value| amountConverter}}</span>
+            </ng-template>
           </ngx-charts-pie-chart>
         </div>
       </div>
@@ -58,7 +62,7 @@
           <small>¿Cómo se gasta?</small>
           <p class="visualization-card-title">Monto (sin IVA) de Compras</p>
           <div class="general-stats-content">
-            <p class="general-stats-amount">{{releasesAmount | currency}}</p>
+            <p class="general-stats-amount">{{releasesAmount | amountConverter}}</p>
             <p class="general-stats-purchases">En {{releasesQty}} Compras</p>
           </div>
         </div>
@@ -94,13 +98,23 @@
               [scheme]="'vivid'"
               *ngIf="productsActiveTab==='amount'"
               [animations]="true"
+              [valueFormatting]="amountFormat"
               [results]="productsTypes">
+              <ng-template #tooltipTemplate let-model="model">
+                <span><strong>{{model.name}}</strong></span><br>
+                <span>{{model.value| amountConverter}}</span>
+              </ng-template>
             </ngx-charts-tree-map>
             <ngx-charts-tree-map
               [scheme]="'vivid'"
               *ngIf="productsActiveTab==='qty'"
+              [valueFormatting]="qtyFormat"
               [animations]="true"
               [results]="productsTypesQuantity">
+              <ng-template #tooltipTemplate let-model="model">
+                <span><strong>{{model.name}}</strong></span><br>
+                <span>{{model.value| amountConverter:true}}</span>
+              </ng-template>
             </ngx-charts-tree-map>
           </div>
         </div>
@@ -137,7 +151,12 @@
             <ngx-charts-tree-map
               [scheme]="'vivid'"
               [animations]="true"
+              [valueFormatting]="amountFormat"
               [results]="suppliers">
+              <ng-template #tooltipTemplate let-model="model">
+                <span><strong>{{model.name}}</strong></span><br>
+                <span>{{model.value| amountConverter}}</span>
+              </ng-template>
             </ngx-charts-tree-map>
           </div>
         </div>

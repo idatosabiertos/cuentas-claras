@@ -15,6 +15,7 @@ import {
   SetTopSuppliersSelectedYearAction
 } from './home-state/actions';
 import { HomeState } from './home-state/home.state';
+import { AmountConverterPipe } from '../shared/amount-converter/amount-converter.pipe';
 
 @Component({
   selector: 'app-home',
@@ -62,6 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   itemPriceGraphData: any[];
 
   constructor(private store: Store,
+              private amountConverterPipe: AmountConverterPipe,
               private homeStats: HomeStatsService) {
 
   }
@@ -76,6 +78,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+  public amountFormat(value) {
+    return `$${new Intl.NumberFormat('es', {
+      minimumFractionDigits: 2
+    }).format(Number(value))}`;
   }
 
   public onItemChange() {

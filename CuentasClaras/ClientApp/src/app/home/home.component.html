@@ -6,7 +6,8 @@
   <div class="row mt-5">
     <div class="col-md-12 wow fadeIn mb-3">
       <div class="intro-info-content text-center">
-        <div class="mx-3"><img class="mx-auto d-block img-fluid" style="max-height: 150px" src="assets/horizontal_blanco.svg">
+        <div class="mx-3"><img class="mx-auto d-block img-fluid" style="max-height: 150px"
+                               src="assets/horizontal_blanco.svg">
         </div>
         <div class="home-intro-text container">
           <h3 class="font-up mb-3 mt-1 font-bold wow fadeIn font-bold" data-wow-delay="0.4s">
@@ -79,7 +80,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column prop="totalAmount" name="Monto (sin IVA)" [flexGrow]="1">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{value | currency}}
+                {{value | amountConverter}}
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column prop="quantity" name="Nº compras" [flexGrow]="1">
@@ -111,7 +112,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column prop="totalAmount" name="Monto (sin IVA)" [flexGrow]="1">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{value | currency}}
+                {{value | amountConverter}}
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
@@ -157,7 +158,11 @@
               [showXAxisLabel]="true"
               [showYAxisLabel]="true"
               [xAxisLabel]="'Año'"
+              [yAxisTickFormatting]="amountFormat"
               [yAxisLabel]="'Monto (sin IVA)'">
+              <ng-template #tooltipTemplate let-model="model">
+                <span>{{model.value| amountConverter}}</span>
+              </ng-template>
             </ngx-charts-bar-vertical>
           </div>
         </div>
@@ -245,6 +250,10 @@
             [results]="releaseTypes[releaseTypesSelectedYear$|async][releaseTypesFilter$|async]"
             [trimLabels]="false"
             [labels]="true">
+            <ng-template #tooltipTemplate let-model="model">
+              <span><strong>{{model.name}}</strong></span><br>
+              <span>{{model.value| amountConverter:(releaseTypesFilter$|async) === 'qty'}}</span>
+            </ng-template>
           </ngx-charts-pie-chart>
         </div>
       </div>
@@ -292,7 +301,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column prop="totalAmount" name="Monto (sin IVA)" [flexGrow]="1">
               <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                {{value | currency}}
+                {{value | amountConverter}}
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column prop="quantity" name="Nº de compras" [flexGrow]="1">

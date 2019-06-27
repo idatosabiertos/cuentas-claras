@@ -13,6 +13,8 @@ import * as exporting from 'highcharts/modules/exporting.src';
 import { VisualizationsStatsService } from './visualizations-stats.service';
 import { LoaderIndicatorModule } from '../shared/loader-indicator/loader-indicator.module';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { AmountConverterModule } from '../shared/amount-converter/amount-converter.module';
+import { AmountConverterPipe } from '../shared/amount-converter/amount-converter.pipe';
 
 @NgModule({
   declarations: [VisualizationsComponent],
@@ -22,6 +24,7 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
     VisualizationsRoutingModule,
     MDBBootstrapModule,
     SelectDropDownModule,
+    AmountConverterModule,
     NouisliderModule,
     NgxChartsModule,
     ChartsModule,
@@ -29,6 +32,7 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
     LoaderIndicatorModule
   ],
   providers: [
+    AmountConverterPipe,
     VisualizationsStatsService,
     {provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting]} // add as factory to your providers
   ]

@@ -13,12 +13,15 @@ import { YearFilterModule } from '../shared/year-filter/year-filter.module';
 import { LoaderIndicatorModule } from '../shared/loader-indicator/loader-indicator.module';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { FormsModule } from '@angular/forms';
+import { AmountConverterModule } from '../shared/amount-converter/amount-converter.module';
+import { AmountConverterPipe } from '../shared/amount-converter/amount-converter.pipe';
 
 @NgModule({
   declarations: [HomeComponent, SafePipe],
-  providers: [HomeStatsService],
+  providers: [HomeStatsService, AmountConverterPipe],
   imports: [
     CommonModule,
+    AmountConverterModule,
     FormsModule,
     HomeRoutingModule,
     MDBBootstrapModule,
