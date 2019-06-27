@@ -19,7 +19,7 @@
     <div class="col-md-12 mb-4">
       <div class="visualization-card">
         <nouislider [connect]="true" [config]="someKeyboardConfig2" [min]="2015" [max]="2018" [step]="1"
-                    (ngModelChange)="onSliderChange()"
+                    (change)="onSliderChange()"
                     [(ngModel)]="range" [tooltips]="[true,true]"></nouislider>
         <ngx-select-dropdown [options]="organisms"
                              [config]="{displayKey:'name', placeholder:'Seleccione un organismo', height: 'auto'}"
