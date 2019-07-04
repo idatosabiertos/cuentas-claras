@@ -75,7 +75,7 @@ namespace CuentasClaras.Controllers.Stats
                         var item = new TopBuyer();
                         item.BuyerId = (int)result[0];
                         item.Name = (string)result[1];
-                        item.TotalAmount = (double)result[2];
+                        item.TotalAmount = (decimal)result[2];
                         item.Quantity = (int)result[3];
 
                         if (item.TotalAmount > 0)
@@ -109,7 +109,7 @@ namespace CuentasClaras.Controllers.Stats
                         var item = new TopItemClassification();
                         item.ReleaseItemClassificationId = (int)result[0];
                         item.Description = (string)result[1];
-                        item.TotalAmount = (double)result[2];
+                        item.TotalAmount = (decimal)result[2];
 
                         if (item.TotalAmount > 0)
                             ret.Add(item);

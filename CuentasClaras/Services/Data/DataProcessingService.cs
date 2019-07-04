@@ -189,6 +189,11 @@ namespace CuentasClaras.Services.Data
                                     col.Property.SetValue(tnew, val.GetValue<int?>());
                                     return;
                                 }
+                                if (col.Property.PropertyType == typeof(decimal))
+                                {
+                                    col.Property.SetValue(tnew, val.GetValue<decimal>());
+                                    return;
+                                }
                                 if (col.Property.PropertyType == typeof(double))
                                 {
                                     col.Property.SetValue(tnew, val.GetValue<double>());
