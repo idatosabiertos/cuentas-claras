@@ -26,6 +26,7 @@ namespace CuentasClaras.Controllers.Migration
         private readonly BuyersService buyersService;
         private SuppliersService suppliersService;
         private readonly ClassificationService classificationService;
+        private readonly string ADJUDICATION_PATTERN = @"^adjudicacion-(.+)$";
 
         public MigrationController(
             DataProcessingService dataProcessingService,
@@ -53,7 +54,7 @@ namespace CuentasClaras.Controllers.Migration
             Dictionary<string, Buyer> buyersDicc = this.buyersService.GetAll().Where(x => x.BuyerExternalId != null).ToDictionary(x => x.BuyerExternalId, x => x);
             Dictionary<string, ReleaseItemClassification> releaseItemsClassification = this.classificationService.GetAll().ToDictionary(x => x.ReleaseItemClassificationExternalId, x => x);
 
-            Regex adjudicacion = new Regex(@"^adjudicacion-([0-9]+)$", RegexOptions.Compiled);
+            Regex adjudicacion = new Regex(ADJUDICATION_PATTERN, RegexOptions.Compiled);
 
 
             List<ReleaseInputDataModel> releasesInput = this.dataProcessingService.ItemsFrom<ReleaseInputDataModel>(migrationConfig.DataSource, "releases");
@@ -146,7 +147,7 @@ namespace CuentasClaras.Controllers.Migration
         [Route("buyers")]
         public void Buyers([FromBody] MigrationConfig migrationConfig)
         {
-            Regex adjudicacion = new Regex(@"^adjudicacion-([0-9]+)$", RegexOptions.Compiled);
+            Regex adjudicacion = new Regex(ADJUDICATION_PATTERN, RegexOptions.Compiled);
 
             List<ReleaseInputDataModel> releasesInput = this.dataProcessingService.ItemsFrom<ReleaseInputDataModel>(migrationConfig.DataSource, "releases");
 
@@ -196,7 +197,7 @@ namespace CuentasClaras.Controllers.Migration
         [Route("classifications")]
         public void Classifications([FromBody] MigrationConfig migrationConfig)
         {
-            Regex adjudicacion = new Regex(@"^adjudicacion-([0-9]+)$", RegexOptions.Compiled);
+            Regex adjudicacion = new Regex(ADJUDICATION_PATTERN, RegexOptions.Compiled);
 
             List<AwaItemsInputDataModel> releaseItemsClassification = this.dataProcessingService.ItemsFrom<AwaItemsInputDataModel>(migrationConfig.DataSource, "awa_items");
 
@@ -226,7 +227,7 @@ namespace CuentasClaras.Controllers.Migration
         [Route("suppliers")]
         public void Suppliers([FromBody] MigrationConfig migrationConfig)
         {
-            Regex adjudicacion = new Regex(@"^adjudicacion-([0-9]+)$", RegexOptions.Compiled);
+            Regex adjudicacion = new Regex(ADJUDICATION_PATTERN, RegexOptions.Compiled);
 
 
             var suppliersSheet = this.dataProcessingService.ItemsFrom<AwaSuppliersInputDataModel>(migrationConfig.DataSource, "awa_suppliers");
