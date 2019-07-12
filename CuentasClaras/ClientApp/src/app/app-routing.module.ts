@@ -10,6 +10,7 @@ const routes: Routes = [
   {path: 'news', loadChildren: './news/news.module#NewsModule'},
   {path: 'visualizations', loadChildren: './visualizations/visualizations.module#VisualizationsModule'},
   {path: 'database', loadChildren: './database/database.module#DatabaseModule'},
+  {path: 'documentation', loadChildren: './documentation/documentation.module#DocumentationModule'},
   {path: 'contact', loadChildren: './contact/contact.module#ContactModule'},
   {path: 'terms-and-conditions', loadChildren: './terms-and-conditions/terms-and-conditions.module#TermsAndConditionsModule'},
   {path: '**', redirectTo: '/home', pathMatch: 'full'}
