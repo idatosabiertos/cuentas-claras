@@ -110,11 +110,11 @@ namespace CuentasClaras.Controllers.Stats
                                       ReleaseItemClassificationId = x.Key.Value,
                                       Description = x.First().Description,
                                       TotalAmount = x.Sum(y => y.TotalAmountUYU)
-                                  }).ToList();
+                                  })
+                                  .OrderByDescending(x => x.TotalAmount)
+                                  .ToList();
 
             }
-
-            return ret;
         }
 
         [HttpGet]
@@ -133,7 +133,7 @@ namespace CuentasClaras.Controllers.Stats
 
                 ItemClassification ret = new ItemClassification();
                 ret.Description = item.Description;
-               // ret.ReleaseItemClassificationExternalId = item.ReleaseItemClassificationExternalId;
+                // ret.ReleaseItemClassificationExternalId = item.ReleaseItemClassificationExternalId;
                 ret.ReleaseItemClassificationId = item.ReleaseItemClassificationId;
                 ret.ReleaseItems = new Dictionary<string, Dictionary<string, List<ItemClassificationDetail>>>();
 
