@@ -95,26 +95,23 @@ namespace CuentasClaras.Controllers.Stats
             List<TopItemClassification> ret = new List<TopItemClassification>();
 
             using (db)
-            using (var command = db.Database.GetDbConnection().CreateCommand())
             {
-                command.CommandText = "TopItemClassification";
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@datasource", dataSource));
+                var items = db.Releases.Where(x => x.DataSource == dataSource)
+                  .Include(r => r.ReleaseItems)
+                  .ThenInclude(ri => ri.ReleaseItemClassification)
+                  .SelectMany(r => r.ReleaseItems)
+                  .Select(r => new { r.ReleaseItemClassification.Description, r.ReleaseItemClassificationId, r.TotalAmountUYU })
+                  .Where(r => r.TotalAmountUYU > 0)
+                  .ToList();
 
-                db.Database.OpenConnection();
-                using (var result = command.ExecuteReader())
-                {
-                    while (result.Read())
-                    {
-                        var item = new TopItemClassification();
-                        item.ReleaseItemClassificationId = (int)result[0];
-                        item.Description = (string)result[1];
-                        item.TotalAmount = (decimal)result[2];
+                return items.GroupBy(x => x.ReleaseItemClassificationId)
+                                  .Select(x => new TopItemClassification
+                                  {
+                                      ReleaseItemClassificationId = x.Key.Value,
+                                      Description = x.First().Description,
+                                      TotalAmount = x.Sum(y => y.TotalAmountUYU)
+                                  }).ToList();
 
-                        if (item.TotalAmount > 0)
-                            ret.Add(item);
-                    }
-                }
             }
 
             return ret;
@@ -136,7 +133,7 @@ namespace CuentasClaras.Controllers.Stats
 
                 ItemClassification ret = new ItemClassification();
                 ret.Description = item.Description;
-                ret.ReleaseItemClassificationExternalId = item.ReleaseItemClassificationExternalId;
+               // ret.ReleaseItemClassificationExternalId = item.ReleaseItemClassificationExternalId;
                 ret.ReleaseItemClassificationId = item.ReleaseItemClassificationId;
                 ret.ReleaseItems = new Dictionary<string, Dictionary<string, List<ItemClassificationDetail>>>();
 

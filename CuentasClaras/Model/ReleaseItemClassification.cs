@@ -11,7 +11,7 @@ namespace CuentasClaras.Model
         [Key]
         public int ReleaseItemClassificationId { get; set; }
         public string Description { get; set; }
-        public string ReleaseItemClassificationExternalId { get; set; }
+        //public string ReleaseItemClassificationExternalId { get; set; }
 
         public List<ReleaseItem> ReleaseItems { get; set; }
     }

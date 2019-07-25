@@ -52,7 +52,7 @@ namespace CuentasClaras.Controllers.Migration
 
             Dictionary<string, Supplier> suppliersDicc = this.suppliersService.GetAll().ToDictionary(x => x.ExternalId, x => x);
             Dictionary<string, Buyer> buyersDicc = this.buyersService.GetAll().Where(x => x.BuyerExternalId != null).ToDictionary(x => x.BuyerExternalId, x => x);
-            Dictionary<string, ReleaseItemClassification> releaseItemsClassification = this.classificationService.GetAll().ToDictionary(x => x.ReleaseItemClassificationExternalId, x => x);
+            Dictionary<string, ReleaseItemClassification> releaseItemsClassification = this.classificationService.GetAll().ToDictionary(x => x.Description, x => x);
 
             Regex adjudicacion = new Regex(ADJUDICATION_PATTERN, RegexOptions.Compiled);
 
@@ -95,7 +95,7 @@ namespace CuentasClaras.Controllers.Migration
                             Description = x.awardsItemsDescription,
                             ExternalId = x.awardsItemsId,
                             Quantity = x.awardsItemsQuantity,
-                            ReleaseItemClassificationId = getReleaseItemClassificationId(releaseItemsClassification, x.awardsItemsClassificationId),
+                            ReleaseItemClassificationId = getReleaseItemClassificationId(releaseItemsClassification, x.awardsItemsClassificationDescription),
                             UnitId = x.awardsItemsUnitId,
                             UnitName = x.awardsItemsUnitName,
                             UnitValueAmount = x.awardsItemsUnitValueAmount,
@@ -109,6 +109,48 @@ namespace CuentasClaras.Controllers.Migration
                 });
 
             this.db.AddRange(releases);
+            this.db.SaveChanges();
+        }
+
+        [HttpPost()]
+        [Route("releases-items")]
+        public void ReleasesItems([FromBody] MigrationConfig migrationConfig)
+        {
+            Dictionary<string, Supplier> suppliersDicc = this.suppliersService.GetAll().ToDictionary(x => x.ExternalId, x => x);
+            Dictionary<string, int> releasesDicc = this.db.Releases.ToDictionary(x => x.Id, x => x.ReleaseId);
+            Dictionary<string, ReleaseItemClassification> releaseItemsClassification = this.classificationService.GetAll().ToDictionary(x => x.Description, x => x);
+
+            Regex adjudicacion = new Regex(ADJUDICATION_PATTERN, RegexOptions.Compiled);
+
+            var releaseItemsInput = this.dataProcessingService.ItemsFrom<AwaItemsInputDataModel>(migrationConfig.DataSource, "awa_items")
+                .Where(x => adjudicacion.IsMatch(x.id))
+                .ToList();
+
+            var ReleaseItems = new List<ReleaseItem>();
+
+            foreach (var x in releaseItemsInput)
+            {
+                if (releasesDicc.ContainsKey(x.id))
+                {
+                    var item = new ReleaseItem()
+                    {
+                        ReleaseId = releasesDicc[x.id],
+                        Description = x.awardsItemsDescription,
+                        ExternalId = x.awardsItemsId,
+                        Quantity = x.awardsItemsQuantity,
+                        ReleaseItemClassificationId = getReleaseItemClassificationId(releaseItemsClassification, x.awardsItemsClassificationDescription),
+                        UnitId = x.awardsItemsUnitId,
+                        UnitName = x.awardsItemsUnitName,
+                        UnitValueAmount = x.awardsItemsUnitValueAmount,
+                        CurrencyCode = x.awardsItemsUnitValueCurrency,
+                        SupplierId = suppliersDicc[x.awardsId].SupplierId
+                    };
+
+                    ReleaseItems.Add(item);
+                }
+            }
+
+            this.db.ReleaseItems.AddRange(ReleaseItems);
             this.db.SaveChanges();
         }
 
@@ -203,20 +245,19 @@ namespace CuentasClaras.Controllers.Migration
 
             var classifications = releaseItemsClassification
                 .Where(s => adjudicacion.IsMatch(s.id))
-                .DistinctBy(s => s.awardsItemsClassificationId)
-                .Select(y => new ReleaseItemClassification
-                {
-                    Description = y.awardsItemsClassificationDescription,
-                    ReleaseItemClassificationExternalId = y.awardsItemsClassificationId
-                });
+                .Select(y => y.awardsItemsClassificationDescription)
+                .Distinct()
+                .ToList();
+
+            var dbClassifications = this.db.ReleaseItemClassifications.Select(x => x.Description).ToList();
 
 
             List<ReleaseItemClassification> classificationsToAdd = new List<ReleaseItemClassification>();
 
             foreach (var item in classifications)
             {
-                if (!this.db.ReleaseItemClassifications.Any(x => x.ReleaseItemClassificationExternalId == item.ReleaseItemClassificationExternalId))
-                    classificationsToAdd.Add(item);
+                if (!dbClassifications.Contains(item))
+                    classificationsToAdd.Add(new ReleaseItemClassification() { Description = item });
             }
 
             this.db.ReleaseItemClassifications.AddRange(classificationsToAdd);
@@ -287,20 +328,22 @@ namespace CuentasClaras.Controllers.Migration
         [Route("releases/calculate-items")]
         public void ReleasesItemsCalculate()
         {
-            var query = db.ReleaseItems.Include(x => x.Release);
+            var query = db.ReleaseItems.Include(x => x.Release).Where(x => x.Release.DataSource == "2018");
             var currencies = db.Currencies.Select(x => x).ToList();
-            CurrenciesConfig currenciesConfig = new CurrenciesConfig() {
+            CurrenciesConfig currenciesConfig = new CurrenciesConfig()
+            {
                 currencies = new Dictionary<int, Dictionary<string, decimal>>()
             };
             foreach (var item in currencies)
             {
-                if (!currenciesConfig.currencies.ContainsKey(item.Year)) {
+                if (!currenciesConfig.currencies.ContainsKey(item.Year))
+                {
                     currenciesConfig.currencies[item.Year] = new Dictionary<string, decimal>();
                 }
 
                 currenciesConfig.currencies[item.Year][item.CurrencyCode] = item.ConversionFactorUYU;
             }
-            
+
             foreach (var i in query)
             {
                 decimal unitValueAmountUYU = 0;
