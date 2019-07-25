@@ -35,7 +35,7 @@ namespace CuentasClaras.Controllers.Stats
                 var releaseItems = db.ReleaseItems
                         .Include(x => x.Supplier)
                         .Include(x => x.Release)
-                        .Where(x => x.Release.DataSource == dataSource)
+                        .Where(x => x.Release.DataSource == dataSource && x.TotalAmountUYU > 0)
                         .Select(x => new { x.TotalAmountUYU, x.Supplier.Name, x.SupplierId, x.ReleaseId })
                         .ToList();
 
