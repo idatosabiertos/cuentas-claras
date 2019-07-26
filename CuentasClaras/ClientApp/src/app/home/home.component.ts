@@ -224,7 +224,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.itemsList = list;
       if (list && list.length > 0) {
         this.itemsListDisabled = false;
-        this.selectedItem = list.find((item) => item.releaseItemClassificationId === 10055);
+        this.selectedItem = list.find((item) => item.releaseItemClassificationId === 252768);
         this.onItemChange();
       }
     });
